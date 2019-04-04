@@ -1,0 +1,22 @@
+{
+    "name": "pw_pwpop_group_06/pwpop",
+    "description": "PWPOP",
+    "type": "project",
+    "license": "",
+    "authors": [
+        {
+            "name": "Jaume Capdevila Pérez",
+            "email": "contact@jaumecapdevila.net"
+        }
+    ],
+    "require": {
+        "nikic/fast-route": "^1.3",
+      "ext-pdo": "*",
+      "slim/slim": "^3.12"
+    },
+    "autoload": {
+        "psr-4": {
+            "SallePW\\": "src/"
+        }
+    }
+}
