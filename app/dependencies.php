@@ -1,10 +1,18 @@
 <?php
 
-$container = [];
+$container = $app->getContainer();
 
-$container['renderer'] = new \SallePW\View\Renderer();
-$container['service'] = new \SallePW\Model\Services\PostTaskService(
-    new \SallePW\Model\MySQLTaskRepository()
-);
+$container['view'] = function ($c) {
+    $view = new \Slim\Views\Twig(__DIR__ . '/../templates', [
+        'cache' => false //__DIR__ . '/../var/cache' //false si no vols cache (per si vols que s'autogeneri cada cop), "Directori si t'interessa"
+    ]);
 
-return $container;
+    $router = $c->get('router');
+
+    $uri = \Slim\Http\Uri::createFromEnvironment(new \Slim\Http\Environment($_SERVER));
+
+    $view->addExtension(new \Slim\Views\TwigExtension($router, $uri));
+
+    return $view;
+};
+
