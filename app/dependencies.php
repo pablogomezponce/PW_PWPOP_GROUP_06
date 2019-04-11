@@ -3,7 +3,7 @@
 $container = $app->getContainer();
 
 $container['view'] = function ($c) {
-    $view = new \Slim\Views\Twig(__DIR__ . '/../templates', [
+    $view = new \Slim\Views\Twig(__DIR__ . '/../src/View/templates', [
         'cache' => false //__DIR__ . '/../var/cache' //false si no vols cache (per si vols que s'autogeneri cada cop), "Directori si t'interessa"
     ]);
 
