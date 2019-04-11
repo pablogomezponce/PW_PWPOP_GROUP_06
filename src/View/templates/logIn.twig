@@ -1,0 +1,30 @@
+{% extends "base.html.twig" %} {% block title %} {{ title }} {% endblock %}
+
+{% block css %}
+    {{ parent() }}
+    <style>
+
+
+    </style>
+{% endblock %}
+
+{% block content %}
+
+    <div style="display: grid;grid-template-columns: auto auto;" id="formContainer">
+        <div id="logoContainer">
+
+        </div>
+        <div style="display: flex; flex-direction: column">
+            <form>
+                <input type="text" name="identifier" placeholder="Email or username"><br>
+                <input type="password" name="password"placeholder="Password"><br>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+
+{% block footer %}
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends "base.html.twig" %} {% block title %} {{ title }} {% endblock %}
+
+{% block css %}
+{{ parent() }}
+{% endblock %}
+
+{% block content %}
+
+    <div style="display: grid;grid-template-columns: auto auto;" id="formContainer">
+        <div id="logoContainer">
+
+        </div>
+        <div style="display: flex; flex-direction: column">
+            <form>
+                <input type="text" name="name" placeholder="First name"><br>
+                <input type="text" name="lastname" placeholder="Last name"><br>
+                <input type="email" name="email"placeholder="email@email.com"> <br>
+                <input type="password" name="password"placeholder="Password"><br>
+                <input type="password" name="passwordValidation"placeholder="Repeat password"><br>
+                <input type="text" name="phone" placeholder="Phone number"> <br>
+                <input type="date" name="bday" placeholder="Date of birth"><br>
+                <!-- https://stackoverflow.com/questions/12368910/html-display-image-after-selecting-filename -->
+                <input type="file"
+                       id="avatar" name="avatar"
+                       accept="image/png, image/jpeg">
+
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+
+{% block footer %}
+{% endblock %}

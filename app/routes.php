@@ -15,3 +15,9 @@ $app
 
 $app
     ->get('/', 'SallePW\Controller\IndexController');
+
+$app
+    ->get('/signup','SallePW\Controller\signUpController');
+
+$app
+    ->get('/login','SallePW\Controller\logInController');
