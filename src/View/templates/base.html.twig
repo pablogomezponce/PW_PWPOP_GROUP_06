@@ -32,17 +32,21 @@ Scripts: Where all your .js files are going to be loaded
     {% endblock %}
 
 
+
+
+
+
 </head>
 <body>
+<header id="header">
 {% if sessionStarted is empty%}
-    <header id="header" style="display: flex;flex-direction: row-reverse;">
-        <p>Log in</p>
-        <p>Sign up</p>
-    </header>
+        <h1 id="signup">Sign up</h1>
+        <h1 id="login">Log in</h1>
 {% else %}
-    <header id="header" style="display: flex;flex-direction: row-reverse;">
-        <p>{{ sessionStarted }}</p>
-    </header>{% endif %}
+        <h1>{{ sessionStarted }}</h1>
+{% endif %}
+</header>
+
 {% block content %} {% endblock %}
 
 {% block footer %}
