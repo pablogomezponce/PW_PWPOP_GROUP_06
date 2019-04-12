@@ -40,10 +40,10 @@ Scripts: Where all your .js files are going to be loaded
 <body>
 <header id="header">
 {% if sessionStarted is empty%}
-        <h1 id="signup">Sign up</h1>
-        <h1 id="login">Log in</h1>
+    <a href="signup"><h1 id="signup">Sign up</h1></a>
+    <a href="login"><h1 id="login">Log In</h1></a>
 {% else %}
-        <h1>{{ sessionStarted }}</h1>
+    <a href="profile    "><h1 id="profile">{{ sessionStarted }}</h1></a>
 {% endif %}
 </header>
 
