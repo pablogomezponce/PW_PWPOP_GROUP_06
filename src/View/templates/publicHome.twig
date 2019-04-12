@@ -1,0 +1,17 @@
+{% extends "base.html.twig" %} {% block title %} {{ title }} {% endblock %}
+
+{% block content %}
+
+    <div align="center"><img src="{{ base_url() }}/assets/wallapop.jpg"  width="10%" height="10%"></div>
+
+    {% if sessionStarted is not empty%}
+        <h1 align="center">Welcome back, {{ username }}</h1>
+    {% endif %}
+
+    <div align="center"><input type="search" id="search" placeholder="Search..." /></div>
+
+{% endblock %}
+
+{% block footer %}
+    {{ footer }}
+{% endblock %}

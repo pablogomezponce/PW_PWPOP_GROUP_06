@@ -22,10 +22,11 @@ class IndexController
 
     public function __invoke(Request $request, Response $response, array $args)
     {
-        return $this->container->get('view')->render($response, 'index.twig', [
-            'title' => 'HOLA',
-            'content' => 'Laura Gendrau i Pablo Gómez',
-            'footer' => '© 2019 '
+        return $this->container->get('view')->render($response, 'publicHome.twig', [
+            'title' => 'PWPop',
+            'username' => 'Pepita',
+            'footer' => ' ',
+            'sessionStarted' => null
         ]);
     }
 
