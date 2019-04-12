@@ -21,3 +21,6 @@ $app
 
 $app
     ->get('/login','SallePW\Controller\logInController');
+
+$app
+    ->get('/profile',\SallePW\Controller\ProfileController::class);
