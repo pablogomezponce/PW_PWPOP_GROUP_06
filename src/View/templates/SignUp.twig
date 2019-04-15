@@ -1,0 +1,51 @@
+{% extends "base.html.twig" %} {% block title %} {{ title }} {% endblock %}
+
+{% block css %}
+{{ parent() }}
+{% endblock %}
+
+{% block content %}
+    <div style="display: grid;grid-template-columns: auto auto;" id="formContainer" class="modal-content container">
+        <div id="logoContainer" >
+            <img src="{{ base_url() }}/assets/logos/roundLogo/2x/roundLogo@2x.png" class = "img-fluid" style="width: 100%;;height: 100%">
+        </div>
+        <div style="display: flex; flex-direction: column; margin:5px 0;">
+            <form style="display: flex;flex-direction: column" class="">
+                <input class="form-control form-group" type="text" name="name" placeholder="First name"><br>
+                <input class="form-control form-group" type="text" name="lastname" placeholder="Last name"><br>
+                <input  class="form-control form-group" type="email" name="email"placeholder="email@email.com"> <br>
+                <input class="form-control form-group" type="text" name="name" placeholder="username    "><br>
+                <input class="form-control form-group" type="password" name="password"placeholder="Password"><br>
+                <input class="form-control form-group" type="password" name="passwordValidation"placeholder="Repeat password"><br>
+                <input  class="form-control form-group" type="text" name="phone" placeholder="Phone number"> <br>
+                <input class="form-control form-group" type="date" name="bday" placeholder="Date of birth"><br>
+                <!-- https://stackoverflow.com/questions/12368910/html-display-image-after-selecting-filename -->
+
+
+
+
+                <div class="custom-file form-group">
+                    <input type="file" class="custom-file-input" id="customFile" id="avatar" name="avatar"
+                           accept="image/png, image/jpeg">
+                    <label class="custom-file-label overflow-auto" for="customFile">Choose file</label>
+                    <script>
+                        $('#customFile').on('change',function(){
+                            //get the file name
+                            var fileName = $(this).val();
+                            //replace the "Choose a file" label
+                            $(this).next('.custom-file-label').html(fileName.replace('C:\\fakepath\\', " "));
+                        })
+                    </script>
+                </div>
+
+                <input type="button" class="btn btn-primary form-group"  id="submit" value="{{ title }}!">
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+
+{% block footer %}
+{% endblock %}

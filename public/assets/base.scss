@@ -1,19 +1,26 @@
-@import url("https://fonts.googleapis.com/css?family=Inder");
-header {
+@import url('https://fonts.googleapis.com/css?family=Inder');
+
+$h1: 'Inder', sans-sarif;
+
+header{
   display: flex;
   flex-direction: row-reverse;
   flex-wrap: nowrap;
+
+
   background-color: #EF7F4F;
-}
-header h1 {
-  margin: 2px 15px;
-  margin-bottom: 7px;
-  font-weight: bold;
-  font-family: "Inder", sans-sarif;
-  color: #FFFFFF;
-}
-header h1:hover {
-  color: #435E95;
+  h1{
+    margin: 2px 15px;
+    margin-bottom: 7px;
+    font-weight: bold;
+    font-family: $h1;
+    color: #FFFFFF;
+
+
+  }
+  h1:hover{
+    color: #435E95;
+  }
 }
 
 .fileinput-filename {
@@ -28,9 +35,3 @@ header h1:hover {
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-
-form{
-  margin: 0 15px;
-}
-
-/*# sourceMappingURL=base.css.map */
