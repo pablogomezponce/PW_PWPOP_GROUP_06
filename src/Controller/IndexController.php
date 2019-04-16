@@ -28,6 +28,7 @@ class IndexController
             'footer' => ' ',
             'sessionStarted' => null,
             'nomProducte' =>'#Title',
+            'preuProducte'=> '15€',
             'descripcioProducte' => 'LoremLorem ipsum dolor sit amet, consectetur adipiscing elit. Duis eleifend massa felis, eu porta massa 
             ullamcorper sit amet. Donec tempus mattis leo, non tincidunt ipsum gravida vel. Interdum et malesuada fames ac ante ipsum primis 
             in faucibus. Praesent vitae magna finibus, finibus est feugiat, ornare est. Aenean luctus enim ac orci ultricies, a viverra tortor 
