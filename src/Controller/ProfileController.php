@@ -5,15 +5,19 @@ namespace SallePW\Controller;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
+use SallePW\Model\ProfileRepository;
+use SallePW\Model\User;
 
 class ProfileController
 {
     /** @var ContainerInterface */
     private $container;
+    private $profileSQL;
 
     /**
      * HelloController constructor.
      * @param ContainerInterface $container
+     * @param ProfileRepository $MySQLService
      */
     public function __construct(ContainerInterface $container)
     {
@@ -22,6 +26,7 @@ class ProfileController
 
     public function __invoke(Request $request, Response $response, array $args)
     {
+
         return $this->container->get('view')->render($response, 'profile.twig', [
             'title' => 'PWPop | USER',
             'content' => 'Laura Gendrau i Pablo Gómez',
@@ -36,10 +41,6 @@ class ProfileController
         ]);
     }
 
-    public function helloAction(Request $request, Response $response, array $args)
-    {
-        echo "Hola";
-    }
 }
 
 
