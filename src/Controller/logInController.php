@@ -23,16 +23,38 @@ class logInController
     public function __invoke(Request $request, Response $response, array $args)
     {
         return $this->container->get('view')->render($response, 'LogIn.twig', [
-            'title' => 'PWPop | Sign up',
+            'title' => 'PWPop | Log in',
             'content' => 'Laura Gendrau i Pablo Gómez',
             'footer' => '',
             'sessionStarted' => null,
         ]);
     }
 
-    public function helloAction(Request $request, Response $response, array $args)
-    {
-        echo "Hola";
+    public function login(Request $request, Response $response, array $args){
+        $exists = $this->container->get('profileSQL')->login($_POST['password'], $_POST['identifier']);
+        $error = "";
+
+
+        if (empty($exists[0]['password'])) $error = "That isn't your password!";
+
+
+        if (sizeof($exists) == 0)  $error = "There is no account for this!";
+
+
+        if (empty($exists[0]['password'])){
+            return $this->container->get('view')->render($response, 'LogIn.twig', [
+                'title' => 'PWPop | Log in',
+                'content' => 'Laura Gendrau i Pablo Gómez',
+                'errors' => $error,
+                'info' => $_POST,
+                'footer' => '',
+                'sessionStarted' => null,
+            ]);
+        } else {
+            
+            //header('Location: /profile');
+        }
+
     }
 }
 

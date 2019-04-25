@@ -1,5 +1,5 @@
 <?php
-
+require_once __DIR__ . '/../app/databaseSettings.php';
 require_once __DIR__ . '/../vendor/autoload.php';
 
 $settings = require_once __DIR__ . '/../app/settings.php';

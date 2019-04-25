@@ -10,19 +10,32 @@
 
 {% block content %}
 
-    <div style="display: grid;grid-template-columns: auto auto;" id="formContainer" class="modal-content container">
-        <div id="logoContainer" >
-            <img src="{{ base_url() }}/assets/logos/roundLogo/2x/roundLogo@2x.png" class = "img-fluid" style="width: 100%;height: 100%;">
-        </div>
-        <div style="display: flex; flex-direction: column; align-self: center">
-            <form class="align-middle" style="display: flex;flex-direction: column">
-                <input class="form-control form-group align-middle" type="text" name="identifier" placeholder="Email or username"><br>
-                <input class="form-control form-group align-middle" type="password" name="password" placeholder="Password"><br>
-                <input class="form-control form-group align-middle" type="button" id="submit" value="{{ title }}!">
+
+<div class="h-100 container">
+<div class="row">
+    <div class="col-xs-12 col-sm-6 col-xl-6 h-100">
+        <div class="align-bottom {% if errors is not empty %} alert alert-danger {% endif %}" style="display: flex; flex-direction: column; align-self: center">
+            <p class=".modal" >{{ errors }}</p>
+            <form class="" method="POST" action="/login" style="display: flex;flex-direction: column">
+                <input class="form-control form-group align-middle" type="text" name="identifier" placeholder="Email or username" value="{% if info.identifier is not empty %}{{ info.identifier }}{% endif %}" required><br>
+                <input class="form-control form-group align-middle" type="password" name="password" placeholder="Password" value="{% if info.password is not empty %}{{ info.password }}{% endif %}" required><br>
+                <input class="form-control form-group align-middle" type="submit" id="submit" value="{{ title }}!">
 
             </form>
         </div>
     </div>
+    <div class="col-sm-6 align-text-bottom">
+        <div id="logoContainer" >
+            <img src="../assets/logos/roundLogo/2x/roundLogo@2x.png" class = "img-fluid" style="width: 100%;height: 100%;">
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+
+    </div>
+</div>
+
 
 {% endblock %}
 

@@ -19,8 +19,11 @@ $app
 $app
     ->get('/signup','SallePW\Controller\signUpController');
 
+$app->post('/signup', \SallePW\Controller\signUpController::class . ':addToDB') ;
+$app->post('/login', \SallePW\Controller\logInController::class . ':login');
 $app
     ->get('/login','SallePW\Controller\logInController');
 
 $app
     ->get('/profile',\SallePW\Controller\ProfileController::class);
+

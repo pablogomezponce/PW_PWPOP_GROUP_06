@@ -16,3 +16,15 @@ $container['view'] = function ($c) {
     return $view;
 };
 
+$container['databaseSettings'] = function ($c){
+    return array(
+        'address' =>"localhost",
+        'dbname' => "PWPOP",
+        'userNameDB' => "homestead",
+        'passwordDB' => "secret",
+    );
+};
+
+$container['profileSQL'] = function ($c){
+    return new \SallePW\Model\ProfileSQL($c['databaseSettings']);
+};
