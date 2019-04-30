@@ -5,25 +5,58 @@
 {% endblock %}
 
 {% block content %}
-    <div style="display: grid;grid-template-columns: auto auto;" id="formContainer" class="modal-content container">
-        <div id="logoContainer" >
-            <img src="{{ base_url() }}/assets/logos/roundLogo/2x/roundLogo@2x.png" class = "img-fluid" style="width: 100%;;height: 100%">
-        </div>
-        <div style="display: flex; flex-direction: column; margin:5px 0;">
-            <form style="display: flex;flex-direction: column" class="" action="/signup" method="POST">
-                <input class="form-control form-group" type="text" name="name" placeholder="First name"><br>
-                <input class="form-control form-group" type="text" name="lastname" placeholder="Last name"><br>
-                <input  class="form-control form-group" type="email" name="email"placeholder="email@email.com"> <br>
-                <input class="form-control form-group" type="text" name="username" placeholder="username"><br>
-                <input class="form-control form-group" type="password" name="password"placeholder="Password"><br>
-                <input class="form-control form-group" type="password" name="passwordValidation"placeholder="Repeat password"><br>
-                <input  class="form-control form-group" type="text" name="phone" placeholder="Phone number"> <br>
-                <input class="form-control form-group" type="date" name="bday" placeholder="Date of birth"><br>
-                <!-- https://stackoverflow.com/questions/12368910/html-display-image-after-selecting-filename -->
+
+    <div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-sm-6 col-xl-6">
+            <form data-toggle="validator" id="" role="form" action="/signup" method="POST">
+                <div class=".form-group">
+                    <label for="#name" class="control-label">Name</label>
+                    <input onclick="alter()" id="name" class="form-control form-group" type="text" name="name" placeholder="First name" required value="{{ formName }}">
+                </div>
+
+                <div class=".form-group">
+                    <label for="#lastname" class="control-label">Last Name</label>
+                    <input class="form-control form-group" id="lastname" type="text" name="lastname" placeholder="Last name" value="{{ formLastName }}" required>
+                </div>
+                <div class=".form-group {% if error.email is not empty %} alert alert-danger {% endif %}">
+                    <p class=".modal">{{ error.email }}</p>
+                    <label for="#email" class="control-label">Email</label>
+                    <input  class="form-control form-group" type="email" id="email" name="email"placeholder="email@email.com" value="{{ formEmail }}" required>
+                </div>
+                <div class=".form-group {% if error.username is not empty %} alert alert-danger {% endif %}">
+                    <p class=".modal">{{ error.username }}</p>
+                    <label for="#username" class="control-label">Username</label>
+                    <input class="form-control form-group" type="text" id="username" name="username" placeholder="username" value="{{ formUsername }}" required>
+                </div>
+                <div class=".form-group {% if error.password is not empty %} alert alert-danger {% endif %}">
+
+                    <p class=".modal">{{ error.password }}</p>
+
+                    <label for="#password" class="control-label">Password</label>
+                    <input class="form-control" data-minlength="6" type="password"  id="password" name="password" placeholder="Password" required>
+
+
+                    <label for="#repeatPassword" class="control-label">Repeat password</label>
+                    <input class="form-control"  id="repeatPassword" data-match="#password" data-match-error="Whoops, these don't match" type="password" name="passwordValidation"placeholder="Repeat password" required>
+
+
+                </div>
+                <div class=".form-group {% if error.phone is not empty %} alert alert-danger {% endif %}">
+                    <p class=".modal">{{ error.phone }}</p>
+
+                    <label for="#phone" class="control-label">Phone number</label>
+                    <input  class="form-control form-group" type="text" id="phone" name="phone" value="{{ formPhone }}" placeholder="Phone number" required>
+                </div>
+
+                <div class=".form-group">
+                    <label for="#bday" class="control-label">Date of birth</label>
+                    <input class="form-control form-group" type="date" id="bday" name="bday" placeholder="Date of birth" value="{{ formbday }}">
+                </div>
 
 
 
-
+                <p>Photo</p>
                 <div class="custom-file form-group">
                     <input type="file" class="custom-file-input" id="customFile" id="avatar" name="avatar"
                            accept="image/png, image/jpeg">
@@ -38,8 +71,30 @@
                     </script>
                 </div>
 
+
+
                 <input type="submit" class="btn btn-primary form-group"  id="submit" value="{{ title }}!">
             </form>
+        </div>
+        <div class="col-xl-6">
+            <div id="logoContainer" >
+                <img src="{{ base_url() }}/assets/logos/roundLogo/2x/roundLogo@2x.png" class = "img-fluid" style="width: 100%;;height: 100%">
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+
+        </div>
+    </div>
+
+
+
+
+    <div style="display: grid;grid-template-columns: auto auto;" id="formContainer" class="modal-content container">
+
+        <div style="display: flex; flex-direction: column; margin:5px 0;">
         </div>
     </div>
 
