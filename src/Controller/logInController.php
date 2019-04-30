@@ -51,8 +51,8 @@ class logInController
                 'sessionStarted' => null,
             ]);
         } else {
-            
-            //header('Location: /profile');
+            $_SESSION['id'] = 1;
+            header('Location: /profile');
         }
 
     }
