@@ -1,0 +1,32 @@
+{% extends "base.html.twig" %} {% block title %} {{ title }} {% endblock %}
+
+{% block css %}
+    {{ parent() }}
+    <style>
+
+
+    </style>
+{% endblock %}
+
+{% block content %}
+
+    <div style="display: grid;grid-template-columns: auto auto;" id="formContainer" class="modal-content container">
+        <div id="logoContainer" >
+            <img src="{{ base_url() }}/assets/logos/roundLogo/2x/roundLogo@2x.png" class = "img-fluid" style="width: 100%;height: 100%;">
+        </div>
+        <div style="display: flex; flex-direction: column; align-self: center">
+            <form class="align-middle" style="display: flex;flex-direction: column">
+                <input class="form-control form-group align-middle" type="text" name="identifier" placeholder="Email or username"><br>
+                <input class="form-control form-group align-middle" type="password" name="password" placeholder="Password"><br>
+                <input class="form-control form-group align-middle" type="button" id="submit" value="{{ title }}!">
+
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+
+{% block footer %}
+{% endblock %}
