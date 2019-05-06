@@ -1,17 +1,49 @@
+
+
 <div id="producte" class="card" style="display:table; min-width: 100%" >
 
     <div id="fotoP" style="display: table-cell;vertical-align: middle; width: 300px" >
         <img src="{{ base_url() }}/assets/wallapop.jpg"  width="300px">
         <div id="likeP" align="right" style="margin-right: 10%">
 
-            <img src="{{ base_url() }}/assets/cor_normal.png"  width="10%">
+            <img id="{{ idProducte }}"src="{{ base_url() }}/assets/cor_normal.png"  onclick="heartPressed()" width="10%">
 
         </div>
     </div>
-    <div id ="infoP" style="display:table-cell;vertical-align: middle">
+
+
+    <div id ="infoP" style="display:grid;grid-template-rows: 20% 60% 10%;height: 207.75px">
         <h2>{{ nomProducte }}</h2>
-        <p>{{ descripcioProducte }}</p>
-        <h2 align="right" style="margin-right: 5%">{{ preuProducte }}</h2>
+        <p style="overflow: scroll">{{ descripcioProducte }}</p>
+        <h2 align="right" style="margin-right: 5%">{{ preuProducte }}€</h2>
     </div>
 
 </div>
+<script>
+
+    function heartPressed(){
+        $.ajax({
+            type:"POST",
+            url:"/heartPressed",
+            dataType:'json',
+            data:({idProducte: {{ idProducte }} }),
+            success:function (data) {
+                console.log(data);
+            },
+            done:function () {
+                console.log("hiuhi");
+
+            }
+
+        });
+
+    }
+    /*
+    $("{{ idProducte }}").click(function(){
+        $.post("/heartPressed", function(data, status){
+            console.log("CACA");
+        });
+    });*/
+
+</script>
+

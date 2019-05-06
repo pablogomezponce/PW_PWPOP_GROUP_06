@@ -24,18 +24,22 @@ class IndexController
     {
         //$this->getProducts();
 
-        var_dump($this->getProducts()[0]);
+       /* for ($i=0;$i<sizeof($this->getProducts());$i++){
+            var_dump($this->getProducts()[$i]);
+        }*/
+
 
         return $this->container->get('view')->render($response, 'publicHome.twig', [
             'title' => 'PWPop',
             'username' => 'Pepita',
             'footer' => ' ',
             'sessionStarted' => null,
-            'nomProducte' =>$this->getProducts()[0]['title'],
-            'preuProducte'=> $this->getProducts()[0]['price']+' €',
-            'descripcioProducte' => $this->getProducts()[0]['description']
+            'sizeProductes'=>sizeof($this->getProducts()),
+            'productes' =>$this->getProducts(),
+            //'preuProducte'=> $this->getProducts()[0]['price'].'€',
+            //'descripcioProducte' => $this->getProducts()[0]['description']
         ]);
-
+        //return $this->view->render($response, array('items' => $items), 'home.twig'
     }
 
     public function getProducts(){
@@ -44,11 +48,8 @@ class IndexController
         return $products;
     }
 
-    /*
-    public function helloAction(Request $request, Response $response, array $args)
-    {
-        echo "Hola";
-    }*/
+
+
 
 
 }
