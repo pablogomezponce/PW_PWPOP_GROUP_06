@@ -22,7 +22,24 @@ class heartPressed
 
     public function __invoke(Request $request, Response $response, array $args)
     {
-        return $_POST['idProducte'];
+        return $this->container->get('view')->render($response, 'publicHome.twig', [
+            'title' => 'PWPop',
+            'content' => 'Laura Gendrau i Pablo Gómez',
+            'footer' => ''
+        ]);
+
+
     }
 
+    public function heartPressed(Request $request, Response $response, array $args){
+        return $this->container->get('User')->getId();
+    }
+    //$idUser = $this->container->get('User')->getId();
+
+    //var_dump($idUser);
+
+    //var_dump($_POST['idProducte']);
+
+    //return $_POST['idProducte'];
+    //return $this->container->get('User')->getId();
 }
