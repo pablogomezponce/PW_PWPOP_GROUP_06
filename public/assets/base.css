@@ -16,6 +16,14 @@ header h1:hover {
   color: #435E95;
 }
 
+body {
+  padding-bottom: 20px;
+}
+body #producte {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
 .fileinput-filename {
   display: inline-block;
   overflow: hidden;
