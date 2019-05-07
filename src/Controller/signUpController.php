@@ -12,6 +12,13 @@ class signUpController
     /** @var ContainerInterface */
     private $container;
 
+    private const UPLOADS_DIR = __DIR__ . '/../../uploads';
+    private const UNEXPECTED_ERROR = "An unexpected error occurred uploading the file '%s'...";
+    private const INVALID_EXTENSION_ERROR = "The received file extension '%s' is not valid";
+    private const ALLOWED_EXTENSIONS = ['jpg', 'png'];
+
+
+
     /**
      * HelloController constructor.
      * @param ContainerInterface $container
@@ -31,19 +38,50 @@ class signUpController
         ]);
     }
 
+    private function isValidFormat(string $extension): bool
+    {
+        return in_array($extension, self::ALLOWED_EXTENSIONS, true);
+    }
+
+
     /**
      * @param Request $request
      * @param Response $response
      * @param array $args
      */
     public function  addToDB(Request $request, Response $response, array $args){
-        $user = new User(null,$_POST['name'], $_POST['lastname'], $_POST['email'], $_POST['username'], $_POST['password'], $_POST['phone'], $_POST['bday'],null);
+        $user = new User(null,$_POST['name'],"", $_POST['email'], $_POST['username'], $_POST['password'], $_POST['phone'], $_POST['bday'],null);
+
+        $uploadedFiles = $request->getUploadedFiles();
+        var_dump($uploadedFiles);
+        $errors = [];
+
+        foreach ($uploadedFiles as $uploadedFile) {
+            if ($uploadedFile->getError() !== UPLOAD_ERR_OK) {
+                $errors[] = sprintf(self::UNEXPECTED_ERROR, $uploadedFile->getClientFilename());
+                continue;
+            }
+
+            $name = $uploadedFile->getClientFilename();
+
+            $fileInfo = pathinfo($name);
+
+            $format = $fileInfo['extension'];
+
+            if (!$this->isValidFormat($format)) {
+                $errors[] = sprintf(self::INVALID_EXTENSION_ERROR, $format);
+                continue;
+            }
+
+            // We generate a custom name here instead of using the one coming form the form
+            $uploadedFile->moveTo(self::UPLOADS_DIR . DIRECTORY_SEPARATOR . $name);
+        }
+
 
         $status = $this->checkUser($user);
 
         if (empty($status)){
             $this->container->get('profileSQL')->save($user);
-            //header('Location: /profile' );
         } else {
             return $this->container->get('view')->render($response, 'SignUp.twig',[
                 'title' => 'PWPop | Sign up',
@@ -51,7 +89,6 @@ class signUpController
                 'footer' => '',
                 'sessionStarted' => null,
                 'formName' => $_POST['name'],
-                'formLastName' => $_POST['lastname'],
                 'formEmail' => $_POST['email'],
                 'formUsername' => $_POST['username'],
                 'formPhone'=>$_POST['phone'],

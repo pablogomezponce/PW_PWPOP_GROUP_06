@@ -1,0 +1,25 @@
+{% extends "base.html.twig" %} {% block title %} {{ title }} {% endblock %}
+
+{% block content %}
+
+    <div align="center"><img src="{{ base_url() }}/assets/logos/roundLogo/1x/roundLogo.png" height="200px"></div>
+
+    {% if sessionStarted is not empty%}
+        <h1 align="center">Welcome back, {{ username }}</h1>
+    {% endif %}
+
+    <div align="center"><input type="search" id="search" placeholder="Search..." /></div>
+    {% for producte in productes %}
+       <div class="row">
+           {% include 'product.twig' with {'idProducte':producte.id,'nomProducte': producte.title, 'descripcioProducte':producte.description, 'preuProducte': producte.price } %}
+       </div>
+
+
+    {% endfor %}
+
+
+{% endblock %}
+
+{% block footer %}
+    {{ footer }}
+{% endblock %}

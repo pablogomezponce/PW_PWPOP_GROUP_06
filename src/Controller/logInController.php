@@ -35,6 +35,7 @@ class logInController
         $error = "";
 
 
+
         if (empty($exists[0]['password'])) $error = "That isn't your password!";
 
 
@@ -49,9 +50,9 @@ class logInController
                 'info' => $_POST,
                 'footer' => '',
                 'sessionStarted' => null,
+                'profile' => $exists,
             ]);
         } else {
-            $_SESSION['id'] = 1;
             header('Location: /profile');
         }
 

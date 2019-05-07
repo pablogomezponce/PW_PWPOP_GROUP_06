@@ -10,31 +10,124 @@
 
 {% block content %}
 
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-sm-6 col-xl-6 d-flex align-items-center justify-content-center">
 
-<div class="h-100 container">
-<div class="row">
-    <div class="col-xs-12 col-sm-6 col-xl-6 h-100">
-        <div class="align-bottom {% if errors is not empty %} alert alert-danger {% endif %}" style="display: flex; flex-direction: column; align-self: center">
-            <p class=".modal" >{{ errors }}</p>
-            <form class="" method="POST" action="/login" style="display: flex;flex-direction: column">
-                <input class="form-control form-group align-middle" type="text" name="identifier" placeholder="Email or username" value="{% if info.identifier is not empty %}{{ info.identifier }}{% endif %}" required><br>
-                <input class="form-control form-group align-middle" type="password" name="password" placeholder="Password" value="{% if info.password is not empty %}{{ info.password }}{% endif %}" required><br>
-                <input class="form-control form-group align-middle" type="submit" id="submit" value="{{ title }}!">
+            <div class="card">
+                <h5 class="card-header info-color white-text text-center py-4">
+                    <strong>Sign up</strong>
+                </h5>
 
-            </form>
+                <div class="card-body px-lg-5 pt-0">
+                    <br>
+                    <form class="" method="POST" action="/login" >
+                        <input class="form-control form-group align-middle" type="text" name="identifier" placeholder="Email or username" value="{% if info.identifier is not empty %}{{ info.identifier }}{% endif %}" required><br>
+                        <div class="form-group" id="pass1Group">
+                            <input class="form-control form-group align-middle" type="password" name="password" id="password" placeholder="Password" value="{% if info.password is not empty %}{{ info.password }}{% endif %}" required><br>
+                            <p style="display: none" id="pass1Warning">That can't be your password</p>
+                        </div>
+                        <input class="form-control form-group align-middle" type="submit" id="submit" value="{{ title }}!">
+
+                        <input type="checkbox" value="I don't want to log in again for a long long time!" id="RememberME" name="remember">
+                        <label for="RememberME">I don't want to log in again for a long long time!</label>
+                    </form>
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="col-sm-6 align-text-bottom">
-        <div id="logoContainer" >
+        <div class="col d-flex align-items-center justify-content-center">
             <img src="../assets/logos/roundLogo/2x/roundLogo@2x.png" class = "img-fluid" style="width: 100%;height: 100%;">
         </div>
-    </div>
 </div>
-<div class="row">
-    <div class="col-xs-12">
 
-    </div>
-</div>
+
+    <script>
+        $("input").change(function (ev) {
+
+            switch (this.id) {
+                case "name":{
+                    var str = ev.currentTarget.value;
+                    if(/(\d)/.test(str)){
+                        $("#nameGroup").addClass("alert alert-danger");
+                        $("#nameWarning").show(100);
+                    } else {
+                        $("#nameGroup").removeClass("alert alert-danger");
+                        $("#nameWarning").hide(100);
+                    }
+                    break;
+                }
+                case "username":{
+                    if(ev.currentTarget.value.length > 20 || /\s/.test(ev.currentTarget.value)){
+                        $("#userGroup").addClass("alert alert-danger");
+                        $("#userWarning").show(100);
+                    } else {
+                        $("#userGroup").removeClass("alert alert-danger");
+                        $("#userWarning").hide(100);
+                    }
+                    break;
+
+                }
+                case "email":{
+                    console.log(this);
+
+                    break;
+                }
+                case "bday":{
+                    console.log(this);
+
+                    break;
+                }
+                case "phone":{
+                    //console.log(ev);
+                    var str = ev.currentTarget.value;
+
+                    isValid = str.match("^(/\+/34|0034|34)?[6|7|8|9][0-9]{8}$");
+
+                    if(!isValid){
+                        $("#phoneGroup").addClass("alert alert-danger");
+                        $("#phoneError").show(0);
+                    } else {
+                        console.log("Correct!");
+                        $("#phoneGroup").removeClass();
+                        $("#phoneGroup").addClass("form-group");
+
+                        $("#phoneError").hide(0);
+
+                    }
+                    console.log(this);
+                    break;
+                }
+                case "password":{
+                    console.log(this);
+                    if(!/.{6,}/.test(ev.currentTarget.value)){
+                        $("#pass1Group").addClass("alert alert-danger");
+                        $("#pass1Warning").show(100);
+                    } else {
+                        $("#pass1Group").removeClass("alert alert-danger");
+                        $("#pass1Warning").hide(100);
+                    }
+
+                    break;
+                }
+                case "repeatPassword":{
+                    if($("#repeatPassword").val()!=($("#password").val())){
+                        $("#pass2Group").addClass("alert alert-danger");
+                        $("#pass2Warning").show(100);
+                    } else {
+                        $("#pass2Group").removeClass("alert alert-danger");
+                        $("#pass2Warning").hide(100);
+                    }
+                    break;
+                }
+                case "customFile":{
+                    console.log(this);
+                    break;
+                }
+            }
+
+        })
+    </script>
 
 
 {% endblock %}

@@ -139,4 +139,15 @@ class ProfileSQL implements ProfileRepository
         return $response;
 
     }
+
+    public function getProducts(){
+        $db = new PDO('mysql:host=' . $this->address . ';dbname=' . $this->dbname . ';', $this->userNameDB, $this->passwordDB);
+        $sql = "SELECT * FROM Product LIMIT 5";
+
+        $stmt = $db->prepare($sql);
+        $stmt->execute();
+        $products  = $stmt->fetchAll();
+        return $products;
+    }
+
 }

@@ -28,3 +28,6 @@ $app
 
 $app
     ->get('/profile',\SallePW\Controller\ProfileController::class);
+
+$app
+    ->post('/heartPressed', \SallePW\Controller\heartPressed::class . ':heartPressed');
