@@ -22,13 +22,13 @@
 <script>
 
 
-    $("img").click(function (ev) {
+    $("#{{ sendableId }}").click(function (ev) {
        console.log($(this).attr('id'));
         $.ajax({
             type:"POST",
             url:"/heartPressed",
             dataType:'json',
-            data:({idProducte: {{ sendableId }} }),
+            data:({isLike: {{ isLike }},idProducte: {{ sendableId }}, idUser: {{ idUser }} }),
             success:function (data) {
                // console.log(data);
             }/*,
