@@ -23,7 +23,7 @@
                 <div class="card-body px-lg-5 pt-0">
                     <br>
                     <form class="" method="POST" action="/login" >
-                        <input class="form-control form-group align-middle" type="email" name="identifier" placeholder="Email or username" value="{% if info.identifier is not empty %}{{ info.identifier }}{% endif %}" required><br>
+                        <input class="form-control form-group align-middle" type="text" name="identifier" placeholder="Email or username" value="{% if info.identifier is not empty %}{{ info.identifier }}{% endif %}" required><br>
                         <div class="form-group" id="pass1Group">
                             <input class="form-control form-group align-middle" type="password" name="password" id="password" placeholder="Password" value="{% if info.password is not empty %}{{ info.password }}{% endif %}" required><br>
                             <p style="display: none" id="pass1Warning">That can't be your password</p>
