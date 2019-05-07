@@ -22,17 +22,36 @@ class IndexController
 
     public function __invoke(Request $request, Response $response, array $args)
     {
-        return $this->container->get('view')->render($response, 'index.twig', [
-            'title' => 'HOLA',
-            'content' => 'Laura Gendrau i Pablo Gómez',
-            'footer' => '© 2019 '
+        //$this->getProducts();
+
+       /* for ($i=0;$i<sizeof($this->getProducts());$i++){
+            var_dump($this->getProducts()[$i]);
+        }*/
+
+
+        return $this->container->get('view')->render($response, 'publicHome.twig', [
+            'title' => 'PWPop',
+            'username' => 'Pepita',
+            'footer' => ' ',
+            'sessionStarted' => null,
+            'sizeProductes'=>sizeof($this->getProducts()),
+            'productes' =>$this->getProducts(),
+            //'preuProducte'=> $this->getProducts()[0]['price'].'€',
+            //'descripcioProducte' => $this->getProducts()[0]['description']
         ]);
+        //return $this->view->render($response, array('items' => $items), 'home.twig'
     }
 
-    public function helloAction(Request $request, Response $response, array $args)
-    {
-        echo "Hola";
+    public function getProducts(){
+        $products = $this->container->get('profileSQL')->getProducts();
+
+        return $products;
     }
+
+
+
+
+
 }
 
 
