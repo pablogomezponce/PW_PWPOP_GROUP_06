@@ -23,21 +23,28 @@
 
 
     $("#{{ sendableId }}").click(function (ev) {
-       console.log($(this).attr('id'));
-        $.ajax({
-            type:"POST",
-            url:"/heartPressed",
-            dataType:'json',
-            data:({isLike: {{ isLike }},idProducte: {{ sendableId }}, idUser: {{ idUser }} }),
-            success:function (data) {
-               // console.log(data);
-            }/*,
-            done:function () {
-                console.log("hiuhi");
+       //console.log($(this).attr('id'));
+        {% if idUser is null %}
+            alert("You have to log in to be able to like products :)");
+        {% else %}
 
-            }*/
+            $.ajax({
+                type: "POST",
+                url: "/heartPressed",
+                dataType: 'json',
+                data: ({isLike: {{ isLike }}, idProducte: {{ sendableId }}, idUser: {{ idUser }} }),
+                success: function (data) {
+                    console.log(data);
+                }/*,
+                    done:function () {
+                        console.log("hiuhi");
 
-        });
+                    }*/
+
+            });
+        {% endif %}
+
+
     });
 
 

@@ -22,11 +22,6 @@ class IndexController
 
     public function __invoke(Request $request, Response $response, array $args)
     {
-        //$this->getProducts();
-
-       /* for ($i=0;$i<sizeof($this->getProducts());$i++){
-            var_dump($this->getProducts()[$i]);
-        }*/
 
 
         return $this->container->get('view')->render($response, 'publicHome.twig', [
@@ -36,17 +31,17 @@ class IndexController
             'sessionStarted' => null,
             'sizeProductes'=>sizeof($this->getProducts()),
             'productes' =>$this->getProducts(),
-            //'preuProducte'=> $this->getProducts()[0]['price'].'€',
-            //'descripcioProducte' => $this->getProducts()[0]['description']
+            'idUser' => 3, //$_SESSION['id']
+            'isLike' => true,
         ]);
-        //return $this->view->render($response, array('items' => $items), 'home.twig'
     }
 
     public function getProducts(){
         $products = $this->container->get('profileSQL')->getProducts();
-
         return $products;
     }
+
+
 
 
 

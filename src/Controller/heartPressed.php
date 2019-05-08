@@ -32,14 +32,11 @@ class heartPressed
     }
 
     public function heartPressed(Request $request, Response $response, array $args){
-        return $this->container->get('User')->getId();
+        //si es null voldra dir que la sessio no esta iniciada
+        //idUser serà el que agafem a indexController amb SESSION
+       // $idLike = isLike($_POST['idProducte'],3);
+        return json_encode(array(true,$_POST['idProducte'],3));
+
     }
-    //$idUser = $this->container->get('User')->getId();
 
-    //var_dump($idUser);
-
-    //var_dump($_POST['idProducte']);
-
-    //return $_POST['idProducte'];
-    //return $this->container->get('User')->getId();
 }
