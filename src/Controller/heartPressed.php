@@ -35,6 +35,10 @@ class heartPressed
         //si es null voldra dir que la sessio no esta iniciada
         //idUser serà el que agafem a indexController amb SESSION
        // $idLike = isLike($_POST['idProducte'],3);
+
+
+
+
         return json_encode(array(true,$_POST['idProducte'],3));
 
     }

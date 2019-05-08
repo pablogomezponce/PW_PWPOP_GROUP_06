@@ -27,7 +27,7 @@
         {% if idUser is null %}
             alert("You have to log in to be able to like products :)");
         {% else %}
-
+            $("#{{ sendableId }}").attr("src","{{ base_url() }}/assets/cor_like.png");
             $.ajax({
                 type: "POST",
                 url: "/heartPressed",
