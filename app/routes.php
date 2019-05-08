@@ -15,8 +15,12 @@ $app
 
 
 $app
-    ->get('/', 'SallePW\Controller\IndexController')
-    ->add(\SallePW\Controller\Middleware\SessionHandler::class);
+    ->get('/', 'SallePW\Controller\IndexController');
+
+$app
+    ->get('/home', 'SallePW\Controller\IndexController');
+
+
 $app
     ->get('/signup','SallePW\Controller\signUpController');
 

@@ -27,7 +27,7 @@ class IndexController
        /* for ($i=0;$i<sizeof($this->getProducts());$i++){
             var_dump($this->getProducts()[$i]);
         }*/
-
+        var_dump($_SESSION);
 
         return $this->container->get('view')->render($response, 'publicHome.twig', [
             'title' => 'PWPop',
@@ -36,6 +36,7 @@ class IndexController
             'sessionStarted' => null,
             'sizeProductes'=>sizeof($this->getProducts()),
             'productes' =>$this->getProducts(),
+            'sessionStarted' => $_SESSION['sessionStarted'],
             //'preuProducte'=> $this->getProducts()[0]['price'].'€',
             //'descripcioProducte' => $this->getProducts()[0]['description']
         ]);

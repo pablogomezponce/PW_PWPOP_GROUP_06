@@ -105,7 +105,7 @@ class ProfileSQL implements ProfileRepository
     {
         $db = new PDO('mysql:host=' . $this->address . ';dbname=' . $this->dbname . ';', $this->userNameDB, $this->passwordDB);
 
-        $sql = "SELECT username, email, password FROM User
+        $sql = "SELECT * FROM User
                 WHERE password LIKE " . ":password" . " ";
 
         if (filter_var($id, FILTER_VALIDATE_EMAIL)){

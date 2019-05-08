@@ -53,6 +53,8 @@ class logInController
                 'profile' => $exists,
             ]);
         } else {
+            $_SESSION['profile'] = $exists[0];
+            $_SESSION['sessionStarted'] = $exists[0]['username'];
             header('Location: /profile');
         }
 

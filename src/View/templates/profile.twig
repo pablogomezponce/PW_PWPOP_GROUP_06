@@ -86,9 +86,7 @@
         <script>
             var $form = $('form'),
                 origForm = $form.serialize();
-            console.log(origForm);
             $('input').on('change', function() {
-                console.log($('form').serialize());
                     $('#submit').toggle(origForm !== $('form').serialize());
             });
         </script>

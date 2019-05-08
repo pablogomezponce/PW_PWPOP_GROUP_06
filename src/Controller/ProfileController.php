@@ -26,7 +26,7 @@ class ProfileController
 
     public function __invoke(Request $request, Response $response, array $args)
     {
-
+        var_dump($_SESSION);
         return $this->container->get('view')->render($response, 'profile.twig', [
             'title' => 'PWPop | USER',
             'content' => 'Laura Gendrau i Pablo Gómez',
