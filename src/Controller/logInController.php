@@ -22,15 +22,19 @@ class logInController
 
     public function __invoke(Request $request, Response $response, array $args)
     {
+        $message = $this->container->get('flash')->getMessage('userRegistered')[0];
+
         return $this->container->get('view')->render($response, 'LogIn.twig', [
             'title' => 'PWPop | Log in',
             'content' => 'Laura Gendrau i Pablo Gómez',
             'footer' => '',
             'sessionStarted' => null,
+            'messages' => $message,
         ]);
     }
 
     public function login(Request $request, Response $response, array $args){
+
         $exists = $this->container->get('profileSQL')->login($_POST['password'], $_POST['identifier']);
         $error = "";
 

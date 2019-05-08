@@ -5,6 +5,7 @@ namespace SallePW\Controller;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
+use SallePW\Controller\Middleware\RegisterFlashController;
 use SallePW\Model\User;
 
 class signUpController
@@ -82,6 +83,7 @@ class signUpController
 
         if (empty($status)){
             $this->container->get('profileSQL')->save($user);
+            header("Location: /registeringUser");
         } else {
             return $this->container->get('view')->render($response, 'SignUp.twig',[
                 'title' => 'PWPop | Sign up',

@@ -29,11 +29,15 @@ $app->post('/login', \SallePW\Controller\logInController::class . ':login');
 $app
     ->get('/login','SallePW\Controller\logInController');
 
+$app->get('/registeringUser', \SallePW\Controller\RegisterFlashController::class);
+
 $app
     ->get('/profile',\SallePW\Controller\ProfileController::class);
 
 $app
     ->post('/heartPressed', \SallePW\Controller\heartPressed::class . ':heartPressed');
+
+
 
 $app
     ->add(\SallePW\Controller\Middleware\RememberCookieHandler::class);

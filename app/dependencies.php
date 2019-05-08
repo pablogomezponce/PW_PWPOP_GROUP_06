@@ -1,5 +1,8 @@
 <?php
 
+use Slim\Flash\Messages;
+
+
 $container = $app->getContainer();
 
 $container['view'] = function ($c) {
@@ -24,6 +27,11 @@ $container['databaseSettings'] = function ($c){
         'passwordDB' => "secret",
     );
 };
+
+$container['flash'] = function () {
+    return new Messages();
+};
+
 
 $container['profileSQL'] = function ($c){
     return new \SallePW\Model\ProfileSQL($c['databaseSettings']);
