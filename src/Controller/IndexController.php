@@ -23,19 +23,23 @@ class IndexController
     public function __invoke(Request $request, Response $response, array $args)
     {
 
-        //$idLike = $this->container->get('profileSQL')->isLike(5,3);
-        //var_dump($idLike[0][0]);
+       $params = [
+           'title' => 'PWPop',
+           'username' => 'Pepita',
+           'footer' => ' ',
+           'sizeProductes'=>sizeof($this->getProducts()),
+           'productes' =>$this->getProducts(),
+           //'preuProducte'=> $this->getProducts()[0]['price'].'€',
+           //'descripcioProducte' => $this->getProducts()[0]['description']
+       ];
+       if (isset($_SESSION['idUser'])){
+           $params['idUser']=$_SESSION['idUser'];
+           $params['sessionStarted'] = $_SESSION['sessionStarted'];
+       }
 
-        return $this->container->get('view')->render($response, 'publicHome.twig', [
-            'title' => 'PWPop',
-            'username' => 'Pepita',
-            'footer' => ' ',
-            'sessionStarted' => null,
-            'sizeProductes'=>sizeof($this->getProducts()),
-            'productes' =>$this->getProducts(),
-            'idUser' => 'holi', //$_SESSION['id']
-            //'isLike' => $this->container->get('profileSQL')->isLike(),
-        ]);
+       var_dump($_SESSION);
+        return $this->container->get('view')->render($response, 'publicHome.twig', $params);
+        //return $this->view->render($response, array('items' => $items), 'home.twig'
     }
 
 

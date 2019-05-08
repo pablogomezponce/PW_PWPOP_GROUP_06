@@ -1,0 +1,189 @@
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-sm-6 col-xl-6">
+
+            <div class="card">
+
+                <h5 class="card-header info-color white-text text-center py-4">
+                    <strong>{{ use }}</strong>
+                </h5>
+
+                <div class="card-body px-lg-5 pt-0">
+                    <br>
+                    <form class="md-form" style="color: #757575;" action="/signup" method="POST" role="form" enctype="multipart/form-data">
+
+                        <!--NAME-->
+                        <div class="form-group" id="nameGroup">
+                            <input type="text" id="name" name="name" class="form-control" value="{{ name }}" required>
+                            <label for="name">Full name</label>
+                            <p id="nameWarning" style="display: none;">¿Does your name have a number in it? Please warn us!</p>
+                        </div>
+                        <!--USERNAME-->
+                        <div class="form-group" id="userGroup">
+                            <input type="text" id="username" name="username" class="form-control" required value="{{ username }}" {% if use == "Make changes" %} disabled {% endif %}">
+                            <label for="username">Username</label>
+                            <p style="display: none;" id="userWarning">That's an ELONGATED USERNAME      or maybe there are some whitespaces, you should make it shorter ;)</p>
+                        </div>
+
+                        <!--EMAIL-->
+                        <div class=".form-group {% if error.email is not empty %} alert alert-danger {% endif %}">
+                            <p class=".modal">{{ error.email }}</p>
+                            <input type="email" id="email" name="email" class="form-control" required value="{{ email }}" {% if use == "Make changes" %} disabled {% endif %}">
+                            <label for="email">E-mail</label>
+                        </div>
+
+                        <!--BDAY-->
+                        <input class="form-control form-group" type="date" id="bday" name="bday" placeholder="Date of birth" value="{{ birthday }}">
+                        <label for="bday" class="control-label">Date of birth</label>
+
+                        <!--PHONE-->
+                        <div id="phoneGroup" class="form-group">
+                            <input type="text" id="phone" class="form-control" name="phone" aria-describedby="materialRegisterFormPhoneHelpBlock" required value="{{ phone }}">
+                            <label for="phone">Phone number</label>
+                            <p style="display: none;" id="phoneError"> ERROR! Invalid number! Remember that must be a spanish phone number!</p>
+                        </div>
+
+                        <div class=".form-group {% if error.password is not empty %} alert alert-danger {% endif %}">
+                            <p class=".modal">{{ error.password }}</p>
+
+                            <div class="form-group" id="pass1Group">
+                                <!--PASSWORD1-->
+                                <input type="password" id="password" class="form-control" name="password" aria-describedby="materialRegisterFormPasswordHelpBlock" required>
+                                <label for="password">Password</label>
+                                <p style="display:none;" id="pass1Warning">That's a VERY short password!</p>
+                            </div>
+                            <div class="form-group" id="pass2Group">
+                                <!--PASSWORD2-->
+                                <input type="password" id="repeatPassword" class="form-control" name="passwordValidation" aria-describedby="materialRegisterFormPasswordHelpBlock" required>
+                                <label for="repeatPassword">Repeat password</label>
+                                <p style="display:none;" id="pass2Warning">We shouldn't say this... but you had ONE PASSWORD!</p>
+                            </div>
+                        </div>
+
+                        <div class="custom-file form-group">
+                            <input type="file" class="custom-file-input" id="customFile" id="avatar" name="avatar"
+                                   accept="image/png, image/jpeg">
+                            <label class="custom-file-label overflow-auto" for="customFile">Choose file</label><br>
+                            <label for="customFile">Profile Image</label>
+
+                            <script>
+                                $('#customFile').on('change',function(){
+                                    //get the file name
+                                    var fileName = $(this).val();
+                                    //replace the "Choose a file" label
+                                    $(this).next('.custom-file-label').html(fileName.replace('C:\\fakepath\\', " "));
+                                })
+                            </script>
+                        </div>
+
+
+                        <button class="btn btn-outline-info btn-rounded btn-block my-4 waves-effect z-depth-0" type="submit">{{ use }}</button>
+
+                        <div class="text-center">
+
+                            <hr>
+
+                            <p>By clicking
+                                <em>{{ use }}</em> you agree to our
+                                <a href="" target="_blank">terms of service</a> and
+                                <a href="" target="_blank">privacy statements</a>. </p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col d-flex align-items-center justify-content-center">
+            <div id="logoContainer" >
+                <img src="{{ base_url() }}/assets/logos/roundLogo/2x/roundLogo@2x.png" class = "img-fluid" style="width: 100%;;height: 100%">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $("input").change(function (ev) {
+
+        switch (this.id) {
+            case "name":{
+                var str = ev.currentTarget.value;
+                if(/(\d)/.test(str)){
+                    $("#nameGroup").addClass("alert alert-danger");
+                    $("#nameWarning").show(100);
+                } else {
+                    $("#nameGroup").removeClass("alert alert-danger");
+                    $("#nameWarning").hide(100);
+                }
+                break;
+            }
+            case "username":{
+                if(ev.currentTarget.value.length > 20 || /\s/.test(ev.currentTarget.value)){
+                    $("#userGroup").addClass("alert alert-danger");
+                    $("#userWarning").show(100);
+                } else {
+                    $("#userGroup").removeClass("alert alert-danger");
+                    $("#userWarning").hide(100);
+                }
+                break;
+
+            }
+            case "email":{
+                console.log(this);
+
+                break;
+            }
+            case "bday":{
+                console.log(this);
+
+                break;
+            }
+            case "phone":{
+                //console.log(ev);
+                var str = ev.currentTarget.value;
+
+                isValid = str.match("^(/\+/34|0034|34)?[6|7|8|9][0-9]{8}$");
+
+                if(!isValid){
+                    $("#phoneGroup").addClass("alert alert-danger");
+                    $("#phoneError").show(0);
+                } else {
+                    console.log("Correct!");
+                    $("#phoneGroup").removeClass();
+                    $("#phoneGroup").addClass("form-group");
+
+                    $("#phoneError").hide(0);
+
+                }
+                console.log(this);
+                break;
+            }
+            case "password":{
+                console.log(this);
+                if(!/.{6,}/.test(ev.currentTarget.value)){
+                    $("#pass1Group").addClass("alert alert-danger");
+                    $("#pass1Warning").show(100);
+                } else {
+                    $("#pass1Group").removeClass("alert alert-danger");
+                    $("#pass1Warning").hide(100);
+                }
+
+                break;
+            }
+            case "repeatPassword":{
+                if($("#repeatPassword").val()!=($("#password").val())){
+                    $("#pass2Group").addClass("alert alert-danger");
+                    $("#pass2Warning").show(100);
+                } else {
+                    $("#pass2Group").removeClass("alert alert-danger");
+                    $("#pass2Warning").hide(100);
+                }
+                break;
+            }
+            case "customFile":{
+                console.log(this);
+                break;
+            }
+        }
+
+    })
+</script>
