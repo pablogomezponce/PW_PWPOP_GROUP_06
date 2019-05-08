@@ -140,6 +140,39 @@ class ProfileSQL implements ProfileRepository
 
     }
 
+    public function getUserDetails(string $id){
+        $db = new PDO('mysql:host=' . $this->address . ';dbname=' . $this->dbname . ';', $this->userNameDB, $this->passwordDB);
+
+        $sql = "SELECT * FROM User
+                WHERE email LIKE " . ":id" . " ";
+
+
+        // select a particular user by id
+        $stmt = $db->prepare($sql);
+        $stmt->execute(['id' => $id]);
+        $response = $stmt->fetchAll();
+
+        if (sizeof($response) == 0){
+            $sql = "SELECT username, email FROM User WHERE ? LIKE ";
+            if (filter_var($id, FILTER_VALIDATE_EMAIL)){
+                $sql = $sql."email";
+            } else {
+                $sql =$sql."username";
+            }
+
+            $stmt = $db->prepare($sql);
+            $stmt->execute([$id]);
+            $response = $stmt->fetchAll();
+
+
+            return $response;
+
+        }
+
+        return $response;
+
+    }
+
     public function getProducts(){
         $db = new PDO('mysql:host=' . $this->address . ';dbname=' . $this->dbname . ';', $this->userNameDB, $this->passwordDB);
         $sql = "SELECT * FROM Product LIMIT 5";

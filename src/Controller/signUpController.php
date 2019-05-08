@@ -88,11 +88,11 @@ class signUpController
                 'content' => 'Laura Gendrau i Pablo Gómez',
                 'footer' => '',
                 'sessionStarted' => null,
-                'formName' => $_POST['name'],
-                'formEmail' => $_POST['email'],
-                'formUsername' => $_POST['username'],
-                'formPhone'=>$_POST['phone'],
-                'formbday' => $_POST['bday'],
+                'name' => $_POST['name'],
+                'email' => $_POST['email'],
+                'username' => $_POST['username'],
+                'phone'=>$_POST['phone'],
+                'birthday' => $_POST['bday'],
                 'error' => $status,
             ]);
         }

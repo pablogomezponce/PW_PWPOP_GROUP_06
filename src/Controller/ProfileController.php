@@ -6,6 +6,7 @@ use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use SallePW\Model\ProfileRepository;
+use SallePW\Model\ProfileSQL;
 use SallePW\Model\User;
 
 class ProfileController
@@ -26,18 +27,21 @@ class ProfileController
 
     public function __invoke(Request $request, Response $response, array $args)
     {
-        var_dump($_SESSION);
+        $exists  = $this->container->get('profileSQL')->getUserDetails($_SESSION['profile']['email'])[0];
+
+        var_dump($exists);
         return $this->container->get('view')->render($response, 'profile.twig', [
             'title' => 'PWPop | USER',
             'content' => 'Laura Gendrau i Pablo Gómez',
             'footer' => '',
-            'sessionStarted' => 'USER',
-            'username' => 'USER',
-            'email' => 'user@user.com',
-            'name' => 'John',
-            'lastName' => 'Doe',
-            'phone'=>'644991188',
-            'birthday' => '19/01/1998'
+            'sessionStarted' => $exists['username'],
+            'username' => $exists['username'],
+            'email' => $exists['email'],
+            'name' => $exists['name'],
+            'phone'=>$exists['phone'],
+            'birthday' => $exists['birthdate'],
+            'idUser' => $exists['email'],
+            'sessionStarted' => $exists['username'],
         ]);
     }
 
