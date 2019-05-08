@@ -27,19 +27,23 @@ class IndexController
        /* for ($i=0;$i<sizeof($this->getProducts());$i++){
             var_dump($this->getProducts()[$i]);
         }*/
-        var_dump($_SESSION);
 
-        return $this->container->get('view')->render($response, 'publicHome.twig', [
-            'title' => 'PWPop',
-            'username' => 'Pepita',
-            'footer' => ' ',
-            'sessionStarted' => null,
-            'sizeProductes'=>sizeof($this->getProducts()),
-            'productes' =>$this->getProducts(),
-            'sessionStarted' => $_SESSION['sessionStarted'],
-            //'preuProducte'=> $this->getProducts()[0]['price'].'€',
-            //'descripcioProducte' => $this->getProducts()[0]['description']
-        ]);
+       $params = [
+           'title' => 'PWPop',
+           'username' => 'Pepita',
+           'footer' => ' ',
+           'sizeProductes'=>sizeof($this->getProducts()),
+           'productes' =>$this->getProducts(),
+           //'preuProducte'=> $this->getProducts()[0]['price'].'€',
+           //'descripcioProducte' => $this->getProducts()[0]['description']
+       ];
+       if (isset($_SESSION['idUser'])){
+           $params['idUser']=$_SESSION['idUser'];
+           $params['sessionStarted'] = $_SESSION['sessionStarted'];
+       }
+
+       var_dump($_SESSION);
+        return $this->container->get('view')->render($response, 'publicHome.twig', $params);
         //return $this->view->render($response, array('items' => $items), 'home.twig'
     }
 
