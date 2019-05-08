@@ -3,7 +3,6 @@
 
 namespace SallePW\Controller\Middleware;
 
-
 use Dflydev\FigCookies\FigRequestCookies;
 use Dflydev\FigCookies\FigResponseCookies;
 use Dflydev\FigCookies\SetCookie;
@@ -11,9 +10,8 @@ use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 
-final class SessionHandler
-{
-    private const USER = 'PWPOP_user';
+class RememberCookieHandler{
+    private const REMEMBERUSER = 'pwpop_rememberUser';
 
     /** @var ContainerInterface */
     private $container;
@@ -27,23 +25,27 @@ final class SessionHandler
         $this->container = $container;
     }
 
-    public function __invoke(Request $request, Response $response, array $args)
+    public function __invoke(Request $request, Response $response, callable $nextMiddleware)
     {
-        $adviceCookie = FigRequestCookies::get($request, self::USER);
+
+        $adviceCookie = FigRequestCookies::get($request, self::REMEMBERUSER);
 
         $isWarned = $adviceCookie->getValue();
 
-        if (!$isWarned) {
+        if(isset($isWarned)){
+            $_SESSION['profile'] = $this->container->get('profileSQL')->getUserDetails($isWarned)[0];
+            $_SESSION['idUser'] = $_SESSION['profile']['email'];
+            $_SESSION['sessionStarted'] = $_SESSION['profile']['username'];
+        }
+
+        if(isset($_POST['remember']) && isset($_SESSION['profile']['email'])){
             $response = $this->setAdviceCookie($response);
         }
 
-        $response->getBody()->write(var_dump($request));
-        //$SESSION['username'];
+        $response = $nextMiddleware($request, $response);
 
-        return $this->container->get('view')->render($response, 'index.twig', [
-            'name' => $args['name'],
-            'visits' => $_SESSION['counter'],
-            'isWarned' => $isWarned,
+        var_dump($isWarned);
+        return $this->container->get('view')->render($response, 'footer.twig', [
         ]);
     }
 
@@ -51,12 +53,13 @@ final class SessionHandler
     {
         return FigResponseCookies::set(
             $response,
-            SetCookie::create(self::COOKIES_ADVICE)
+            SetCookie::create(self::REMEMBERUSER)
                 ->withHttpOnly(true)
                 ->withMaxAge(3600)
-                ->withValue(1)
-                ->withDomain('slimapp.test')
+                ->withValue($_SESSION['profile']['email'])
+                ->withDomain('pwpop.com')
                 ->withPath('/')
         );
     }
+
 }

@@ -26,7 +26,6 @@ $app
 
 $app->post('/signup', \SallePW\Controller\signUpController::class . ':addToDB') ;
 $app->post('/login', \SallePW\Controller\logInController::class . ':login');
-
 $app
     ->get('/login','SallePW\Controller\logInController');
 
@@ -35,3 +34,6 @@ $app
 
 $app
     ->post('/heartPressed', \SallePW\Controller\heartPressed::class . ':heartPressed');
+
+$app
+    ->add(\SallePW\Controller\Middleware\RememberCookieHandler::class);
