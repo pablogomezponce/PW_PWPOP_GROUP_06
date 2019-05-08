@@ -23,6 +23,8 @@ class IndexController
     public function __invoke(Request $request, Response $response, array $args)
     {
 
+        //$idLike = $this->container->get('profileSQL')->isLike(5,3);
+        //var_dump($idLike[0][0]);
 
         return $this->container->get('view')->render($response, 'publicHome.twig', [
             'title' => 'PWPop',
@@ -31,10 +33,11 @@ class IndexController
             'sessionStarted' => null,
             'sizeProductes'=>sizeof($this->getProducts()),
             'productes' =>$this->getProducts(),
-            'idUser' => 3, //$_SESSION['id']
-            'isLike' => true,
+            'idUser' => 'holi', //$_SESSION['id']
+            //'isLike' => $this->container->get('profileSQL')->isLike(),
         ]);
     }
+
 
     public function getProducts(){
         $products = $this->container->get('profileSQL')->getProducts();

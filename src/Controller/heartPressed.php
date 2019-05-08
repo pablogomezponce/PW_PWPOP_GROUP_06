@@ -33,13 +33,22 @@ class heartPressed
 
     public function heartPressed(Request $request, Response $response, array $args){
         //si es null voldra dir que la sessio no esta iniciada
-        //idUser serà el que agafem a indexController amb SESSION
-       // $idLike = isLike($_POST['idProducte'],3);
+        //userName serà el que agafem a indexController amb SESSION
 
 
+        $idLike = $this->container->get('profileSQL')->isLike($_POST['idProducte'],3);
 
+        if ($idLike[0][0] > 0){
+            $idLike = true;
+            //delete
+            $this->container->get('profileSQL')->deleteLike($_POST['idProducte'],3);
+        }else{
+            $idLike = false;
+            //add
+            $this->container->get('profileSQL')->addLike($_POST['idProducte'],3);
+        }
 
-        return json_encode(array(true,$_POST['idProducte'],3));
+        return json_encode(array($idLike,$_POST['idProducte'],'holi'));
 
     }
 

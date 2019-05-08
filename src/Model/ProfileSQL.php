@@ -151,4 +151,28 @@ class ProfileSQL implements ProfileRepository
     }
 
 
+    public function isLike(int $idProducte ,string $idUser){
+        $db = new PDO('mysql:host=' . $this->address . ';dbname=' . $this->dbname . ';', $this->userNameDB, $this->passwordDB);
+        $sql = "SELECT COUNT(*) FROM Favorites WHERE Favorites.product LIKE $idProducte AND Favorites.user LIKE '$idUser'";
+
+        $stmt = $db->prepare($sql);
+        $stmt->execute();
+        $count  = $stmt->fetchAll();
+        return $count;
+    }
+
+    public function deleteLike(int $idProducte ,string $idUser) {
+        $db = new PDO('mysql:host=' . $this->address . ';dbname=' . $this->dbname . ';', $this->userNameDB, $this->passwordDB);
+        $sql = "DELETE FROM Favorites WHERE Favorites.user='$idUser' AND product = $idProducte";
+
+        $stmt = $db->prepare($sql);
+        $stmt->execute();
+    }
+
+    public function addLike(int $idProducte ,string $idUser) {
+        $db = new PDO('mysql:host=' . $this->address . ';dbname=' . $this->dbname . ';', $this->userNameDB, $this->passwordDB);
+        $sql = "INSERT INTO Favorites(user,product)VALUES ('$idUser',$idProducte)";
+        $stmt = $db->prepare($sql);
+        $stmt->execute();
+    }
 }
