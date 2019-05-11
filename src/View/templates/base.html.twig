@@ -42,12 +42,20 @@ Scripts: Where all your .js files are going to be loaded
 <body>
 <header id="header">
 
+    <form class="form-inline ">
+        <input class="form-control form-control-sm mr-3 w-75" type="text" placeholder="Search" aria-label="Search">
+        <i class="fas fa-search" aria-hidden="true"></i>
+    </form>
     {% if sessionStarted is empty%}
-        <a href="signup"><h1 id="signup">Sign up</h1></a>
-        <a href="login"><h1 id="login">Log In</h1></a>
+        <div id="#signLogin" style="display: flex">
+            <a href="signup"><h1 id="signup">Sign up</h1></a>
+            <a href="login"><h1 id="login">Log In</h1></a>
+        </div>
+
     {% else %}
         <a href="profile    "><h1 id="profile">{{ username }}</h1></a>
     {% endif %}
+
 
 </header>
 
