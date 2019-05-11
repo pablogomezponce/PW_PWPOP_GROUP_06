@@ -13,7 +13,7 @@ class signUpController
     /** @var ContainerInterface */
     private $container;
 
-    private const UPLOADS_DIR = __DIR__ . '/uploads';
+    private const UPLOADS_DIR = __DIR__ . '/../../public/uploads';
     private const UNEXPECTED_ERROR = "An unexpected error occurred uploading the file '%s'...";
     private const INVALID_EXTENSION_ERROR = "The received file extension '%s' is not valid";
     private const ALLOWED_EXTENSIONS = ['jpg', 'png'];
@@ -51,7 +51,6 @@ class signUpController
     public function  addToDB(Request $request, Response $response, array $args){
 
         $uploadedFiles = $request->getUploadedFiles();
-        var_dump($uploadedFiles);
         $errors = [];
         $name = null;
         foreach ($uploadedFiles as $uploadedFile) {
@@ -70,7 +69,9 @@ class signUpController
                 $errors[] = sprintf(self::INVALID_EXTENSION_ERROR, $format);
                 continue;
             }
-            mkdir(self::UPLOADS_DIR . "/".$_POST['username']);
+            var_dump(self::UPLOADS_DIR . "/" . $_POST['username']);
+
+            mkdir(self::UPLOADS_DIR . "/" . $_POST['username'] . "/");
             // We generate a custom name here instead of using the one coming form the form
             $uploadedFile->moveTo(self::UPLOADS_DIR . "/".$_POST['username'] . "/" . $name);
         }
