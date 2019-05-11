@@ -35,6 +35,7 @@ class IndexController
        if (isset($_SESSION['idUser'])){
            $params['idUser']=$_SESSION['idUser'];
            $params['sessionStarted'] = $_SESSION['sessionStarted'];
+           $params['profile'] = $_SESSION['profile'];
        }
 
        var_dump($_SESSION);

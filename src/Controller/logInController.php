@@ -34,19 +34,28 @@ class logInController
     }
 
     public function login(Request $request, Response $response, array $args){
-
         $exists = $this->container->get('profileSQL')->login($_POST['password'], $_POST['identifier']);
         $error = "";
 
 
 
         if (empty($exists[0]['password'])) $error = "That isn't your password!";
-
+        if (isset($exists[0]['disabled'])) {
+            return $this->container->get('view')->render($response, 'LogIn.twig', [
+                'title' => 'PWPop | Log in',
+                'content' => 'Laura Gendrau i Pablo Gómez',
+                'errors' => "Account disabled, contact with an admin to reenable",
+                'info' => $_POST,
+                'footer' => '',
+                'sessionStarted' => null,
+            ]);
+        }
 
         if (sizeof($exists) == 0)  $error = "There is no account for this!";
 
 
         if (empty($exists[0]['password'])){
+            $response = $response->withStatus(400);
             return $this->container->get('view')->render($response, 'LogIn.twig', [
                 'title' => 'PWPop | Log in',
                 'content' => 'Laura Gendrau i Pablo Gómez',
@@ -57,10 +66,13 @@ class logInController
                 'profile' => $exists,
             ]);
         } else {
+
             $_SESSION['profile'] = $exists[0];
             $_SESSION['idUser'] = $exists[0]['email'];
             $_SESSION['sessionStarted'] = $exists[0]['username'];
-            header('Location: /profile');
+            //return var_dump($_POST);
+            $response = $response->withStatus(200);
+            return $response->withHeader('Location', '/home');
         }
 
     }

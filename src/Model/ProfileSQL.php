@@ -32,7 +32,7 @@ class ProfileSQL implements ProfileRepository
     {
         $db = new PDO('mysql:host=' . $this->address . ';dbname=' . $this->dbname . ';', $this->userNameDB, $this->passwordDB);
 
-        $sql = "INSERT INTO User (username, email, password, name, birthdate, phone) VALUES (?,?,?,?,?,?)";
+        $sql = "INSERT INTO User (username, email, password, name, birthdate, phone, image_dir) VALUES (?,?,?,?,?,?,?)";
 
         $username = $user->getUsername();
         $email = $user->getEmail();
@@ -40,7 +40,8 @@ class ProfileSQL implements ProfileRepository
         $name = $user->getPassword();
         $birthdate = $user->getBirthdate();
         $phone = $user->getPhone();
-        $db->prepare($sql)->execute([$username,$email,$password, $name, $birthdate, $phone]);
+        $image_dir = $user->getImageDir();
+        $db->prepare($sql)->execute([$username,$email,$password, $name, $birthdate, $phone,$image_dir]);
     }
 
     public function get(array $fields, string $table, string $conditions)
@@ -106,7 +107,7 @@ class ProfileSQL implements ProfileRepository
         $db = new PDO('mysql:host=' . $this->address . ';dbname=' . $this->dbname . ';', $this->userNameDB, $this->passwordDB);
 
         $sql = "SELECT * FROM User
-                WHERE password LIKE " . ":password" . " ";
+                WHERE password LIKE " . ":password" . " AND isActive = TRUE ";
 
         if (filter_var($id, FILTER_VALIDATE_EMAIL)){
             $sql = $sql . " AND email LIKE " . ":id" . "";
@@ -120,7 +121,7 @@ class ProfileSQL implements ProfileRepository
         $response = $stmt->fetchAll();
 
         if (sizeof($response) == 0){
-            $sql = "SELECT username, email FROM User WHERE ? LIKE ";
+            $sql = "SELECT username, email, isActive FROM User WHERE ? LIKE ";
             if (filter_var($id, FILTER_VALIDATE_EMAIL)){
                 $sql = $sql."email";
             } else {
@@ -131,6 +132,9 @@ class ProfileSQL implements ProfileRepository
             $stmt->execute([$id]);
             $response = $stmt->fetchAll();
 
+            if($response[0]['isActive'] == false){
+                return [['password' => 'noPetis', 'disabled' => true]];
+            }
 
             return $response;
 
@@ -168,9 +172,38 @@ class ProfileSQL implements ProfileRepository
             return $response;
 
         }
-
         return $response;
+    }
 
+    public function getUserbyId(string $id){
+        $db = new PDO('mysql:host=' . $this->address . ';dbname=' . $this->dbname . ';', $this->userNameDB, $this->passwordDB);
+
+        $sql = "SELECT * FROM User
+                WHERE id LIKE " . ":id" . " ";
+
+
+        // select a particular user by id
+        $stmt = $db->prepare($sql);
+        $stmt->execute(['id' => $id]);
+        $response = $stmt->fetchAll();
+
+        if (sizeof($response) == 0){
+            $sql = "SELECT username, email FROM User WHERE ? LIKE ";
+            if (filter_var($id, FILTER_VALIDATE_EMAIL)){
+                $sql = $sql."email";
+            } else {
+                $sql =$sql."username";
+            }
+
+            $stmt = $db->prepare($sql);
+            $stmt->execute([$id]);
+            $response = $stmt->fetchAll();
+
+
+            return $response;
+
+        }
+        return $response;
     }
 
     public function getProducts(){
@@ -207,5 +240,23 @@ class ProfileSQL implements ProfileRepository
         $sql = "INSERT INTO Favorites(user,product)VALUES ('$idUser',$idProducte)";
         $stmt = $db->prepare($sql);
         $stmt->execute();
+    }
+
+    public function deleteAccount(string $id){
+        $db = new PDO('mysql:host=' . $this->address . ';dbname=' . $this->dbname . ';', $this->userNameDB, $this->passwordDB);
+
+        $stmt = $db->prepare('SELECT isActive FROM User WHERE email LIKE "'.$id.'"');
+        $stmt->execute();
+        $row = $stmt->fetch();
+
+        if($row['isActive'] == 1){
+            $sql = "UPDATE `PWPOP`.`User` t SET t.`isActive` = 0 WHERE t.`email` LIKE '" . $id . "' ESCAPE '#'";
+            $stmt = $db->prepare($sql);
+            $done = $stmt->execute();
+
+            return $done;
+        } else {
+            return "Error! How did you get here?";
+        }
     }
 }

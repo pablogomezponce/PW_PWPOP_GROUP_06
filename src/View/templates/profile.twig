@@ -94,6 +94,47 @@
     -->
 
     {%  include 'data.twig' with {'use' : 'Make changes'} %}
+    <div class="container" data-toggle="modal"  data-target="#myModal" id="deleteAccountDiv">
+        <p>delete this account</p>
+    </div>
+
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Are you sure?</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Click "Ok" if you are really sure about this.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" id="deleteAccount" class="btn btn-default" data-dismiss="modal">Ok</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        $("#deleteAccount").click(function (ev) {
+            $.ajax({
+                url:"/deleteAccount",
+                data:{idUser : "{{ idUser }}" },
+                type: "POST",
+                dataType: "json",
+
+                success:function (data) {
+                    console.log(data);
+                    alert("Your account has been disabled, We are sad to see you go :C");
+                }
+
+            });
+        })
+    </script>
 {% endblock %}
 
 

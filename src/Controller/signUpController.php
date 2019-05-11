@@ -13,12 +13,10 @@ class signUpController
     /** @var ContainerInterface */
     private $container;
 
-    private const UPLOADS_DIR = __DIR__ . '/../../uploads';
+    private const UPLOADS_DIR = __DIR__ . '/uploads';
     private const UNEXPECTED_ERROR = "An unexpected error occurred uploading the file '%s'...";
     private const INVALID_EXTENSION_ERROR = "The received file extension '%s' is not valid";
     private const ALLOWED_EXTENSIONS = ['jpg', 'png'];
-
-
 
     /**
      * HelloController constructor.
@@ -51,12 +49,11 @@ class signUpController
      * @param array $args
      */
     public function  addToDB(Request $request, Response $response, array $args){
-        $user = new User(null,$_POST['name'],"", $_POST['email'], $_POST['username'], $_POST['password'], $_POST['phone'], $_POST['bday'],null);
 
         $uploadedFiles = $request->getUploadedFiles();
         var_dump($uploadedFiles);
         $errors = [];
-
+        $name = null;
         foreach ($uploadedFiles as $uploadedFile) {
             if ($uploadedFile->getError() !== UPLOAD_ERR_OK) {
                 $errors[] = sprintf(self::UNEXPECTED_ERROR, $uploadedFile->getClientFilename());
@@ -73,11 +70,12 @@ class signUpController
                 $errors[] = sprintf(self::INVALID_EXTENSION_ERROR, $format);
                 continue;
             }
-
+            mkdir(self::UPLOADS_DIR . "/".$_POST['username']);
             // We generate a custom name here instead of using the one coming form the form
-            $uploadedFile->moveTo(self::UPLOADS_DIR . DIRECTORY_SEPARATOR . $name);
+            $uploadedFile->moveTo(self::UPLOADS_DIR . "/".$_POST['username'] . "/" . $name);
         }
 
+        $user = new User(null,$_POST['name'],"", $_POST['email'], $_POST['username'], $_POST['password'], $_POST['phone'], $_POST['bday'],$name);
 
         $status = $this->checkUser($user);
 
@@ -85,6 +83,7 @@ class signUpController
             $this->container->get('profileSQL')->save($user);
             header("Location: /registeringUser");
         } else {
+            var_dump($_FILES);
             return $this->container->get('view')->render($response, 'SignUp.twig',[
                 'title' => 'PWPop | Sign up',
                 'content' => 'Laura Gendrau i Pablo Gómez',
