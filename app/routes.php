@@ -13,8 +13,13 @@ $app
     ->add('SallePW\SlimApp\Controller\Middleware\TestMiddleware');
 */
 
+
 $app
     ->get('/', 'SallePW\Controller\IndexController');
+
+$app
+    ->get('/home', 'SallePW\Controller\IndexController');
+
 
 $app
     ->get('/signup','SallePW\Controller\signUpController');
@@ -29,3 +34,6 @@ $app
 
 $app
     ->post('/heartPressed', \SallePW\Controller\heartPressed::class . ':heartPressed');
+
+$app
+    ->add(\SallePW\Controller\Middleware\RememberCookieHandler::class);

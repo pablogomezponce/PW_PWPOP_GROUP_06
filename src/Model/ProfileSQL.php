@@ -105,7 +105,7 @@ class ProfileSQL implements ProfileRepository
     {
         $db = new PDO('mysql:host=' . $this->address . ';dbname=' . $this->dbname . ';', $this->userNameDB, $this->passwordDB);
 
-        $sql = "SELECT username, email, password FROM User
+        $sql = "SELECT * FROM User
                 WHERE password LIKE " . ":password" . " ";
 
         if (filter_var($id, FILTER_VALIDATE_EMAIL)){
@@ -117,6 +117,39 @@ class ProfileSQL implements ProfileRepository
         // select a particular user by id
         $stmt = $db->prepare($sql);
         $stmt->execute(['id' => $id, 'password'=>$password,]);
+        $response = $stmt->fetchAll();
+
+        if (sizeof($response) == 0){
+            $sql = "SELECT username, email FROM User WHERE ? LIKE ";
+            if (filter_var($id, FILTER_VALIDATE_EMAIL)){
+                $sql = $sql."email";
+            } else {
+                $sql =$sql."username";
+            }
+
+            $stmt = $db->prepare($sql);
+            $stmt->execute([$id]);
+            $response = $stmt->fetchAll();
+
+
+            return $response;
+
+        }
+
+        return $response;
+
+    }
+
+    public function getUserDetails(string $id){
+        $db = new PDO('mysql:host=' . $this->address . ';dbname=' . $this->dbname . ';', $this->userNameDB, $this->passwordDB);
+
+        $sql = "SELECT * FROM User
+                WHERE email LIKE " . ":id" . " ";
+
+
+        // select a particular user by id
+        $stmt = $db->prepare($sql);
+        $stmt->execute(['id' => $id]);
         $response = $stmt->fetchAll();
 
         if (sizeof($response) == 0){
