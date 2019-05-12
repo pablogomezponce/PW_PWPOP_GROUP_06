@@ -23,7 +23,9 @@ $app
     ->get('/home', 'SallePW\Controller\IndexController')
     ->add(\SallePW\Controller\Middleware\RememberCookieHandler::class);
 
-
+$app
+    ->get('/logout', \SallePW\Controller\LogOutController::class)
+    ->add(\SallePW\Controller\Middleware\RememberCookieHandler::class . ':logout');
 $app
     ->get('/signup','SallePW\Controller\signUpController')
     ->add(\SallePW\Controller\Middleware\RememberCookieHandler::class);

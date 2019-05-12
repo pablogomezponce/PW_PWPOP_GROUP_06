@@ -61,4 +61,13 @@ class RememberCookieHandler{
         );
     }
 
+    public function logout(Request $request, Response $response, callable $nextMiddleware): Response
+    {
+        $request = $nextMiddleware($request,$response);
+
+        FigResponseCookies::remove($response, self::REMEMBERUSER);
+        session_unset();
+        $response = $response->withHeader("Location", "/home");
+        return $response;
+    }
 }

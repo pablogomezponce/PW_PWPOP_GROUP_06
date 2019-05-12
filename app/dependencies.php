@@ -33,6 +33,10 @@ $container['flash'] = function () {
 };
 
 
+$container['rememberCookieHandler'] = function ($c) {
+    return new \SallePW\Controller\Middleware\RememberCookieHandler($c);
+};
+
 $container['profileSQL'] = function ($c){
     return new \SallePW\Model\ProfileSQL($c['databaseSettings']);
 };
