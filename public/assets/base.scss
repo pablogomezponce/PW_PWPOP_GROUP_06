@@ -3,9 +3,9 @@
 $h1: 'Inder', sans-sarif;
 
 header{
-  display: flex;
-  flex-direction: row-reverse;
-  flex-wrap: nowrap;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
 
 
 
