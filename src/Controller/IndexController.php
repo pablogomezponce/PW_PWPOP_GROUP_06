@@ -29,8 +29,7 @@ class IndexController
            'footer' => ' ',
            'sizeProductes'=>sizeof($this->getProducts()),
            'productes' =>$this->getProducts(),
-           //'preuProducte'=> $this->getProducts()[0]['price'].'€',
-           //'descripcioProducte' => $this->getProducts()[0]['description']
+
        ];
        if (isset($_SESSION['idUser'])){
            $params['idUser']=$_SESSION['idUser'];
