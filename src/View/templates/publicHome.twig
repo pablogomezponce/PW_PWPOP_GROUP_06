@@ -8,7 +8,6 @@
         <h1 align="center">Welcome back, {{ username }}</h1>
     {% endif %}
 
-    <div align="center"><input type="search" id="search" placeholder="Search..." /></div>
     {% for producte in productes %}
        <div class="row">
            {% include 'product.twig' with {'idProducte':producte.id,'nomProducte': producte.title,
