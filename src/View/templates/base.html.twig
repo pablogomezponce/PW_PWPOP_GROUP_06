@@ -38,14 +38,16 @@ Scripts: Where all your .js files are going to be loaded
 
 </head>
 
-
 <body>
 <header id="header">
 
-    <form class="form-inline " style="padding-left: 20px">
-        <input class="form-control form-control-sm mr-3 w-75" type="text" placeholder="Search" aria-label="Search">
-        <i class="fas fa-search" aria-hidden="true"></i>
-    </form>
+    <div id="search" style="padding-left: 10px">
+            <input class="form-control form-control-lg form-control-borderless" type="search" placeholder="Search title product" style="width:50%">
+        <div class="col-auto">
+            <button id=#searchButton class="btn btn-lg btn-secondary    " type="submit">Search</button>
+        </div>
+    </div>
+
     {% if sessionStarted is empty%}
         <div id="#signLogin" style="display: flex;justify-content: flex-end;">
             <a href="signup"><h1 id="signup">Sign up</h1></a>
