@@ -26,6 +26,9 @@ $app
 
 $app->post('/signup', \SallePW\Controller\signUpController::class . ':addToDB') ;
 $app->post('/login', \SallePW\Controller\logInController::class . ':login');
+
+$app->post('/search',\SallePW\Controller\searchController::class.':searchProducts');
+
 $app
     ->get('/login','SallePW\Controller\logInController');
 

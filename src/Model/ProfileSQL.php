@@ -173,7 +173,7 @@ class ProfileSQL implements ProfileRepository
 
     }
 
-    public function getProducts(){
+    public function getAllProducts(){
         $db = new PDO('mysql:host=' . $this->address . ';dbname=' . $this->dbname . ';', $this->userNameDB, $this->passwordDB);
         $sql = "SELECT * FROM Product LIMIT 5";
 
@@ -181,6 +181,16 @@ class ProfileSQL implements ProfileRepository
         $stmt->execute();
         $products  = $stmt->fetchAll();
         return $products;
+    }
+
+    public function getProductsSearch(string $nameProduct){
+        $db = new PDO('mysql:host=' . $this->address . ';dbname=' . $this->dbname . ';', $this->userNameDB, $this->passwordDB);
+        $sql = "SELECT * FROM Product WHERE title LIKE '$nameProduct' LIMIT 5";
+
+        $stmt = $db->prepare($sql);
+        $stmt->execute();
+        $productsSearch  = $stmt->fetchAll();
+        return $productsSearch;
     }
 
 

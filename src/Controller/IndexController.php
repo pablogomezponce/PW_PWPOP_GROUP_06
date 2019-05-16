@@ -27,8 +27,8 @@ class IndexController
            'title' => 'PWPop',
            'username' => 'Pepita',
            'footer' => ' ',
-           'sizeProductes'=>sizeof($this->getProducts()),
-           'productes' =>$this->getProducts(),
+           //'sizeProductes'=>sizeof($this->getAllProducts()),
+           'productes' =>$this->getAllProducts(),
 
        ];
        if (isset($_SESSION['idUser'])){
@@ -36,16 +36,18 @@ class IndexController
            $params['sessionStarted'] = $_SESSION['sessionStarted'];
        }
 
-       var_dump($_SESSION);
+       //var_dump($_SESSION);
+       //var_dump($_POST);
         return $this->container->get('view')->render($response, 'publicHome.twig', $params);
-        //return $this->view->render($response, array('items' => $items), 'home.twig'
     }
 
 
-    public function getProducts(){
-        $products = $this->container->get('profileSQL')->getProducts();
+
+    public function getAllProducts(){
+        $products = $this->container->get('profileSQL')->getAllProducts();
         return $products;
     }
+
 
 
 
