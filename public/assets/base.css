@@ -26,6 +26,10 @@ header h1:hover {
 body {
   padding-bottom: 20px;
 }
+body #pSearch {
+  font-size: 40pt;
+  font-weight: bold;
+}
 body #producte {
   padding-top: 20px;
   padding-bottom: 20px;
