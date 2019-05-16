@@ -41,12 +41,12 @@ Scripts: Where all your .js files are going to be loaded
 <body>
 <header id="header">
 
-    <div id="search" style="padding-left: 10px">
-            <input class="form-control form-control-lg form-control-borderless" type="search" placeholder="Search title product" style="width:50%">
+    <form id="search" method="POST" action="/search" style="padding-left: 10px">
+            <input class="form-control form-control-lg form-control-borderless" type="search" name="nameProduct" placeholder="Search title product" style="width:50%">
         <div class="col-auto">
-            <button id=#searchButton class="btn btn-lg btn-secondary    " type="submit">Search</button>
+            <button id=#searchButton class="btn btn-lg btn-secondary" type="submit">Search</button>
         </div>
-    </div>
+    </form>
 
     {% if sessionStarted is empty%}
         <div id="#signLogin" style="display: flex;justify-content: flex-end;">
