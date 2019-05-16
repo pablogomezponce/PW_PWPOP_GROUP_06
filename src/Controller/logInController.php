@@ -40,7 +40,7 @@ class logInController
 
 
         if (empty($exists[0]['password'])) $error = "That isn't your password!";
-        if (isset($exists[0]['disabled'])) {
+        if (!($exists[0]['isActive'])) {
             return $this->container->get('view')->render($response, 'LogIn.twig', [
                 'title' => 'PWPop | Log in',
                 'content' => 'Laura Gendrau i Pablo Gómez',
