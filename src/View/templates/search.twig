@@ -4,16 +4,21 @@
 
     <div align="center"><img src="{{ base_url() }}/assets/logos/roundLogo/1x/roundLogo.png" height="200px"></div>
 
-    <p>Results for the product '{{ searchProduct }}'</p>
+    {% if productesSearch is empty %}
+        <p id="pSearch">No results for the product '{{ searchProduct }}'</p>
 
-    {% for producte in productesSearch %}
-        <div class="row">
-            {% include 'product.twig' with {'idProducte':producte.id,'nomProducte': producte.title,
-                'descripcioProducte':producte.description, 'preuProducte': producte.price} %}
-        </div>
+    {% else %}
+        <p id="pSearch">Results for the product '{{ searchProduct }}'</p>
 
+        {% for producte in productesSearch %}
+            <div class="row">
+                {% include 'product.twig' with {'idProducte':producte.id,'nomProducte': producte.title,
+                    'descripcioProducte':producte.description, 'preuProducte': producte.price} %}
+            </div>
+        {% endfor %}
 
-    {% endfor %}
+    {% endif %}
+
 
 
 {% endblock %}

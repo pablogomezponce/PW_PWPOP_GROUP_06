@@ -44,7 +44,7 @@ class RememberCookieHandler{
 
         $response = $nextMiddleware($request, $response);
 
-        var_dump($isWarned);
+        //var_dump($isWarned);
         return $this->container->get('view')->render($response, 'footer.twig', [
         ]);
     }
