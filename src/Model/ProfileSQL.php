@@ -37,7 +37,7 @@ class ProfileSQL implements ProfileRepository
         $username = $user->getUsername();
         $email = $user->getEmail();
         $password = /*md5*/($user->getPassword());
-        $name = $user->getPassword();
+        $name = $user->getName();
         $birthdate = $user->getBirthdate();
         $phone = $user->getPhone();
         $image_dir = $user->getImageDir();
@@ -131,10 +131,6 @@ class ProfileSQL implements ProfileRepository
             $stmt = $db->prepare($sql);
             $stmt->execute([$id]);
             $response = $stmt->fetchAll();
-
-            if($response[0]['isActive'] == false){
-                return [['password' => 'noPetis', 'disabled' => true]];
-            }
 
             return $response;
 
