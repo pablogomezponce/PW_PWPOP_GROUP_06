@@ -40,3 +40,7 @@ $container['rememberCookieHandler'] = function ($c) {
 $container['profileSQL'] = function ($c){
     return new \SallePW\Model\ProfileSQL($c['databaseSettings']);
 };
+
+$container['productSQL'] = function ($c){
+    return new \SallePW\Model\ProductSQL($c['databaseSettings']);
+};

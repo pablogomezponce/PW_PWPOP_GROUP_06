@@ -49,6 +49,14 @@ $app
     ->get('/profile',\SallePW\Controller\ProfileController::class)
     ->add(\SallePW\Controller\Middleware\RememberCookieHandler::class);
 
+$app
+    ->get('/upload', \SallePW\Controller\UploadProduct::class)
+    ->add(\SallePW\Controller\Middleware\RememberCookieHandler::class);
+
+$app
+    ->post('/upload', \SallePW\Controller\UploadProduct::class . ':post')
+    ->add(\SallePW\Controller\Middleware\RememberCookieHandler::class);
+
 
 $app
     ->post('/heartPressed', \SallePW\Controller\heartPressed::class . ':heartPressed')

@@ -7,8 +7,10 @@ header{
   flex-direction: row-reverse;
   flex-wrap: nowrap;
 
-
-
+  #profilePicture{
+    width: 5%;
+    height: 50px;
+  }
   background-color: #EF7F4F;
   h1{
     margin: 2px 15px;
