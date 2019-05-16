@@ -1,0 +1,23 @@
+{% extends "base.html.twig" %} {% block title %} {{ title }} {% endblock %}
+
+{% block content %}
+
+    <div align="center"><img src="{{ base_url() }}/assets/logos/roundLogo/1x/roundLogo.png" height="200px"></div>
+
+    <p>Results for the product '{{ searchProduct }}'</p>
+
+    {% for producte in productesSearch %}
+        <div class="row">
+            {% include 'product.twig' with {'idProducte':producte.id,'nomProducte': producte.title,
+                'descripcioProducte':producte.description, 'preuProducte': producte.price} %}
+        </div>
+
+
+    {% endfor %}
+
+
+{% endblock %}
+
+{% block footer %}
+    {{ footer }}
+{% endblock %}
