@@ -3,15 +3,21 @@
 $h1: 'Inder', sans-sarif;
 
 header{
-  display: flex;
-  flex-direction: row-reverse;
-  flex-wrap: nowrap;
-
-  #profilePicture{
-    width: 5%;
-    height: 50px;
-  }
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
   background-color: #EF7F4F;
+
+  #search{
+    display: inline-flex;
+    padding-top: 5px;
+  }
+
+  #searchButton{
+    background: #435E95;
+
+  }
+
   h1{
     margin: 2px 15px;
     margin-bottom: 7px;
