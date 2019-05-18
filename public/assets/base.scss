@@ -2,14 +2,16 @@
 
 $h1: 'Inder', sans-sarif;
 
+
 header{
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: auto auto;
   width: 100%;
   background-color: #EF7F4F;
 
   #search{
     display: inline-flex;
+    width: 75%;
     padding-top: 5px;
   }
 
@@ -29,6 +31,11 @@ header{
   }
   h1:hover{
     color: #435E95;
+  }
+
+  #options{
+    display: flex;
+    flex-direction: row-reverse;
   }
 }
 
