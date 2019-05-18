@@ -72,8 +72,9 @@ class UploadProduct
 
         $product = new Product($_POST['title'], $_POST['description'], $_POST['price'], $name, $_POST['category'], true);
 
-        $this->container->get('productSQL')->save($product);
+        $id = $this->container->get('productSQL')->save($product, $_SESSION['profile']['id']);
 
+        $this->container->get('productSQL')->associate($id, $_SESSION['profile']['id']);
 
         return $response->withHeader("Location", "/profile");
     }

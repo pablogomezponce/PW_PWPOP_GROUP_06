@@ -4,19 +4,20 @@
     <br>
 
 
-    <div class="container-fluid">
+    <div class="container">
         <div class="row">
             <div class="col-md-6">
 
+                <br>
 
                 <div class="card">
 
                     <h5 class="card-header info-color white-text text-center py-4">
-                        <strong>Sign in</strong>
+                        <strong>New Product!</strong>
                     </h5>
 
                     <div class="card-body px-lg-5 pt-0">
-
+                        <br>
                         <form method="POST" action="/upload" role="form" enctype="multipart/form-data">
                             <div class="form-group row">
                                 <label for="title" class="col-4 col-form-label">Name</label>
@@ -57,13 +58,13 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="price" class="col-4 col-form-label">Price</label>
+                                <label for="price" class="col-4 col-form-label">Image</label>
                                 <div class="col-8">
                                     <div class="input-group">
                                         <input type="file" class="custom-file-input" id="customFile" id="avatar" name="avatar"
                                                accept="image/png, image/jpeg">
                                         <label class="custom-file-label overflow-auto" for="customFile">Choose file</label><br>
-                                        <label for="customFile">Profile Image</label>
+                                        <label for="customFile">Product Image</label>
 
                                         <script>
                                             $('#customFile').on('change',function(){
@@ -92,6 +93,9 @@
 
             </div>
             <div class="col-md-6">
+                <div id="logoContainer" >
+                    <img src="{{ base_url() }}/assets/logos/roundLogo/2x/roundLogo@2x.png" class = "img-fluid" style="width: 100%;;height: 100%">
+                </div>
             </div>
         </div>
     </div>

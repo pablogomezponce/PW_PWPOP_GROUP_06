@@ -27,7 +27,6 @@ class ProfileController
 
     public function __invoke(Request $request, Response $response, array $args)
     {
-
         if(!isset($_SESSION['profile'])){
             return $this->container->get('view')->render($response, 'error403.twig', [
                 'title' => 'PWPop | ERROR',
@@ -36,8 +35,16 @@ class ProfileController
             ]);
         } else {
             $exists  = $this->container->get('profileSQL')->getUserDetails($_SESSION['profile']['email'])[0];
+            $products = $this->container->get('productSQL')->getAllProductsBy($_SESSION['profile']['id']);
 
-            var_dump($exists);
+            $htmlProd = [];
+
+            foreach ($products as $product)
+            {
+                array_push($htmlProd, $this->container->get('productSQL')->get($product['product']));
+            }
+
+
             return $this->container->get('view')->render($response, 'profile.twig', [
                 'title' => 'PWPop | USER',
                 'content' => 'Laura Gendrau i Pablo Gómez',
@@ -49,7 +56,7 @@ class ProfileController
                 'phone'=>$exists['phone'],
                 'birthday' => $exists['birthdate'],
                 'idUser' => $exists['email'],
-                'sessionStarted' => $exists['username'],
+                'products' => $htmlProd,
             ]);
         }
     }

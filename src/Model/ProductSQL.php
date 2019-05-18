@@ -31,14 +31,43 @@ class ProductSQL implements ProductRepository
         $db = new PDO('mysql:host=' . $this->address . ';dbname=' . $this->dbname . ';', $this->userNameDB, $this->passwordDB);
 
         $sql = "INSERT INTO Product (title,description,price,product_image_dir,category,isActive) VALUES (?,?,?,?,?,?)";
+        $stmt = $db->prepare($sql);
+        $stmt->execute([$product->getTitle(),$product->getDescription(),$product->getPrice(),$product->getProductImageDir(),$product->getCategory(),true]);
 
-        $db->prepare($sql)->execute([$product->getTitle(),$product->getDescription(),$product->getPrice(),$product->getProductImageDir(),$product->getCategory(),true]);
+        return $db->lastInsertId();
+    }
 
+    public function getAllProductsBy(int $id)
+    {
+        $db = new PDO('mysql:host=' . $this->address . ';dbname=' . $this->dbname . ';', $this->userNameDB, $this->passwordDB);
 
+        $sql = "SELECT * FROM UserProductOwn WHERE owner = ?";
+        $stmt = $db->prepare($sql);
+        $stmt->execute([$id]);
+        $variables  = $stmt->fetchAll();
+        return $variables;
     }
 
     public function get(int $id)
     {
-        // TODO: Implement get() method.
+        $db = new PDO('mysql:host=' . $this->address . ';dbname=' . $this->dbname . ';', $this->userNameDB, $this->passwordDB);
+
+        $sql = "SELECT * FROM Product WHERE id = ?";
+        $stmt = $db->prepare($sql);
+        $stmt->execute([$id]);
+        $variables  = $stmt->fetchAll();
+        return $variables[0];
+
+    }
+
+    public function associate(int $productId, int $userId)
+    {
+        $db = new PDO('mysql:host=' . $this->address . ';dbname=' . $this->dbname . ';', $this->userNameDB, $this->passwordDB);
+        $sql = "INSERT INTO UserProductOwn(owner, product,buyed) VALUES (?,?,false)";
+
+        $stmt = $db->prepare($sql);
+        $stmt->execute([$userId, $productId]);
+
+        return var_dump("CA");
     }
 }
