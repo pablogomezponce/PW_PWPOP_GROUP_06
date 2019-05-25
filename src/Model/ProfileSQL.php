@@ -218,4 +218,16 @@ class ProfileSQL implements ProfileRepository
         $stmt = $db->prepare($sql);
         $stmt->execute();
     }
+
+    public function getProductById(int $idProduct){
+        $db = new PDO('mysql:host=' . $this->address . ';dbname=' . $this->dbname . ';', $this->userNameDB, $this->passwordDB);
+        $sql = "SELECT * FROM Product WHERE id LIKE $idProduct";
+
+        $stmt = $db->prepare($sql);
+        $stmt->execute();
+        $productsId  = $stmt->fetchAll();
+        return $productsId;
+    }
+
+
 }
