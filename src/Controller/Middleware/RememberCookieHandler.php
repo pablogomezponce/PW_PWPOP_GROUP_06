@@ -27,26 +27,25 @@ class RememberCookieHandler{
 
     public function __invoke(Request $request, Response $response, callable $nextMiddleware)
     {
+        $response = $nextMiddleware($request, $response);
 
         $adviceCookie = FigRequestCookies::get($request, self::REMEMBERUSER);
 
         $isWarned = $adviceCookie->getValue();
 
         if(isset($isWarned)){
-            $_SESSION['profile'] = $this->container->get('profileSQL')->getUserDetails($isWarned)[0];
+            $_SESSION['profile'] = $this->container->get('profileSQL')->getUserById($isWarned)[0];
             $_SESSION['idUser'] = $_SESSION['profile']['email'];
             $_SESSION['sessionStarted'] = $_SESSION['profile']['username'];
         }
-
-        if(isset($_POST['remember']) && isset($_SESSION['profile']['email'])){
+        ;
+        if(isset($_POST['remember']) && $response->getStatusCode() == 200 && isset($_SESSION['profile']['id'])){
+            var_dump($response);
             $response = $this->setAdviceCookie($response);
         }
 
-        $response = $nextMiddleware($request, $response);
-
-        //var_dump($isWarned);
-        return $this->container->get('view')->render($response, 'footer.twig', [
-        ]);
+        var_dump($response->getStatusCode());
+        return $response;
     }
 
     private function setAdviceCookie(Response $response): Response
@@ -56,10 +55,19 @@ class RememberCookieHandler{
             SetCookie::create(self::REMEMBERUSER)
                 ->withHttpOnly(true)
                 ->withMaxAge(3600)
-                ->withValue($_SESSION['profile']['email'])
+                ->withValue($_SESSION['profile']['id'])
                 ->withDomain('pwpop.com')
                 ->withPath('/')
         );
     }
 
+    public function logout(Request $request, Response $response, callable $nextMiddleware): Response
+    {
+        $request = $nextMiddleware($request,$response);
+
+        FigResponseCookies::remove($response, self::REMEMBERUSER);
+        session_unset();
+        $response = $response->withHeader("Location", "/home");
+        return $response;
+    }
 }

@@ -9,91 +9,59 @@
 {% endblock %}
 
 {% block content %}
-<!--
-    <div class="container">
-        <div class="card">
-            <div class="card-body">
-                <h4 class="card-title">{{ name }} {{ lastName }}</h4>
-                <h6 class="card-subtitle mb-2 text-muted">Here you'll find all your information!</h6>
-                <p class="card-text">
-                <form>
-                    <fieldset disabled>
-                        <div class="form-group">
-                            <label for="disabledTextInput">Username</label>
-                            <input type="text" id="disabledTextInput" class="form-control" placeholder="{{ username }}">
-                        </div>
-                    </fieldset>
-                    <fieldset>
-                        <label for="name">Name and last name:   </label>
-                        <div class="input-group mb-2 mr-sm-2">
-                            <input type="text" class="form-control" name="name" id="name" placeholder="{{ name }}">
-                            <input type="text" class="form-control" name="lastName" id="lastName" placeholder="{{ lastName }}">
-                        </div>
-                    </fieldset>
-                    <fieldset>
-                        <div class="form-group">
-                            <label for="password">Password</label>
-                            <input type="password" id="password"  name="password" class="form-control" placeholder="·············">
-                        </div>
-                    </fieldset>
-                    <fieldset>
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" id="email" name="email" class="form-control" placeholder="{{ email }}">
-                        </div>
-                    </fieldset>
-                    <fieldset>
-                        <div class="form-group">
-                            <label for="phone">Phone</label>
-                            <input type="text" id="phone" name="phone" class="form-control" placeholder="{{ phone }}">
-                        </div>
-                    </fieldset>
-                    <fieldset>
-                        <div class="form-group">
-                            <label for="bday">Date of birth:</label>
-                            <input class="form-control form-group" type="date" name="bday" placeholder="{{ birthday }}">
-                        </div>
-
-                    </fieldset>
-
-                    <fieldset>
-                        <label for="imgChooser">Profile image</label>
-                        <div id="imgChooser" class="custom-file form-group">
-                            <input type="file" class="custom-file-input" id="customFile" id="avatar" name="avatar"
-                                   accept="image/png, image/jpeg" name="photoChoos">
-                            <label class="custom-file-label overflow-auto" for="customFile">Choose file</label>
-                            <script>
-                                $('#customFile').on('change',function(){
-                                    //get the file name
-                                    var fileName = $(this).val();
-                                    //replace the "Choose a file" label
-                                    $(this).next('.custom-file-label').html(fileName.replace('C:\\fakepath\\', " "));
-                                })
-                            </script>
-                        </div>
-                        <div class="d-flex justify-content-center">
-                            <img class="img-thumbnail" src="{{ base_url() }}/assets/logos/roundLogo/1x/roundLogo.png" alt="Thumbnail image">
-                        </div>
-                    </fieldset>
-                <fieldset>
-                    <input type="button" class="btn btn-primary form-group"  id="submit" value="MODIFY VALUES" style="display: none">
-                </fieldset>
-                </form>
-                <a href="#!" class="card-link">Card link</a>
-                <a href="#!" class="card-link">Another link</a>
-            </div>
-        </div>
-        <script>
-            var $form = $('form'),
-                origForm = $form.serialize();
-            $('input').on('change', function() {
-                    $('#submit').toggle(origForm !== $('form').serialize());
-            });
-        </script>
-    </div>
-    -->
-
     {%  include 'data.twig' with {'use' : 'Make changes'} %}
+    <div class="container" data-toggle="modal"  data-target="#myModal" id="deleteAccountDiv">
+        <p>delete this account</p>
+    </div>
+
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Are you sure?</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Click "Ok" if you are really sure about this.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" id="deleteAccount" class="btn btn-default" data-dismiss="modal">Ok</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="productes" class="container" >
+        {% for producte in products %}
+            <div class="row">
+                {% include 'product.twig' with {'idProducte':producte.id,'nomProducte': producte.title,
+                    'descripcioProducte':producte.description, 'preuProducte': producte.price} %}
+            </div>
+
+
+        {% endfor %}
+    </div>
+
+    <script>
+        $("#deleteAccount").click(function (ev) {
+            $.ajax({
+                url:"/deleteAccount",
+                data:{idUser : "{{ idUser }}" },
+                type: "POST",
+                dataType: "json",
+
+                success:function (data) {
+                    console.log(data);
+                    alert("Your account has been disabled, We are sad to see you go :C");
+                }
+
+            });
+        })
+    </script>
 {% endblock %}
 
 

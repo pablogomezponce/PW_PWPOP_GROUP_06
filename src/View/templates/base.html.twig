@@ -40,14 +40,15 @@ Scripts: Where all your .js files are going to be loaded
 
 <body>
 <header id="header">
-
+<div>
+    <a href="home">HOME</a>
     <form id="search" method="POST" action="/search" style="padding-left: 10px">
             <input class="form-control form-control-lg form-control-borderless" required type="search" name="nameProduct" placeholder="Search title product" style="width:50%">
         <div class="col-auto">
             <button id=#searchButton class="btn btn-lg btn-secondary" type="submit">Search</button>
         </div>
     </form>
-
+</div>
     {% if sessionStarted is empty%}
         <div id="#signLogin" style="display: flex;justify-content: flex-end;">
             <a href="signup"><h1 id="signup">Sign up</h1></a>
@@ -55,9 +56,16 @@ Scripts: Where all your .js files are going to be loaded
         </div>
 
     {% else %}
-        <a href="profile    "><h1 id="profile">{{ username }}</h1></a>
-        <a href="logout"><h1>Log Out</h1></a>
-        <a href="home">HOME</a>
+    <div id="options">
+        <a href="logout"><h4>Log Out</h4></a>
+
+        <a href="profile"><h1 id="profile">{{ sessionStarted }}</h1></a>
+        <img id="profilePicture" src="{{ base_url() }}/uploads/{{ sessionStarted }}/{{ profile.image_dir }}">
+
+        <a href="upload"><h1>Upload</h1></a>
+
+
+    </div>
     {% endif %}
 
 

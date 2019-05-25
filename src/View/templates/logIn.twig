@@ -11,6 +11,12 @@
 {% block content %}
 
 <br>
+{% if messages is not null %}
+    <div class="alert alert-success">
+        <p>{{ messages }}</p>
+    </div>
+{% endif %}
+
 <div class="container">
     <div class="row">
         <div class="col-xs-12 col-sm-6 col-xl-6 d-flex align-items-center justify-content-center">
@@ -33,6 +39,15 @@
                         <input type="checkbox" value="I don't want to log in again for a long long time!" id="RememberME" name="remember">
                         <label for="RememberME">I don't want to log in again for a long long time!</label>
                     </form>
+
+
+                    {% if errors is not null %}
+                    <div class="alert alert-danger text-center">
+                        <p>
+                            {{ errors }}
+                        </p>
+                    </div>
+                    {% endif %}
                 </div>
             </div>
         </div>

@@ -1,5 +1,8 @@
 <?php
 
+use Slim\Flash\Messages;
+
+
 $container = $app->getContainer();
 
 $container['view'] = function ($c) {
@@ -25,6 +28,24 @@ $container['databaseSettings'] = function ($c){
     );
 };
 
+$container['flash'] = function () {
+    return new Messages();
+};
+
+
+$container['rememberCookieHandler'] = function ($c) {
+    return new \SallePW\Controller\Middleware\RememberCookieHandler($c);
+};
+
 $container['profileSQL'] = function ($c){
     return new \SallePW\Model\ProfileSQL($c['databaseSettings']);
+};
+
+$container['productSQL'] = function ($c){
+    return new \SallePW\Model\ProductSQL($c['databaseSettings']);
+};
+
+$container['emailer'] = function ($c){
+    include 'databaseSettings.php';
+    return new \SallePW\Controller\MailingSystem\MailSender($emailSettings);
 };

@@ -22,11 +22,14 @@ class logInController
 
     public function __invoke(Request $request, Response $response, array $args)
     {
+        $message = $this->container->get('flash')->getMessage('userRegistered')[0];
+
         return $this->container->get('view')->render($response, 'LogIn.twig', [
             'title' => 'PWPop | Log in',
             'content' => 'Laura Gendrau i Pablo Gómez',
             'footer' => '',
             'sessionStarted' => null,
+            'messages' => $message,
         ]);
     }
 
@@ -37,12 +40,22 @@ class logInController
 
 
         if (empty($exists[0]['password'])) $error = "That isn't your password!";
-
+        if (!($exists[0]['isActive'])) {
+            return $this->container->get('view')->render($response, 'LogIn.twig', [
+                'title' => 'PWPop | Log in',
+                'content' => 'Laura Gendrau i Pablo Gómez',
+                'errors' => "Account disabled, contact with an admin to reenable",
+                'info' => $_POST,
+                'footer' => '',
+                'sessionStarted' => null,
+            ]);
+        }
 
         if (sizeof($exists) == 0)  $error = "There is no account for this!";
 
 
         if (empty($exists[0]['password'])){
+            $response = $response->withStatus(400);
             return $this->container->get('view')->render($response, 'LogIn.twig', [
                 'title' => 'PWPop | Log in',
                 'content' => 'Laura Gendrau i Pablo Gómez',
@@ -53,10 +66,13 @@ class logInController
                 'profile' => $exists,
             ]);
         } else {
+
             $_SESSION['profile'] = $exists[0];
             $_SESSION['idUser'] = $exists[0]['email'];
             $_SESSION['sessionStarted'] = $exists[0]['username'];
-            header('Location: /profile');
+            //return var_dump($_POST);
+            $response = $response->withStatus(200);
+            return $response->withHeader('Location', '/home');
         }
 
     }

@@ -1,0 +1,103 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <br>
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+
+                <br>
+
+                <div class="card">
+
+                    <h5 class="card-header info-color white-text text-center py-4">
+                        <strong>New Product!</strong>
+                    </h5>
+
+                    <div class="card-body px-lg-5 pt-0">
+                        <br>
+                        <form method="POST" action="/upload" role="form" enctype="multipart/form-data">
+                            <div class="form-group row">
+                                <label for="title" class="col-4 col-form-label">Name</label>
+                                <div class="col-8">
+                                    <input id="title" name="title" placeholder="Name" type="text" class="form-control" required="required">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="description" class="col-4 col-form-label">Description</label>
+                                <div class="col-8">
+                                    <input id="description" name="description" placeholder="Product description" type="text" class="form-control" required="required">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="Category" class="col-4 col-form-label">Category</label>
+                                <div class="col-8">
+                                    <select id="Category" name="category" class="custom-select" aria-describedby="CategoryHelpBlock" required="required">
+                                        <option value="Computers">Computers and electronic</option>
+                                        <option value="Cars">Cars</option>
+                                        <option value="Sports">Sports</option>
+                                        <option value="Games">Games</option>
+                                        <option value="Fashion">Fashion</option>
+                                        <option value="Home">Home</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                    <span id="CategoryHelpBlock" class="form-text text-muted">Choose a category</span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="price" class="col-4 col-form-label">Price</label>
+                                <div class="col-8">
+                                    <div class="input-group">
+                                        <input id="price" name="price" type="text" class="form-control" required="required">
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">€</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="price" class="col-4 col-form-label">Image</label>
+                                <div class="col-8">
+                                    <div class="input-group">
+                                        <input type="file" class="custom-file-input" id="customFile" id="avatar" name="avatar"
+                                               accept="image/png, image/jpeg">
+                                        <label class="custom-file-label overflow-auto" for="customFile">Choose file</label><br>
+                                        <label for="customFile">Product Image</label>
+
+                                        <script>
+                                            $('#customFile').on('change',function(){
+                                                //get the file name
+                                                var fileName = $(this).val();
+                                                //replace the "Choose a file" label
+                                                $(this).next('.custom-file-label').html(fileName.replace('C:\\fakepath\\', " "));
+                                            })
+                                        </script>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="offset-4 col-8">
+                                    <button name="submit" type="submit" class="btn btn-primary">Submit</button>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+
+
+
+            </div>
+            <div class="col-md-6">
+                <div id="logoContainer" >
+                    <img src="{{ base_url() }}/assets/logos/roundLogo/2x/roundLogo@2x.png" class = "img-fluid" style="width: 100%;;height: 100%">
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
