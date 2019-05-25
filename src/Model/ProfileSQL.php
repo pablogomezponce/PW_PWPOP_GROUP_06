@@ -208,6 +208,22 @@ class ProfileSQL implements ProfileRepository
 
         $stmt = $db->prepare($sql);
         $stmt->execute();
+        $stmt = null;
+        if (isset($_SESSION['profile']['id'])){
+            $sql = "SELECT * FROM Product WHERE 
+                id NOT IN (SELECT product FROM UserProductOwn WHERE owner LIKE ?)
+                AND isActive = true
+            LIMIT 5";
+            $stmt = $db->prepare($sql);
+            $stmt->execute([$_SESSION['profile']['id']]);
+
+        } else {
+            $sql = "SELECT * FROM Product WHERE isActive = 1 LIMIT 5";
+            $stmt = $db->prepare($sql);
+            $stmt->execute();
+        }
+
+
         $products  = $stmt->fetchAll();
         return $products;
     }
