@@ -25,7 +25,7 @@ class IndexController
 
        $params = [
            'title' => 'PWPop',
-           'username' => 'Pepita',
+           'username' => $_SESSION['username'],
            'footer' => ' ',
            //'sizeProductes'=>sizeof($this->getAllProducts()),
            'productes' =>$this->getAllProducts(),

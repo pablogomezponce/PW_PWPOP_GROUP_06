@@ -65,7 +65,11 @@ class ProductController
         return json_encode(array($idLike,$_GET['idProducte'],'holi'));
     }
 
-
+    public function isOwner(){
+        $isOwner = $this->container->get('profileSQL')->isOwner($_GET['idProducte'],$_SESSION['id']);
+        var_dump($isOwner);
+        return $isOwner;
+    }
 
 
 }
