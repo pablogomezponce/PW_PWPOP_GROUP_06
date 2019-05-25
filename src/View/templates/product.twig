@@ -6,7 +6,7 @@
         <img src="{{ base_url() }}/assets/wallapop.jpg"  width="300px">
         <div id="likeP" align="right" style="margin-right: 10%">
             {% if idProducte is not null %}
-            <img id="{{ idProducte }}"src="{{ base_url() }}/assets/cor_normal.png" width="10%">
+            <img id="{{ idProducte }}" src="{{ base_url() }}/assets/cor_normal.png" width="10%">
             {% endif %}
         </div>
     </div>
@@ -27,29 +27,27 @@
 
     {% if idProducte is not null %}
         $("#{{ idProducte }}").click(function (ev) {
-           //console.log($(this).attr('id'));
             {% if idUser is null %}
                 alert("You have to log in to be able to like products :)");
             {% else %}
-
-
-
-                $.ajax({
+             $.ajax({
                     type: "POST",
                     url: "/heartPressed",
                     dataType: 'json',
-                    data: ({idProducte: {{ idProducte }}, idUser: '{{ idUser }}' }),
+                    data: ({idProducte: ev.target.id, idUser: '{{ idUser }}' }),
                     success: function (data) {
-                        console.log(data[0]);
-
+                        console.log(data);
 
                         if (data[0]){
-                            $("#{{ sendableId }}").attr("src","{{ base_url() }}/assets/cor_normal.png");
+                            $("#{{ idProducte }}").attr("src","{{ base_url() }}/assets/cor_normal.png");
                             isLike = false;
                         }else{
-                            $("#{{ sendableId }}").attr("src","{{ base_url() }}/assets/cor_like.png");
+                            $("#{{ idProducte }}").attr("src","{{ base_url() }}/assets/cor_like.png");
                             isLike = true;
                         }
+                    },
+                    fail: function (data) {
+                        console.log(data);
                     }
 
                 });

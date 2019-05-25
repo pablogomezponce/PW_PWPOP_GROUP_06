@@ -67,8 +67,6 @@ $app
 
 
 $app
-    ->post('/heartPressed', \SallePW\Controller\heartPressed::class . ':heartPressed')
-    ->add(\SallePW\Controller\Middleware\RememberCookieHandler::class);
-
+    ->post('/heartPressed', \SallePW\Controller\heartPressed::class . ':heartPressed');
 $app
     ->post('/deleteAccount', \SallePW\Controller\deleteAccountController::class);

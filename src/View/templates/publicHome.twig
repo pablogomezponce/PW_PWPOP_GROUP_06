@@ -12,7 +12,7 @@
 {#        <a href="product" style="text-decoration: none ;color : #000000;">#}
             <div class="row">
                {% include 'product.twig' with {'idProducte':producte.id,'nomProducte': producte.title,
-                   'descripcioProducte':producte.description, 'preuProducte': producte.price} %}
+                   'descripcioProducte':producte.description, 'preuProducte': producte.price, 'idUser': idUser} %}
            </div>
 {#        </a>#}
 

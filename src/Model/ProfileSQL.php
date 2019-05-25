@@ -237,7 +237,7 @@ class ProfileSQL implements ProfileRepository
 
     public function isLike(int $idProducte ,string $idUser){
         $db = new PDO('mysql:host=' . $this->address . ';dbname=' . $this->dbname . ';', $this->userNameDB, $this->passwordDB);
-        $sql = "SELECT COUNT(*) FROM Favorites WHERE Favorites.product LIKE $idProducte AND Favorites.user LIKE '$idUser'";
+        $sql = "SELECT COUNT(*) FROM Favorites WHERE Favorites.product LIKE $idProducte AND Favorites.user LIKE $idUser";
 
         $stmt = $db->prepare($sql);
         $stmt->execute();
