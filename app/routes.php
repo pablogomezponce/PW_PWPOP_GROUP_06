@@ -31,6 +31,10 @@ $app->post('/search',\SallePW\Controller\searchController::class);
 
 
 $app
+    ->get('/product',\SallePW\Controller\ProductController::class);
+
+
+$app
     ->get('/login','SallePW\Controller\logInController');
 
 $app
