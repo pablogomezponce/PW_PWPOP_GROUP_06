@@ -25,14 +25,12 @@ class IndexController
 
        $params = [
            'title' => 'PWPop',
-           'username' => $_SESSION['username'],
-           'footer' => ' ',
-           //'sizeProductes'=>sizeof($this->getAllProducts()),
            'productes' =>$this->getAllProducts(),
 
        ];
        if (isset($_SESSION['idUser'])){
            $params['idUser']=$_SESSION['idUser'];
+           $params['username'] = $_SESSION['profile']['username'];
            $params['sessionStarted'] = $_SESSION['sessionStarted'];
            $params['profile'] = $_SESSION['profile'];
        }
