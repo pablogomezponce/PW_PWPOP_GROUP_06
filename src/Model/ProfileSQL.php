@@ -220,7 +220,6 @@ class ProfileSQL implements ProfileRepository
             $stmt->execute();
         }
 
-
         $products  = $stmt->fetchAll();
         return $products;
     }

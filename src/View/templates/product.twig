@@ -5,9 +5,8 @@
     <div id="fotoP" style="display: table-cell;vertical-align: middle; width: 300px" >
         <img src="{{ base_url() }}/assets/wallapop.jpg"  width="300px">
         <div id="likeP" align="right" style="margin-right: 10%">
-            {% set sendableId = idProducte %}
-            {% if sendableId is not null %}
-            <img id="{{ sendableId }}"src="{{ base_url() }}/assets/cor_normal.png" width="10%">
+            {% if idProducte is not null %}
+            <img id="{{ idProducte }}"src="{{ base_url() }}/assets/cor_normal.png" width="10%">
             {% endif %}
         </div>
     </div>
@@ -26,8 +25,8 @@
 </div>
 <script>
 
-    {% if sendableID is not null %}
-        $("#{{ sendableId }}").click(function (ev) {
+    {% if idProducte is not null %}
+        $("#{{ idProducte }}").click(function (ev) {
            //console.log($(this).attr('id'));
             {% if idUser is null %}
                 alert("You have to log in to be able to like products :)");
@@ -39,7 +38,7 @@
                     type: "POST",
                     url: "/heartPressed",
                     dataType: 'json',
-                    data: ({idProducte: {{ sendableId }}, idUser: '{{ idUser }}' }),
+                    data: ({idProducte: {{ idProducte }}, idUser: '{{ idUser }}' }),
                     success: function (data) {
                         console.log(data[0]);
 
