@@ -60,6 +60,7 @@ class ProductSQL implements ProductRepository
 
     }
 
+
     public function associate(int $productId, int $userId)
     {
         $db = new PDO('mysql:host=' . $this->address . ';dbname=' . $this->dbname . ';', $this->userNameDB, $this->passwordDB);
