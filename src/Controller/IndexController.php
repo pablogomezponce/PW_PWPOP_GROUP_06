@@ -45,6 +45,7 @@ class IndexController
 
     public function getAllProducts(){
         $products = $this->container->get('profileSQL')->getAllProducts();
+
         return $products;
     }
 
