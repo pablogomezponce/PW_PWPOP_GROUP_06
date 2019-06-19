@@ -36,7 +36,7 @@ class ProfileSQL implements ProfileRepository
 
         $username = $user->getUsername();
         $email = $user->getEmail();
-        $password = /*md5*/($user->getPassword());
+        $password = MD5($user->getPassword());
         $name = $user->getName();
         $birthdate = $user->getBirthdate();
         $phone = $user->getPhone();
@@ -107,7 +107,7 @@ class ProfileSQL implements ProfileRepository
         $db = new PDO('mysql:host=' . $this->address . ';dbname=' . $this->dbname . ';', $this->userNameDB, $this->passwordDB);
 
         $sql = "SELECT * FROM User
-                WHERE password LIKE " . ":password" . " AND isActive = TRUE ";
+                WHERE password LIKE MD5(" . ":password" . ") AND isActive = TRUE ";
 
         if (filter_var($id, FILTER_VALIDATE_EMAIL)){
             $sql = $sql . " AND email LIKE " . ":id" . "";
