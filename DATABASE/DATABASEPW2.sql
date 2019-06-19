@@ -1,50 +1,60 @@
-CREATE DATABASE PWPOP;
-USE PWPOP;
+create schema PWPOP collate utf8_general_ci;
 
-CREATE TABLE User(
-					 username VARCHAR(255),
-					 email varchar(255),
-					 password varchar(255), -- #TODO: Remember to MD5!!
-					 name VARCHAR(255),
-					 birthdate DATE,
-					 phone BIGINT,
-					 image_dir TEXT,
+create table Favorites
+(
+    user varchar(255) not null,
+    product int not null,
+    primary key (user, product)
+)
+    collate=utf8mb4_unicode_ci;
 
+create table Product
+(
+    title mediumtext null,
+    description mediumtext null,
+    price float null,
+    product_image_dir mediumtext null,
+    category mediumtext null,
+    id bigint unsigned auto_increment,
+    isActive tinyint(1) default 1 null,
+    constraint id
+        unique (id)
+)
+    collate=utf8mb4_unicode_ci;
 
-					 PRIMARY KEY (email)
+alter table Product
+    add primary key (id);
 
-);
+create table User
+(
+    username varchar(255) null,
+    email varchar(255) not null
+        primary key,
+    password varchar(255) null,
+    name varchar(255) null,
+    birthdate date null,
+    phone bigint null,
+    image_dir mediumtext null,
+    isActive tinyint(1) default 1 null,
+    id bigint unsigned auto_increment,
+    constraint id
+        unique (id)
+)
+    collate=utf8mb4_unicode_ci;
 
+create table UserProductBuy
+(
+    buyer varchar(255) not null,
+    product int not null,
+    primary key (buyer, product)
+)
+    collate=utf8mb4_unicode_ci;
 
-
-CREATE TABLE Product(
-						title TEXT,
-						description TEXT,
-						price float,
-						product_image_dir text,
-						category text,
-						id SERIAL,
-
-						PRIMARY KEY (id)
-);
-
-CREATE TABLE UserProductOwn(
-							   owner VARCHAR(255),
-							   product INT,
-							   buyed boolean,
-							   PRIMARY KEY (owner, product)
-);
-
-CREATE TABLE UserProductBuy(
-							   buyer VARCHAR(255),
-							   product INT,
-
-							   PRIMARY KEY (buyer, product)
-);
-
-CREATE TABLE Favorites(
-						  user VARCHAR(255),
-						  product INT,
-
-						  PRIMARY KEY (user, product)
-);
+create table UserProductOwn
+(
+    owner varchar(255) not null,
+    product int not null,
+    buyed tinyint(1) null,
+    primary key (owner, product)
+)
+    collate=utf8mb4_unicode_ci;
