@@ -19,19 +19,28 @@
                     <div class="card-body px-lg-5 pt-0">
                         <br>
                         <form method="POST" action="/upload" role="form" enctype="multipart/form-data">
-                            <div class="form-group row">
+                            <div class="form-group row {% if error.title is not empty %} alert alert-danger {% endif %}" id="nameGroup">
+                                <!-- TITLE -->
                                 <label for="title" class="col-4 col-form-label">Name</label>
                                 <div class="col-8">
                                     <input id="title" name="title" placeholder="Name" type="text" class="form-control" required="required">
+                                    <p style="{% if error.name is empty %}display: none; {% endif %}" id="nameError">So what's your product again?</p>
+
                                 </div>
                             </div>
-                            <div class="form-group row">
+                            <!-- DESCRIPTION -->
+
+                            <div class="form-group row {% if error.description is not empty %} alert alert-danger {% endif %}" id="descriptionGroup">
                                 <label for="description" class="col-4 col-form-label">Description</label>
                                 <div class="col-8">
                                     <input id="description" name="description" placeholder="Product description" type="text" class="form-control" required="required">
+                                    <p style="{% if error.description is empty %}display: none; {% endif %}" id="descriptionError">What's short and valuable it's two times good, but that's why you may use photos!</p>
+
                                 </div>
                             </div>
-                            <div class="form-group row">
+                            <!-- CATEGORY -->
+
+                            <div class="form-group row {% if error.category is not empty %} alert alert-danger {% endif %}">
                                 <label for="Category" class="col-4 col-form-label">Category</label>
                                 <div class="col-8">
                                     <select id="Category" name="category" class="custom-select" aria-describedby="CategoryHelpBlock" required="required">
@@ -46,7 +55,9 @@
                                     <span id="CategoryHelpBlock" class="form-text text-muted">Choose a category</span>
                                 </div>
                             </div>
-                            <div class="form-group row">
+                            <!-- PRICE -->
+
+                            <div class="form-group row {% if error.price is not empty %} alert alert-danger {% endif %}" id="priceGroup">
                                 <label for="price" class="col-4 col-form-label">Price</label>
                                 <div class="col-8">
                                     <div class="input-group">
@@ -55,16 +66,22 @@
                                             <div class="input-group-text">€</div>
                                         </div>
                                     </div>
+                                    <p style="{% if error.price is empty %}display: none; {% endif %}" id="priceError">How may I charge this value?</p>
+
                                 </div>
                             </div>
-                            <div class="form-group row">
-                                <label for="price" class="col-4 col-form-label">Image</label>
+
+                            <!-- IMAGE -->
+
+                            <div id="fileGroup" class="form-group row {% if error.file is not empty %} alert alert-danger {% endif %}">
+                                <label for="image" class="col-4 col-form-label">Image</label>
                                 <div class="col-8">
                                     <div class="input-group">
-                                        <input type="file" class="custom-file-input" id="customFile" id="avatar" name="avatar"
-                                               accept="image/png, image/jpeg">
+                                        <input type="file" class="custom-file-input" id="customFile" name="avatar"
+                                               accept="image/png, image/jpeg" required>
                                         <label class="custom-file-label overflow-auto" for="customFile">Choose file</label><br>
                                         <label for="customFile">Product Image</label>
+                                        <p style="{% if error.file is empty %}display: none; {% endif %}" id="fileError">Some elements are just WAY Bigger that they should</p>
 
                                         <script>
                                             $('#customFile').on('change',function(){
@@ -88,9 +105,6 @@
 
                     </div>
                 </div>
-
-
-
             </div>
             <div class="col-md-6">
                 <div id="logoContainer" >
@@ -99,5 +113,50 @@
             </div>
         </div>
     </div>
+
+
+    <script>
+        $("input").change(function(e) {
+            switch(this.id) {
+                case 'title':
+                    break;
+                case 'price':
+                    if(isNaN(e.currentTarget.value)){
+                        $("#priceError").show(100);
+                        $("#priceGroup").addClass("alert alert-danger");
+
+                    } else {
+                        $("#priceError").hide(100);
+                        $("#priceGroup").removeClass("alert alert-danger");
+
+                    }
+                    break;
+                case 'description':
+                    if(e.currentTarget.value.length < 20) {
+                        $("#descriptionError").show(100);
+                        $("#descriptionGroup").addClass("alert alert-danger");
+
+                    } else {
+                        $("#descriptionError").hide(100);
+                        $("#descriptionGroup").removeClass("alert alert-danger");
+
+                    }
+
+                    break;
+
+                case 'customFile':
+                    if (this.files[0].size > 1024){
+                        $("#fileError").show(100);
+                        $("#fileGroup").addClass("alert alert-danger");
+
+                    } else {
+                        $("#fileError").hide(100);
+                        $("#fileGroup").removeClass("alert alert-danger");
+
+                    }
+                    break;
+            }
+        });
+    </script>
 
 {% endblock %}
