@@ -34,7 +34,14 @@ class ProductSQL implements ProductRepository
         $stmt = $db->prepare($sql);
         $stmt->execute([$product->getTitle(),$product->getDescription(),$product->getPrice(),$product->getProductImageDir(),$product->getCategory(),true]);
 
-        return $db->lastInsertId();
+        $id = $db->lastInsertId();
+        $name = $id ."/". $product->getProductImageDir();
+        var_dump($name);
+        $sql = "UPDATE Product SET product_image_dir = '$name' WHERE id = $id";
+        $stmt = $db->prepare($sql);
+        $stmt->execute();
+
+        return $id;
     }
 
     public function getAllProductsBy(int $id)

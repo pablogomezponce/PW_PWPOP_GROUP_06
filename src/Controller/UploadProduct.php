@@ -45,16 +45,15 @@ class UploadProduct
 
     public function post(Request $request, Response $response, array $args){
         $uploadedFiles = $request->getUploadedFiles();
-        $name = null;
 
-        $product = new Product($_POST['title'], $_POST['description'], $_POST['price'], $name, $_POST['category'], true);
+        $product = new Product($_POST['title'], $_POST['description'], $_POST['price'], null, $_POST['category'], true);
 
         $errors = $this->checkProduct($product);
 
 
         foreach ($uploadedFiles as $uploadedFile) {
-
-            if ($uploadedFile->getSize() < 1024) {
+            var_dump($uploadedFile);
+            if ($uploadedFile->getSize() < (1024*1024)) {
                 if ($uploadedFile->getError() !== UPLOAD_ERR_OK) {
                     $errors[] = sprintf(self::UNEXPECTED_ERROR, $uploadedFile->getClientFilename());
                     continue;
@@ -66,19 +65,14 @@ class UploadProduct
 
                 $format = $fileInfo['extension'];
 
+                $product->setProductImageDir($name);
                 if (!$this->isValidFormat($format)) {
                     $errors[] = sprintf(self::INVALID_EXTENSION_ERROR, $format);
                     continue;
                 }
-                var_dump(self::UPLOADS_DIR . "/" . $_SESSION['profile']['username']);
-
-                //mkdir(self::UPLOADS_DIR . "/" . $_SESSION['profile']['username'] . "/");
-                // We generate a custom name here instead of using the one coming form the form
-                $uploadedFile->moveTo(self::UPLOADS_DIR . "/". $_SESSION['profile']['username'] . "/" . "article_" . $name);
             } else {
                 $errors['file'] = 1;
             }
-
 
         }
 
@@ -97,10 +91,18 @@ class UploadProduct
             ]);
         }
 
+        $product->setProductImageDir("$_POST");
 
         $id = $this->container->get('productSQL')->save($product, $_SESSION['profile']['id']);
 
         $this->container->get('productSQL')->associate($id, $_SESSION['profile']['id']);
+
+
+        foreach ($uploadedFiles as $uploadedFile)
+        {
+            mkdir(self::UPLOADS_DIR . "/" . $_SESSION['profile']['username'] . "/$id");
+            $uploadedFile->moveTo(self::UPLOADS_DIR . "/". $_SESSION['profile']['username'] . "/" . $id . "/$name");
+        }
 
         return $response->withHeader("Location", "/profile");
     }
