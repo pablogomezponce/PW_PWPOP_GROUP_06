@@ -14,6 +14,15 @@ class Product
     private $isActive;
 
     /**
+     * @param mixed $product_image_dir
+     */
+    public function setProductImageDir($product_image_dir): void
+    {
+        $this->product_image_dir = $product_image_dir;
+    }
+
+
+    /**
      * Product constructor.
      * @param $title
      * @param $description
