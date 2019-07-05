@@ -303,4 +303,16 @@ class ProfileSQL implements ProfileRepository
             $stmt->execute([$product['product']]);
         }
     }
+
+    public function update(User $u)
+    {
+        $db = new PDO('mysql:host=' . $this->address . ';dbname=' . $this->dbname . ';', $this->userNameDB, $this->passwordDB);
+
+        $sql = "UPDATE User SET email = ?, password = MD5(?), name = ?, birthdate = ?, phone = ?, image_dir = ? WHERE username = ?";
+
+        $stmt = $db->prepare($sql);
+        $val = $stmt->execute([$u->getEmail(), $u->getPassword(), $u->getName(), $u->getBirthdate(), $u->getPhone(), $u->getImageDir(), $u->getUsername()]);
+
+        return $val;
+    }
 }
