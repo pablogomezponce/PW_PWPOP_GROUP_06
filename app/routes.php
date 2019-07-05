@@ -20,6 +20,9 @@ $app
     });
 
 $app
+    ->get('/myproducts', \SallePW\Controller\UserProductsController::class);
+
+$app
     ->get('/home', 'SallePW\Controller\IndexController')
     ->add(\SallePW\Controller\Middleware\RememberCookieHandler::class);
 

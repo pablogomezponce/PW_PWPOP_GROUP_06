@@ -1,0 +1,14 @@
+
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    PWPOP | My products
+{% endblock %}
+{% block content %}
+{% for product in products %}
+
+    {% include 'product.twig' with {'product' : product}%}
+
+{% endfor %}
+
+{% endblock %}
