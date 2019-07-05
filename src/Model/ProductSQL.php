@@ -110,4 +110,16 @@ class ProductSQL implements ProductRepository
 
         return $products;
     }
+
+    public function getFavourites($id)
+    {
+        $db = new PDO('mysql:host=' . $this->address . ';dbname=' . $this->dbname . ';', $this->userNameDB, $this->passwordDB);
+
+        $sql = "SELECT * FROM Product WHERE id IN
+                    (SELECT product FROM Favorites WHERE user = ?)";
+        $stmt = $db->prepare($sql);
+        $stmt->execute([$id]);
+        var_dump($id);
+        return $stmt->fetchAll();
+    }
 }
