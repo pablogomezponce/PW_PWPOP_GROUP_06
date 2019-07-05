@@ -24,18 +24,13 @@ class ProductController
     {
 
         $product = $this->getProductById();
-
+        var_dump($_SESSION);
         return $this->container->get('view')->render($response, 'productDetails.twig', [
             'title' => 'PWPop | Product',
             'footer' => '',
-            'idProducte' => $this->getProductById()[0]['id'],
-            'nomProducte' =>  $this->getProductById()[0]['title'],
-            'dirFoto' =>$this->getProductById()[0]['product_image_dir'],
-            'price' =>$this->getProductById()[0]['price'],
-            'category' =>$this->getProductById()[0]['category'],
-            'descripcio' =>$this->getProductById()[0]['description'],
-            'isLike' => $this->isLike(),
-            'idUser' => $_SESSION['id'],
+            'product' => $product,
+            'username' => $_SESSION['profile']['username'],
+            'idUser' => $_SESSION['profile']['id'],
             //'idUser' => 2,
 
 
@@ -46,7 +41,6 @@ class ProductController
 
     public function getProductById(){
         $product = $this->container->get('profileSQL')->getProductById($_GET['idProducte']);
-        var_dump($product);
         return $product;
 
     }
