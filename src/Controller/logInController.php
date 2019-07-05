@@ -30,6 +30,7 @@ class logInController
             'footer' => '',
             'sessionStarted' => null,
             'messages' => $message,
+            'action' => 'signup',
         ]);
     }
 
@@ -39,17 +40,15 @@ class logInController
 
 
 
-        if (empty($exists[0]['password'])) $error = "That isn't your password!";
-        if (!($exists[0]['isActive'])) {
-            return $this->container->get('view')->render($response, 'LogIn.twig', [
-                'title' => 'PWPop | Log in',
-                'content' => 'Laura Gendrau i Pablo Gómez',
-                'errors' => "Account disabled, contact with an admin to reenable",
-                'info' => $_POST,
-                'footer' => '',
-                'sessionStarted' => null,
-            ]);
+        if (!empty($exists))
+        {
+            if (empty($exists[0]['password'])) $error = "That isn't your password!";
+            if ($exists[0]['isActive'] == 0) $error = "Disabled account";
+
         }
+
+
+
 
         if (sizeof($exists) == 0)  $error = "There is no account for this!";
 
@@ -64,6 +63,7 @@ class logInController
                 'footer' => '',
                 'sessionStarted' => null,
                 'profile' => $exists,
+                'action' => 'signup',
             ]);
         } else {
 

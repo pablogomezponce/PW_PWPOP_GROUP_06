@@ -34,6 +34,7 @@ class signUpController
             'content' => 'Laura Gendrau i Pablo Gómez',
             'footer' => '',
             'sessionStarted' => null,
+            'action'=>'signup',
         ]);
     }
 
@@ -58,9 +59,10 @@ class signUpController
 
         $status = $this->checkUser($user);
 
-        var_dump($uploadedFiles);
+        mkdir(self::UPLOADS_DIR . "/" . $_POST['username'] . "/");
 
         foreach ($uploadedFiles as $uploadedFile) {
+
             if ($uploadedFile->getSize() < 500 * 1024) {
 
                 if ($uploadedFile->getError() !== UPLOAD_ERR_OK) {
@@ -69,6 +71,7 @@ class signUpController
                 }
 
                 $name = $uploadedFile->getClientFilename();
+
 
                 $fileInfo = pathinfo($name);
 
@@ -89,9 +92,9 @@ class signUpController
 
         if (empty($status)){
             $this->container->get('profileSQL')->save($user);
-            header("Location: /registeringUser");
+
+            return $response->withHeader('location', '/registeringUser');
         } else {
-            var_dump($status);
             return $this->container->get('view')->render($response, 'SignUp.twig',[
                 'title' => 'PWPop | Sign up',
                 'content' => 'Laura Gendrau i Pablo Gómez',
@@ -103,6 +106,7 @@ class signUpController
                 'phone'=>$_POST['phone'],
                 'birthday' => $_POST['bday'],
                 'error' => $status,
+                'action' => 'signup',
             ]);
         }
     }
@@ -115,8 +119,8 @@ class signUpController
 
         if ($_POST['password'] != $_POST['passwordValidation']) $errors['pass2'] = "Passwords don't match";
         if (strlen($_POST['password']) < 6)  $errors['pass'] = "This password is VERY SHORT";
-        if (preg_match( "^[a-zA-Z]*$",($_POST['name']))) $errors['name'] = "Do you need those characters? We dont like anything different than 'a-z', whitespaces and 'A-Z' (And no special characters)";
-        if(strlen($_POST['username']) > 20 || preg_match("/[:alnum:]/", $_POST['username'])) $errors['username'] = "This username is way 2 long and/or has illegal chars!";
+        // if (preg_match( "^[a-zA-Z]^",($_POST['name']))) $errors['name'] = "Do you need those characters? We dont like anything different than 'a-z', whitespaces and 'A-Z' (And no special characters)";
+        //if(strlen($_POST['username']) > 20 || preg_match("/[[:alnum:]]/", $_POST['username'])) $errors['username'] = "This username is way 2 long and/or has illegal chars!";
         if(!empty($this->container->get('profileSQL')->checkIfEmailExists($_POST['email']))) $errors['email'] = "This email already exists!";
         if(!empty($this->container->get('profileSQL')->checkIfUsernameExists($_POST['username']))) $errors['username'] = "This username already exists!";
 
