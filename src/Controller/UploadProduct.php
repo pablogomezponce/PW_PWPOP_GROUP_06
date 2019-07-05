@@ -52,7 +52,6 @@ class UploadProduct
 
 
         foreach ($uploadedFiles as $uploadedFile) {
-            var_dump($uploadedFile);
             if ($uploadedFile->getSize() < (1024*1024)) {
                 if ($uploadedFile->getError() !== UPLOAD_ERR_OK) {
                     $errors[] = sprintf(self::UNEXPECTED_ERROR, $uploadedFile->getClientFilename());
@@ -91,7 +90,6 @@ class UploadProduct
             ]);
         }
 
-        $product->setProductImageDir($_POST['avatar']);
 
         $id = $this->container->get('productSQL')->save($product, $_SESSION['profile']['id']);
 
@@ -100,8 +98,8 @@ class UploadProduct
 
         foreach ($uploadedFiles as $uploadedFile)
         {
-            mkdir(self::UPLOADS_DIR . "/" . $_SESSION['profile']['username'] . "/$id");
-            $uploadedFile->moveTo(self::UPLOADS_DIR . "/". $_SESSION['profile']['username'] . "/" . $id . "/$name");
+            mkdir(self::UPLOADS_DIR . "/products" . "/$id");
+            $uploadedFile->moveTo(self::UPLOADS_DIR . "/products/" . $id . "/$name");
         }
 
         return $response->withHeader("Location", "/profile");
