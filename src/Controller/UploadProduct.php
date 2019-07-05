@@ -91,7 +91,7 @@ class UploadProduct
             ]);
         }
 
-        $product->setProductImageDir("$_POST");
+        $product->setProductImageDir($_POST['avatar']);
 
         $id = $this->container->get('productSQL')->save($product, $_SESSION['profile']['id']);
 
