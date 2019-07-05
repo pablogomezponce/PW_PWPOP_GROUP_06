@@ -26,9 +26,12 @@ class deleteAccountController
     {
         $idUser = $_POST['idUser'];
 
-        $done = $this->container->get('profileSQL')->deleteAccount($idUser);
+        $this->container->get('profileSQL')->deleteAccount($idUser);
 
-        echo json_encode($done);
+        $this->container->get('flash')->addMessage('test', 'Account deleted');
+        session_unset();
+        return json_encode("ok");
+
     }
 
 
