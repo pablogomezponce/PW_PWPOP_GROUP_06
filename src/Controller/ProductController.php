@@ -23,6 +23,8 @@ class ProductController
     public function __invoke(Request $request, Response $response, array $args)
     {
 
+        $product = $this->getProductById();
+
         return $this->container->get('view')->render($response, 'productDetails.twig', [
             'title' => 'PWPop | Product',
             'footer' => '',
