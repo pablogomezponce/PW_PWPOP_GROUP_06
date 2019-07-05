@@ -1,23 +1,26 @@
 
 
-<div id="producte{{ idProducte }}" class="card"  style="display:table; min-width: 100%" >
+<div id="producte{{ product.id }}" class="card"  style="display:table; min-width: 100%" >
 
     <div id="fotoP" style="display: table-cell;vertical-align: middle; width: 300px" >
         <img src="{{ base_url() }}/assets/wallapop.jpg"  width="300px">
         <div id="likeP" align="right" style="margin-right: 10%">
             {% if idProducte is not null %}
-            <img id="{{ idProducte }}" src="{{ base_url() }}/assets/cor_normal.png" width="10%">
+            <img id="{{ product.id }}" src="{{ base_url() }}/assets/cor_normal.png" width="10%">
             {% endif %}
         </div>
     </div>
 
 
-    <div id ="infoP" style="display:grid;grid-template-rows: 20% 60% 10%;height: 207.75px">
-        <h2>{{ nomProducte }}</h2>
-        <p style="overflow-y: scroll ;overflow-x: hidden">{{ descripcioProducte }}</p>
-        <div style="display:inline-grid; grid-template-rows:inherit ">
-            <a align="left" href="product?idProducte={{ idProducte }}">See more...</a>
-            <h2 align="right" style="margin-right: 5%">{{ preuProducte }}€</h2>
+    <div id ="infoP" style="display:grid;grid-template-rows: 20% 60% 10%;height: 207px">
+        <h2>{{ product.title }}</h2>
+        <p style="overflow-y: scroll ;overflow-x: hidden">{{ product.description }}</p>
+        <div style="display:inline-grid; grid-template-rows:inherit; grid-template-columns: auto auto auto">
+            <a align="left" href="product?idProducte={{ product.id }}">See more...</a>
+            <h2 align="right" >{{ product.price }}€</h2>
+            <form align="right" method="post" style="margin-right: 5%">
+                <button type="submit" class="btn btn-primary"> BUY </button>
+            </form>
         </div>
 
     </div>
@@ -25,8 +28,8 @@
 </div>
 <script>
 
-    {% if idProducte is not null %}
-        $("#{{ idProducte }}").click(function (ev) {
+    {% if product.id is not null %}
+        $("#{{ product.id }}").click(function (ev) {
             {% if idUser is null %}
                 alert("You have to log in to be able to like products :)");
             {% else %}
@@ -39,10 +42,10 @@
                         console.log(data);
 
                         if (data[0]){
-                            $("#{{ idProducte }}").attr("src","{{ base_url() }}/assets/cor_normal.png");
+                            $("#{{ product.id }}").attr("src","{{ base_url() }}/assets/cor_normal.png");
                             isLike = false;
                         }else{
-                            $("#{{ idProducte }}").attr("src","{{ base_url() }}/assets/cor_like.png");
+                            $("#{{ product.id }}").attr("src","{{ base_url() }}/assets/cor_like.png");
                             isLike = true;
                         }
                     },
