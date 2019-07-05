@@ -36,6 +36,9 @@ $app
 $app->post('/signup', \SallePW\Controller\signUpController::class . ':addToDB')
     ->add(\SallePW\Controller\Middleware\RememberCookieHandler::class);
 
+$app->post('/updateProfile', \SallePW\Controller\ProfileController::class . ':updateProfile')
+->add(\SallePW\Controller\Middleware\RememberCookieHandler::class);
+
 $app->post('/login', \SallePW\Controller\logInController::class . ':login')
     ->add(\SallePW\Controller\Middleware\RememberCookieHandler::class);
 
