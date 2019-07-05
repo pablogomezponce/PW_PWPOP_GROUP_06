@@ -275,18 +275,32 @@ class ProfileSQL implements ProfileRepository
     public function deleteAccount(string $id){
         $db = new PDO('mysql:host=' . $this->address . ';dbname=' . $this->dbname . ';', $this->userNameDB, $this->passwordDB);
 
-        $stmt = $db->prepare('SELECT isActive FROM User WHERE email LIKE "'.$id.'"');
-        $stmt->execute();
-        $row = $stmt->fetch();
+        //GET USER ID
+        $sql = "SELECT id FROM User WHERE email LIKE ?";
+        $stmt = $db->prepare($sql);
+        $stmt->execute([$id]);
 
-        if($row['isActive'] == 1){
-            $sql = "UPDATE `PWPOP`.`User` t SET t.`isActive` = 0 WHERE t.`email` LIKE '" . $id . "' ESCAPE '#'";
+        $userId = ($stmt->fetch())['id'];
+
+        //SET USER inactive
+        $sql = "UPDATE User SET isActive = 0 WHERE email LIKE ?";
+        $stmt = $db->prepare($sql);
+        $stmt->execute([$id]);
+
+        //GET USER PRODUCTS && SET inactive
+        $sql = "SELECT * FROM UserProductOwn WHERE owner = ?";
+
+        $stmt = $db->prepare($sql);
+        $stmt->execute([$userId]);
+
+        $products = $stmt->fetchAll();
+
+        foreach ($products as $product)
+        {
+            $sql = "UPDATE Product SET isActive = 0 WHERE id = ?";
+
             $stmt = $db->prepare($sql);
-            $done = $stmt->execute();
-
-            return $done;
-        } else {
-            return "Error! How did you get here?";
+            $stmt->execute([$product['product']]);
         }
     }
 }
