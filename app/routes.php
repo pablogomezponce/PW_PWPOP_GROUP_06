@@ -76,3 +76,6 @@ $app
     ->post('/heartPressed', \SallePW\Controller\heartPressed::class . ':heartPressed');
 $app
     ->post('/deleteAccount', \SallePW\Controller\deleteAccountController::class);
+
+$app
+    ->get('/myfavourites', \SallePW\Controller\FavouritesList::class);
