@@ -62,6 +62,8 @@ Scripts: Where all your .js files are going to be loaded
         <a href="profile"><h1 id="profile">{{ sessionStarted }}</h1></a>
         <img id="profilePicture" src="{{ base_url() }}/uploads/{{ sessionStarted }}/{{ profile.image_dir }}">
 
+        <a href="/myproducts"><h3>My products</h3></a>
+
         <a href="upload"><h1>Add Item</h1></a>
 
 
@@ -70,6 +72,14 @@ Scripts: Where all your .js files are going to be loaded
 
 
 </header>
+
+<div class = "container card">
+    {% for message in messages %}
+        <div class="alert">
+            {{ message[0] }}
+        </div>
+    {% endfor %}
+</div>
 
 {% block content %} {% endblock %}
 {% block footer %} {% endblock %}
