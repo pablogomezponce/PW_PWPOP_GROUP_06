@@ -267,7 +267,7 @@ class ProfileSQL implements ProfileRepository
 
         $stmt = $db->prepare($sql);
         $stmt->execute();
-        $productsId  = $stmt->fetchAll();
+        $productsId  = $stmt->fetch();
         return $productsId;
     }
 
