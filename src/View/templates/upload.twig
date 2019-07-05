@@ -145,7 +145,7 @@
                     break;
 
                 case 'customFile':
-                    if (this.files[0].size > 1024){
+                    if (this.files[0].size > 1024 * 1024){
                         $("#fileError").show(100);
                         $("#fileGroup").addClass("alert alert-danger");
 
