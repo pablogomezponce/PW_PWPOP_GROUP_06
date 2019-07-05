@@ -3,9 +3,9 @@
 <div id="producte{{ product.id }}" class="card"  style="display:table; min-width: 100%" >
 
     <div id="fotoP" style="display: table-cell;vertical-align: middle; width: 300px" >
-        <img src="{{ base_url() }}/assets/wallapop.jpg"  width="300px">
+        <a href="/product?idProducte={{ product.id }}"><img src="{{ base_url() }}/uploads/products/{{ product.product_image_dir }}"  width="300px"></a>
         <div id="likeP" align="right" style="margin-right: 10%">
-            {% if idProducte is not null %}
+            {% if product.id is not null %}
             <img id="{{ product.id }}" src="{{ base_url() }}/assets/cor_normal.png" width="10%">
             {% endif %}
         </div>
@@ -40,7 +40,6 @@
                     data: ({idProducte: ev.target.id, idUser: '{{ idUser }}' }),
                     success: function (data) {
                         console.log(data);
-
                         if (data[0]){
                             $("#{{ product.id }}").attr("src","{{ base_url() }}/assets/cor_normal.png");
                             isLike = false;
