@@ -38,8 +38,7 @@
     <div id="productes" class="container" >
         {% for producte in products %}
             <div class="row">
-                {% include 'product.twig' with {'idProducte':producte.id,'nomProducte': producte.title,
-                    'descripcioProducte':producte.description, 'preuProducte': producte.price} %}
+                {% include 'product.twig' with {'product': producte} %}
             </div>
 
 
