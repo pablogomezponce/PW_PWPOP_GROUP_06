@@ -9,3 +9,7 @@ composer.lock
 node_modulespackage-lock.json
 node_modules
 .DS_Store
+composer.lock
+.idea/workspace.xml
+.idea/PW_PWPOP_GROUP_06.iml
+.DS_Store
