@@ -53,12 +53,10 @@
                 data:{idUser : "{{ idUser }}" },
                 type: "POST",
                 dataType: "json",
-
-                success:function (data) {
-                    console.log(data);
-                    alert("Your account has been disabled, We are sad to see you go :C");
+                success: function (data) {
+                    alert("your account has been deleted");
+                    window.location.href = "{{ base_url() }}";
                 }
-
             });
         })
     </script>
