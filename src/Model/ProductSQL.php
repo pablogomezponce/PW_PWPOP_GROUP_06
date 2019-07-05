@@ -78,4 +78,36 @@ class ProductSQL implements ProductRepository
 
         return var_dump("CA");
     }
+
+    public function getAllProductsByEmail($id)
+    {
+        $db = new PDO('mysql:host=' . $this->address . ';dbname=' . $this->dbname . ';', $this->userNameDB, $this->passwordDB);
+
+        $sql = "SELECT * FROM User WHERE email LIKE ?";
+        $stmt = $db->prepare($sql);
+        $stmt->execute([$id]);
+
+        $id = ($stmt->fetch())['id'];
+
+
+        $sql = "SELECT product FROM UserProductOwn WHERE owner LIKE ?";
+        $stmt = $db->prepare($sql);
+        $stmt->execute([$id]);
+
+        $owned = $stmt->fetchAll();
+
+        $products = [];
+
+        foreach ($owned as $product)
+        {
+            $sql = "SELECT * FROM Product WHERE id = ?";
+            $stmt = $db->prepare($sql);
+
+            $stmt->execute([$product['product']]);
+
+            array_push($products, $stmt->fetch());
+        }
+
+        return $products;
+    }
 }
