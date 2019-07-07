@@ -82,3 +82,9 @@ $app
 
 $app
     ->get('/myfavourites', \SallePW\Controller\FavouritesList::class);
+
+$app
+    ->post('/deleteProduct', \SallePW\Controller\ProductController::class . ':deleteProduct');
+
+$app
+    ->post('/buy', \SallePW\Controller\BuyController::class);
