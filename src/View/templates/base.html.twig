@@ -74,6 +74,7 @@ Scripts: Where all your .js files are going to be loaded
 
 </header>
 
+{% if messages is not empty %}
 <div class = "container card">
     {% for message in messages %}
         <div class="alert">
@@ -81,6 +82,7 @@ Scripts: Where all your .js files are going to be loaded
         </div>
     {% endfor %}
 </div>
+{% endif %}
 
 {% block content %} {% endblock %}
 {% block footer %} {% endblock %}
