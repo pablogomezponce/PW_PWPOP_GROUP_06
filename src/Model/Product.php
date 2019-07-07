@@ -7,6 +7,7 @@ namespace SallePW\Model;
 class Product
 {
     private $title;
+    private $id;
     private $description;
     private $price;
     private $product_image_dir;
@@ -88,6 +89,23 @@ class Product
     {
         return $this->isActive;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    public function setId($id): void
+    {
+        $this->id = $id;
+    }
+
 
 
 
