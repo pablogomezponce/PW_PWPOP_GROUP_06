@@ -20,6 +20,9 @@ $app
     });
 
 $app
+    ->post('/modifyProduct', \SallePW\Controller\ProductController::class . ':updateProduct');
+
+$app
     ->get('/myproducts', \SallePW\Controller\UserProductsController::class);
 
 $app
