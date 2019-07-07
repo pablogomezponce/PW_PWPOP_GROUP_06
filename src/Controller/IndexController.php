@@ -35,8 +35,6 @@ class IndexController
            $params['profile'] = $_SESSION['profile'];
        }
 
-       var_dump($_SESSION);
-       //var_dump($_POST);
         return $this->container->get('view')->render($response, 'publicHome.twig', $params);
     }
 
