@@ -315,4 +315,22 @@ class ProfileSQL implements ProfileRepository
 
         return $val;
     }
+
+    public function getOwner($productID)
+    {
+        $db = new PDO('mysql:host=' . $this->address . ';dbname=' . $this->dbname . ';', $this->userNameDB, $this->passwordDB);
+
+
+        $sql = "SELECT * FROM UserProductOwn WHERE product = ?";
+
+        $stmt = $db->prepare($sql);
+        $stmt->execute([$productID]);
+        $info = $stmt->fetch();
+
+        $sql = "SELECT * FROM User WHERE id = ?";
+
+        $stmt = $db->prepare($sql);
+        $stmt->execute([$info['owner']]);
+        return $stmt->fetch();
+    }
 }

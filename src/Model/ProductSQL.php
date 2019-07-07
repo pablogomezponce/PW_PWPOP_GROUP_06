@@ -116,10 +116,71 @@ class ProductSQL implements ProductRepository
         $db = new PDO('mysql:host=' . $this->address . ';dbname=' . $this->dbname . ';', $this->userNameDB, $this->passwordDB);
 
         $sql = "SELECT * FROM Product WHERE id IN
-                    (SELECT product FROM Favorites WHERE user = ?)";
+                    (SELECT product FROM Favorites WHERE user = ?)
+                    AND isActive = 1";
         $stmt = $db->prepare($sql);
         $stmt->execute([$id]);
         var_dump($id);
         return $stmt->fetchAll();
+    }
+
+    public function isOwner($product, $user)
+    {
+        $db = new PDO('mysql:host=' . $this->address . ';dbname=' . $this->dbname . ';', $this->userNameDB, $this->passwordDB);
+
+        $sql = "SELECT * FROM UserProductOwn WHERE ? LIKE product AND owner LIKE ?";
+
+        $stmt = $db->prepare($sql);
+        $stmt->execute([$product, $user]);
+
+        $exists = $stmt->fetch();
+
+        if (isset($exists))
+        {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function updateProduct(Product $product)
+    {
+        $db = new PDO('mysql:host=' . $this->address . ';dbname=' . $this->dbname . ';', $this->userNameDB, $this->passwordDB);
+
+        $sql = "UPDATE Product 
+                SET title=?,
+                    description=?,
+                    price=?,
+                    category=?,
+                    product_image_dir=?
+                WHERE id = ?";
+
+        $stmt = $db->prepare($sql);
+        $status = $stmt->execute([$product->getTitle(), $product->getDescription(), $product->getPrice(), $product->getCategory(), $product->getProductImageDir(), $product->getId()]);
+        return $status;
+    }
+
+    public function removeProduct($prodID)
+    {
+        $db = new PDO('mysql:host=' . $this->address . ';dbname=' . $this->dbname . ';', $this->userNameDB, $this->passwordDB);
+
+        $sql = "UPDATE Product
+                SET isActive = 0
+                WHERE id = ?";
+
+        $stmt = $db->prepare($sql);
+        $stmt->execute([$prodID]);
+    }
+
+    public function getProductByID($id)
+    {
+        $db = new PDO('mysql:host=' . $this->address . ';dbname=' . $this->dbname . ';', $this->userNameDB, $this->passwordDB);
+
+        $sql = "SELECT * FROM Product WHERE id = ?";
+
+        $stmt = $db->prepare($sql);
+        $stmt->execute([$id]);
+
+        return $stmt->fetch();
     }
 }
