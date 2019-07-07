@@ -3,6 +3,8 @@
 
 {% block content %}
 
+
+    {% if product.isActive == 1 %}
     <br>
     <div class="container card">
 
@@ -32,8 +34,8 @@
                                 <p>{{ product.price }}€</p>
                             </div>
                             <div class="form">
-                                <form>
-                                    <button type="submit" class="btn btn-primary">Buy</button>
+                                <form method="post" action="/buy">
+                                    <button type="submit" name="productID" value="{{ product.id }}" class="btn btn-primary">Buy</button>
                                 </form>
                             </div>
                         </div>
@@ -43,8 +45,16 @@
         </div>
     </div>
 
-    {{ product.id }}
-
+    {% else %}
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <h1>This is veeery old!</h1>
+                    <p>You should check out new products!!!</p>
+                </div>
+            </div>
+        </div>
+    {% endif %}
 
 {% endblock %}
 

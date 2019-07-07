@@ -18,8 +18,8 @@
         <div style="display:inline-grid; grid-template-rows:inherit; grid-template-columns: auto auto auto">
             <a align="left" href="product?idProducte={{ product.id }}">See more...</a>
             <h2 align="right" >{{ product.price }}€</h2>
-            <form align="right" method="post" style="margin-right: 5%">
-                <button type="submit" class="btn btn-primary"> BUY </button>
+            <form align="right" action="/buy" method="post" style="margin-right: 5%">
+                <button type="submit" name="productID" value="{{ product.id }}" class="btn btn-primary"> BUY </button>
             </form>
         </div>
 
