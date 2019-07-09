@@ -67,7 +67,7 @@
             switch (this.id) {
                 case "name":{
                     var str = ev.currentTarget.value;
-                    if(/(\d)/.test(str)){
+                    if(/\W/.test(str.replace(' ', ''))){
                         $("#nameGroup").addClass("alert alert-danger");
                         $("#nameWarning").show(100);
                     } else {
@@ -77,7 +77,8 @@
                     break;
                 }
                 case "username":{
-                    if(ev.currentTarget.value.length > 20 || /\s/.test(ev.currentTarget.value)){
+                    var str = ev.currentTarget.value;
+                    if(ev.currentTarget.value.length > 20 || /\W/.test(str)){
                         $("#userGroup").addClass("alert alert-danger");
                         $("#userWarning").show(100);
                     } else {
@@ -89,19 +90,34 @@
                 }
                 case "email":{
                     var str = ev.currentTarget.value;
+                    console.log(validateEmail(str));
+                    if(!validateEmail(str)){
+                        $("#emailGroup").addClass("alert alert-danger");
+                        $("#emailWarning").show(100);
+                    }
+
+
 
                     break;
                 }
                 case "bday":{
                     console.log(this);
+                    var userDate = new Date(ev.currentTarget.value);
+                    if (userDate >= Date.now()){
 
+                        $("#bdayGroup").addClass("alert alert-danger");
+                        $("#bdayWarning").show(100);
+                    } else {
+                        $("#bdayGroup").removeClass("alert alert-danger");
+                        $("#bdayWarning").hide(100);
+                    }
                     break;
                 }
                 case "phone":{
                     //console.log(ev);
                     var str = ev.currentTarget.value;
 
-                    isValid = str.match("^(/\+/34|0034|34)?[6|7|8|9][0-9]{8}$");
+                    isValid = str.replace(" ", "").match("^(/\+/34|0034|34)?[6|7|8|9][0-9]{8}$");
 
                     if(!isValid){
                         $("#phoneGroup").addClass("alert alert-danger");
@@ -147,7 +163,6 @@
 
         })
     </script>
-
 
 {% endblock %}
 
