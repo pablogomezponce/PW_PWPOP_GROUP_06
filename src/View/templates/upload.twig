@@ -1,15 +1,15 @@
 {% extends 'base.html.twig' %}
 
 {% block content %}
+    <br>
     <div class="row">
-        <div class="col-9">
-            <div class="container">
+        <div class="col">
                 {% include 'productData.twig' with {'action':'upload', 'title':'Post a product'} %}
-
-            </div>
         </div>
-        <div class="col-3" id="logoContainer" >
-            <img src="{{ base_url() }}/assets/logos/roundLogo/2x/roundLogo@2x.png" class = "img-fluid" style="width: 100%;;height: 100%">
+
+        <div class="col text-center" id="logoContainer" >
+            <br>
+            <img src="{{ base_url() }}/assets/logos/roundLogo/1x/roundLogo.png">
         </div>
     </div>
 {% endblock %}

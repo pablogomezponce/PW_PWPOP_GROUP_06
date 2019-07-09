@@ -9,7 +9,20 @@
 {% endblock %}
 
 {% block content %}
-    {%  include 'data.twig' with {'use' : 'Make changes'} %}
+    <br>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                {%  include 'data.twig' with {'use' : 'Make changes'} %}
+            </div>
+            <div class="col text-center">
+                {% if user.image_dir != '____' %}
+                <img src="{{ base_url() }}/uploads/{{ user.image_dir }}">
+                {% endif      %}
+            </div>
+        </div>
+    </div>
+
     <div class="container" data-toggle="modal"  data-target="#myModal" id="deleteAccountDiv">
         <p>delete this account</p>
     </div>
@@ -44,6 +57,7 @@
 
         {% endfor %}
     </div>
+
 
     <script>
         $("#deleteAccount").click(function (ev) {
