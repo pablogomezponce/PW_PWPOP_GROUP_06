@@ -26,6 +26,11 @@ class ProductSQL implements ProductRepository
     }
 
 
+    /**
+     * This function stores a Product in the table and returns it's id.
+     * @param Product $product
+     * @return string
+     */
     public function save(Product $product)
     {
         $db = new PDO('mysql:host=' . $this->address . ';dbname=' . $this->dbname . ';', $this->userNameDB, $this->passwordDB);
@@ -36,7 +41,6 @@ class ProductSQL implements ProductRepository
 
         $id = $db->lastInsertId();
         $name = $id ."/". $product->getProductImageDir();
-        var_dump($name);
         $sql = "UPDATE Product SET product_image_dir = '$name' WHERE id = $id";
         $stmt = $db->prepare($sql);
         $stmt->execute();
@@ -44,6 +48,11 @@ class ProductSQL implements ProductRepository
         return $id;
     }
 
+    /**
+     * This function gets all the products' ID posted by a user
+     * @param int $id
+     * @return array
+     */
     public function getAllProductsBy(int $id)
     {
         $db = new PDO('mysql:host=' . $this->address . ';dbname=' . $this->dbname . ';', $this->userNameDB, $this->passwordDB);
@@ -55,30 +64,11 @@ class ProductSQL implements ProductRepository
         return $variables;
     }
 
-    public function get(int $id)
-    {
-        $db = new PDO('mysql:host=' . $this->address . ';dbname=' . $this->dbname . ';', $this->userNameDB, $this->passwordDB);
-
-        $sql = "SELECT * FROM Product WHERE id = ?";
-        $stmt = $db->prepare($sql);
-        $stmt->execute([$id]);
-        $variables  = $stmt->fetchAll();
-        return $variables[0];
-
-    }
-
-
-    public function associate(int $productId, int $userId)
-    {
-        $db = new PDO('mysql:host=' . $this->address . ';dbname=' . $this->dbname . ';', $this->userNameDB, $this->passwordDB);
-        $sql = "INSERT INTO UserProductOwn(owner, product,buyed) VALUES (?,?,false)";
-
-        $stmt = $db->prepare($sql);
-        $stmt->execute([$userId, $productId]);
-
-        return var_dump("CA");
-    }
-
+    /**
+     * This function returns all products posted by a user from it's ID
+     * @param $id
+     * @return array
+     */
     public function getAllProductsByEmail($id)
     {
         $db = new PDO('mysql:host=' . $this->address . ';dbname=' . $this->dbname . ';', $this->userNameDB, $this->passwordDB);
@@ -88,7 +78,6 @@ class ProductSQL implements ProductRepository
         $stmt->execute([$id]);
 
         $id = ($stmt->fetch())['id'];
-
 
         $sql = "SELECT product FROM UserProductOwn WHERE owner LIKE ?";
         $stmt = $db->prepare($sql);
@@ -151,10 +140,16 @@ class ProductSQL implements ProductRepository
                     AND isActive = 1";
         $stmt = $db->prepare($sql);
         $stmt->execute([$id]);
-        var_dump($id);
         return $stmt->fetchAll();
     }
 
+
+    /**
+     * This function shows if a user owns a product or not
+     * @param $product
+     * @param $user
+     * @return bool
+     */
     public function isOwner($product, $user)
     {
         $db = new PDO('mysql:host=' . $this->address . ';dbname=' . $this->dbname . ';', $this->userNameDB, $this->passwordDB);
@@ -166,7 +161,7 @@ class ProductSQL implements ProductRepository
 
         $exists = $stmt->fetch();
 
-        if (isset($exists))
+        if ($exists)
         {
             return true;
         } else {
@@ -174,6 +169,11 @@ class ProductSQL implements ProductRepository
         }
     }
 
+    /**
+     * This function changes the product information
+     * @param Product $product
+     * @return bool
+     */
     public function updateProduct(Product $product)
     {
         $db = new PDO('mysql:host=' . $this->address . ';dbname=' . $this->dbname . ';', $this->userNameDB, $this->passwordDB);
@@ -183,14 +183,17 @@ class ProductSQL implements ProductRepository
                     description=?,
                     price=?,
                     category=?,
-                    product_image_dir=?
                 WHERE id = ?";
 
         $stmt = $db->prepare($sql);
-        $status = $stmt->execute([$product->getTitle(), $product->getDescription(), $product->getPrice(), $product->getCategory(), $product->getProductImageDir(), $product->getId()]);
+        $status = $stmt->execute([$product->getTitle(), $product->getDescription(), $product->getPrice(), $product->getCategory(), $product->getId()]);
         return $status;
     }
 
+    /**
+     * This function sets inactive a product by it's ID
+     * @param $prodID
+     */
     public function removeProduct($prodID)
     {
         $db = new PDO('mysql:host=' . $this->address . ';dbname=' . $this->dbname . ';', $this->userNameDB, $this->passwordDB);
@@ -203,6 +206,10 @@ class ProductSQL implements ProductRepository
         $stmt->execute([$prodID]);
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function getProductByID($id)
     {
         $db = new PDO('mysql:host=' . $this->address . ';dbname=' . $this->dbname . ';', $this->userNameDB, $this->passwordDB);
