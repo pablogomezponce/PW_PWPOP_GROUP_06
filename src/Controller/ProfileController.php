@@ -43,7 +43,7 @@ class ProfileController
 
         if ($_POST['password'] != $_POST['passwordValidation']) $errors['pass2'] = "Passwords don't match";
         if (strlen($_POST['password']) < 6)  $errors['pass'] = "This password is VERY SHORT";
-        // if (preg_match( "^[a-zA-Z]^",($_POST['name']))) $errors['name'] = "Do you need those characters? We dont like anything different than 'a-z', whitespaces and 'A-Z' (And no special characters)";
+        if (preg_match( "/\W/",($_POST['name']))) $errors['name'] = "Do you need those characters? We just want alphanumberic";
         //if(strlen($_POST['username']) > 20 || preg_match("/[[:alnum:]]/", $_POST['username'])) $errors['username'] = "This username is way 2 long and/or has illegal chars!";
 
         $phone = (filter_var($user->getPhone(), FILTER_SANITIZE_NUMBER_INT));
