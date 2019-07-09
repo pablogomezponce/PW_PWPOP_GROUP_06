@@ -30,6 +30,13 @@ class UploadProduct
         $this->container = $container;
     }
 
+    /**
+     * Get /upload
+     * @param Request $request
+     * @param Response $response
+     * @param array $args
+     * @return mixed
+     */
     public function __invoke(Request $request, Response $response, array $args)
     {
         return $this->container->get('view')->render($response, 'upload.twig', [
@@ -43,6 +50,13 @@ class UploadProduct
         ]);
     }
 
+    /**
+     * POST /upload
+     * @param Request $request
+     * @param Response $response
+     * @param array $args
+     * @return Response
+     */
     public function post(Request $request, Response $response, array $args){
         $uploadedFiles = $request->getUploadedFiles();
 
@@ -77,7 +91,6 @@ class UploadProduct
 
 
         if (!empty($errors)){
-            var_dump($errors);
             return $this->container->get('view')->render($response, 'upload.twig', [
                 'title' => 'PWPop | Post a product!',
                 'content' => 'Laura Gendrau i Pablo Gómez',
@@ -105,6 +118,12 @@ class UploadProduct
         return $response->withHeader("Location", "/profile");
     }
 
+
+    /**
+     * Checks information about the product
+     * @param Product $product
+     * @return array
+     */
     private function checkProduct(Product $product) : array
     {
         $error = [];
@@ -116,6 +135,11 @@ class UploadProduct
         return $error;
     }
 
+    /**
+     * Checks that the given extension is valid
+     * @param string $extension
+     * @return bool
+     */
     private function isValidFormat(string $extension): bool
     {
         return in_array($extension, self::ALLOWED_EXTENSIONS, true);
