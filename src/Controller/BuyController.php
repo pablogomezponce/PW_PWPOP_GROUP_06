@@ -35,7 +35,7 @@ class BuyController
         $ownerEmail = $productOwner['email'];
         $ownerName = $productOwner['name'];
 
-        $productInfo = $this->container->get('productSQL')->getProductByID($_POST['productID']);
+        $productInfo = $this->container->get('productSQL')->get($_POST['productID']);
 
         $content = "Hi there!\n there's a customer who wants to buy your " . $productInfo['title'] . " (which you can check in <a href='http://pwpop.com/product?idProducte=" . $_POST['productID'] . "'>here</a>).
                     
