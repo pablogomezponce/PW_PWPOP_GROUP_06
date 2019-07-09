@@ -22,6 +22,13 @@ class deleteAccountController
         $this->container = $container;
     }
 
+    /**
+     * POST /deleteAccount
+     * @param Request $request
+     * @param Response $response
+     * @param array $args
+     * @return false|string
+     */
     public function __invoke(Request $request, Response $response, array $args)
     {
         $idUser = $_POST['idUser'];

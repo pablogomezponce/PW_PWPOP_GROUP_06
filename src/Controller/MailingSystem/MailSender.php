@@ -17,7 +17,13 @@ class MailSender
         $this->emailSettings = $emailSettings;
     }
 
-
+    /**
+     * Send email
+     * @param string $toWhom
+     * @param string $toWhomName
+     * @param string $tellWhat
+     * @throws \PHPMailer\PHPMailer\Exception
+     */
     public function sendEmail(string $toWhom, string $toWhomName, string $tellWhat)
     {
 

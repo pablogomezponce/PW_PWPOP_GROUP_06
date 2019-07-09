@@ -23,6 +23,14 @@ class FavouritesList
         $this->container = $container;
     }
 
+
+    /**
+     * GET /myFavourites
+     * @param Request $request
+     * @param Response $response
+     * @param array $args
+     * @return mixed
+     */
     public function __invoke(Request $request, Response $response, array $args)
     {
         $products = $this->container->get('productSQL')->getFavourites($_SESSION['profile']['id']);

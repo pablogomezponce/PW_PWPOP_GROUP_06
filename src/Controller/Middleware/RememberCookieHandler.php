@@ -25,6 +25,13 @@ class RememberCookieHandler{
         $this->container = $container;
     }
 
+    /**
+     * add cookie
+     * @param Request $request
+     * @param Response $response
+     * @param callable $nextMiddleware
+     * @return Response
+     */
     public function __invoke(Request $request, Response $response, callable $nextMiddleware)
     {
         $response = $nextMiddleware($request, $response);
@@ -48,6 +55,11 @@ class RememberCookieHandler{
         return $response;
     }
 
+    /**
+     * Set cookie
+     * @param Response $response
+     * @return Response
+     */
     private function setAdviceCookie(Response $response): Response
     {
         return FigResponseCookies::set(
@@ -61,6 +73,13 @@ class RememberCookieHandler{
         );
     }
 
+    /**
+     * Delete information about user
+     * @param Request $request
+     * @param Response $response
+     * @param callable $nextMiddleware
+     * @return Response
+     */
     public function logout(Request $request, Response $response, callable $nextMiddleware): Response
     {
         $request = $nextMiddleware($request,$response);

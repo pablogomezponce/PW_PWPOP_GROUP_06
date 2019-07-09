@@ -28,6 +28,13 @@ class ProductController
         $this->container = $container;
     }
 
+    /**
+     * GET product overview
+     * @param Request $request
+     * @param Response $response
+     * @param array $args
+     * @return mixed
+     */
     public function __invoke(Request $request, Response $response, array $args)
     {
 
@@ -56,6 +63,11 @@ class ProductController
         }
     }
 
+    /**
+     * Check Product conditions
+     * @param Product $product
+     * @return array
+     */
     private function checkProduct(Product $product) : array
     {
         $error = [];
@@ -68,12 +80,24 @@ class ProductController
     }
 
 
+    /**
+     * Check if image is valid
+     * @param string $extension
+     * @return bool
+     */
     private function isValidFormat(string $extension): bool
     {
         return in_array($extension, self::ALLOWED_EXTENSIONS, true);
     }
 
 
+    /**
+     * POST /update
+     * @param Request $request
+     * @param Response $response
+     * @param array $args
+     * @return Response
+     */
     public function updateProduct(Request $request, Response $response, array $args)
     {
         $prod = new Product($_POST['title'], $_POST['description'], $_POST['price'], null, $_POST['category'], 1);
@@ -158,11 +182,20 @@ class ProductController
     }
 
 
+    /**
+     * Get Product based on ID
+     * @param $prodId
+     * @return mixed
+     */
     public function getProductById($prodId){
         $product = $this->container->get('profileSQL')->getProductById($prodId);
         return $product;
     }
 
+    /**
+     * Check if user likes a product
+     * @return false|string
+     */
     public function isLike(){
         $idLike = $this->container->get('profileSQL')->isLike($_GET['idProducte'],3);
         if ($idLike[0][0] > 0){
@@ -177,6 +210,11 @@ class ProductController
         return json_encode(array($idLike,$_GET['idProducte'],'holi'));
     }
 
+    /**
+     * Ask for ownership
+     * @param $prodID
+     * @return bool
+     */
     public function isOwner($prodID){
         if (!empty($_SESSION['profile']['id']))
         {
@@ -186,6 +224,13 @@ class ProductController
         }
     }
 
+    /**
+     * POST /delete
+     * @param Request $request
+     * @param Response $response
+     * @param array $args
+     * @return Response
+     */
     public function deleteProduct(Request $request, Response $response, array $args)
     {
         $this->container->get('productSQL')->removeProduct($_POST['productID']);
