@@ -177,7 +177,7 @@ class ProductController
      * @return mixed
      */
     public function getProductById($prodId){
-        $product = $this->container->get('profileSQL')->getProductById($prodId);
+        $product = $this->container->get('productSQL')->get($prodId);
         return $product;
     }
 
