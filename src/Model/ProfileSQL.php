@@ -28,11 +28,17 @@ class ProfileSQL implements ProfileRepository
 
     }
 
+
+    /**
+     * Create user
+     * @param User $user
+     */
     public function save(User $user)
     {
         $db = new PDO('mysql:host=' . $this->address . ';dbname=' . $this->dbname . ';', $this->userNameDB, $this->passwordDB);
 
         $sql = "INSERT INTO User (username, email, password, name, birthdate, phone, image_dir) VALUES (?,?,?,?,?,?,?)";
+
 
         $username = $user->getUsername();
         $email = $user->getEmail();
@@ -41,9 +47,20 @@ class ProfileSQL implements ProfileRepository
         $birthdate = $user->getBirthdate();
         $phone = $user->getPhone();
         $image_dir = $user->getImageDir();
-        $db->prepare($sql)->execute([$username,$email,$password, $name, $birthdate, $phone,$image_dir]);
+        $user = $this->defaultValues($user);
+
+        $db->prepare($sql)->execute([$username,$email,$password, $name, $user->getBirthdate(), $phone,$user->getImageDir()]);
+        var_dump($user);
     }
 
+/* TODO:CHECK STATIS
+  /**
+     * Get information from a user
+     * @param array $fields
+     * @param string $table
+     * @param string $conditions
+     * @return array
+ *
     public function get(array $fields, string $table, string $conditions)
     {
         $db = new PDO('mysql:host=' . $this->address . ';dbname=' . $this->dbname . ';', $this->userNameDB, $this->passwordDB);
@@ -56,30 +73,21 @@ class ProfileSQL implements ProfileRepository
 
         $elements = rtrim($elements,',');
 
-        var_dump($elements);
-        var_dump($table);
-        var_dump($conditions);
-
         $sql = "SELECT ? FROM User";
 
         $stmt = $db->prepare($sql);
-        var_dump($stmt);
         $stmt->execute([$elements]);
         $variables  = $stmt->fetchAll();
-        var_dump($variables);
         return $variables;
     }
+    */
 
-    public function getEmails(){
-        $db = new PDO('mysql:host=' . $this->address . ';dbname=' . $this->dbname . ';', $this->userNameDB, $this->passwordDB);
-        $sql = "SELECT email FROM User";
 
-        $stmt = $db->prepare($sql);
-        $stmt->execute();
-        $variables  = $stmt->fetchAll();
-        return $variables;
-    }
-
+    /**
+     * This function needs an email and it returns the same email if there is any coincidence
+     * @param string $email
+     * @return array
+     */
     public function checkIfEmailExists(string $email){
         $db = new PDO('mysql:host=' . $this->address . ';dbname=' . $this->dbname . ';', $this->userNameDB, $this->passwordDB);
         $sql = "SELECT email FROM User WHERE email LIKE ?";
@@ -91,6 +99,11 @@ class ProfileSQL implements ProfileRepository
 
     }
 
+    /**
+     * This function returns an array with an email associated with a nickname if the given string already exists within the database
+     * @param string $username
+     * @return array
+     */
     public function checkIfUsernameExists(string $username){
         $db = new PDO('mysql:host=' . $this->address . ';dbname=' . $this->dbname . ';', $this->userNameDB, $this->passwordDB);
         $sql = "SELECT email FROM User WHERE username LIKE ?";
@@ -102,6 +115,12 @@ class ProfileSQL implements ProfileRepository
 
     }
 
+    /**
+     * This function returns all user info stored at the database if the user is active and the password is valid
+     * @param string $password
+     * @param string $id
+     * @return array
+     */
     public function login(string $password, string $id)
     {
         $db = new PDO('mysql:host=' . $this->address . ';dbname=' . $this->dbname . ';', $this->userNameDB, $this->passwordDB);
@@ -140,6 +159,11 @@ class ProfileSQL implements ProfileRepository
 
     }
 
+    /**
+     * return all User information from an email
+     * @param string $id
+     * @return array
+     */
     public function getUserDetails(string $id){
         $db = new PDO('mysql:host=' . $this->address . ';dbname=' . $this->dbname . ';', $this->userNameDB, $this->passwordDB);
 
@@ -171,6 +195,11 @@ class ProfileSQL implements ProfileRepository
         return $response;
     }
 
+    /**
+     * Returns all user info using an ID (By a cookie given)
+     * @param string $id
+     * @return array
+     */
     public function getUserbyId(string $id){
         $db = new PDO('mysql:host=' . $this->address . ';dbname=' . $this->dbname . ';', $this->userNameDB, $this->passwordDB);
 
@@ -202,29 +231,8 @@ class ProfileSQL implements ProfileRepository
         return $response;
     }
 
-    public function getAllProducts(){
-        $db = new PDO('mysql:host=' . $this->address . ';dbname=' . $this->dbname . ';', $this->userNameDB, $this->passwordDB);
 
-        $stmt = null;
-        if (isset($_SESSION['profile']['id'])){
-            $sql = "SELECT * FROM Product WHERE 
-                id NOT IN (SELECT product FROM UserProductOwn WHERE owner LIKE ?)
-                AND isActive = true
-            ORDER BY id DESC 
-            LIMIT 5";
-            $stmt = $db->prepare($sql);
-            $stmt->execute([$_SESSION['profile']['id']]);
-
-        } else {
-            $sql = "SELECT * FROM Product WHERE isActive = 1 ORDER BY id DESC LIMIT 5";
-            $stmt = $db->prepare($sql);
-            $stmt->execute();
-        }
-
-        $products  = $stmt->fetchAll();
-        return $products;
-    }
-
+//TODO: Migrar MODULO
     public function getProductsSearch(string $nameProduct){
         $db = new PDO('mysql:host=' . $this->address . ';dbname=' . $this->dbname . ';', $this->userNameDB, $this->passwordDB);
         $sql = "SELECT * FROM Product WHERE title LIKE '$nameProduct' LIMIT 5";
@@ -236,42 +244,11 @@ class ProfileSQL implements ProfileRepository
     }
 
 
-    public function isLike(int $idProducte ,string $idUser){
-        $db = new PDO('mysql:host=' . $this->address . ';dbname=' . $this->dbname . ';', $this->userNameDB, $this->passwordDB);
-        $sql = "SELECT COUNT(*) FROM Favorites WHERE Favorites.product LIKE $idProducte AND Favorites.user LIKE $idUser";
-
-        $stmt = $db->prepare($sql);
-        $stmt->execute();
-        $count  = $stmt->fetchAll();
-        return $count;
-    }
-
-    public function deleteLike(int $idProducte ,string $idUser) {
-        $db = new PDO('mysql:host=' . $this->address . ';dbname=' . $this->dbname . ';', $this->userNameDB, $this->passwordDB);
-        $sql = "DELETE FROM Favorites WHERE Favorites.user='$idUser' AND product = $idProducte";
-
-        $stmt = $db->prepare($sql);
-        $stmt->execute();
-    }
-
-    public function addLike(int $idProducte ,string $idUser) {
-        $db = new PDO('mysql:host=' . $this->address . ';dbname=' . $this->dbname . ';', $this->userNameDB, $this->passwordDB);
-        $sql = "INSERT INTO Favorites(user,product)VALUES ('$idUser',$idProducte)";
-        $stmt = $db->prepare($sql);
-        $stmt->execute();
-    }
-
-    public function getProductById(int $idProduct){
-        $db = new PDO('mysql:host=' . $this->address . ';dbname=' . $this->dbname . ';', $this->userNameDB, $this->passwordDB);
-        $sql = "SELECT * FROM Product WHERE id LIKE $idProduct";
-
-        $stmt = $db->prepare($sql);
-        $stmt->execute();
-        $productsId  = $stmt->fetch();
-        return $productsId;
-    }
-
-
+    /**
+     * Set all information related to a User as inactive
+     * @param string $id
+     */
+    //TODO: CHECK IF LIKES SHOULD BE DELETED
     public function deleteAccount(string $id){
         $db = new PDO('mysql:host=' . $this->address . ';dbname=' . $this->dbname . ';', $this->userNameDB, $this->passwordDB);
 
@@ -304,18 +281,45 @@ class ProfileSQL implements ProfileRepository
         }
     }
 
+    /**
+     * Update user infromation, if done propertly returns true
+     * @param User $u
+     * @return bool
+     */
     public function update(User $u)
     {
+        var_dump($u->getImageDir());
         $db = new PDO('mysql:host=' . $this->address . ';dbname=' . $this->dbname . ';', $this->userNameDB, $this->passwordDB);
 
         $sql = "UPDATE User SET email = ?, password = MD5(?), name = ?, birthdate = ?, phone = ?, image_dir = ? WHERE username = ?";
 
         $stmt = $db->prepare($sql);
+
+        $u = $this->defaultValues($u);
+
         $val = $stmt->execute([$u->getEmail(), $u->getPassword(), $u->getName(), $u->getBirthdate(), $u->getPhone(), $u->getImageDir(), $u->getUsername()]);
+
+        $sql = "SELECT * FROM User";
+        $stmt = $db->prepare($sql);
+        $stmt->execute();
+        $vals = $stmt->fetchAll();
 
         return $val;
     }
 
+    private function defaultValues(User $u)
+    {
+        if (empty($u->getImageDir())) $u->setImageDir("____");
+        if (empty($u->getBirthdate())) $u->setBirthdate("2018-06-07");
+
+        return $u;
+    }
+
+    /**
+     * Returns information about a product owner
+     * @param $productID
+     * @return mixed
+     */
     public function getOwner($productID)
     {
         $db = new PDO('mysql:host=' . $this->address . ';dbname=' . $this->dbname . ';', $this->userNameDB, $this->passwordDB);
