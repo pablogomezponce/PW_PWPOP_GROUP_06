@@ -111,6 +111,37 @@ class ProductSQL implements ProductRepository
         return $products;
     }
 
+    /**
+     * This function gets the product associated with an id
+     * @param int $id
+     * @return mixed
+     */
+    public function get(int $id)
+    {
+        $db = new PDO('mysql:host=' . $this->address . ';dbname=' . $this->dbname . ';', $this->userNameDB, $this->passwordDB);
+
+        $sql = "SELECT * FROM Product WHERE id = ?";
+        $stmt = $db->prepare($sql);
+        $stmt->execute([$id]);
+        $variables  = $stmt->fetchAll();
+        return $variables[0];
+
+    }
+
+    /**
+     * This function stores the ownership from a user to a product
+     * @param int $productId
+     * @param int $userId
+     */
+    public function associate(int $productId, int $userId)
+    {
+        $db = new PDO('mysql:host=' . $this->address . ';dbname=' . $this->dbname . ';', $this->userNameDB, $this->passwordDB);
+        $sql = "INSERT INTO UserProductOwn(owner, product,buyed) VALUES (?,?,false)";
+
+        $stmt = $db->prepare($sql);
+        $stmt->execute([$userId, $productId]);
+    }
+
     public function getFavourites($id)
     {
         $db = new PDO('mysql:host=' . $this->address . ';dbname=' . $this->dbname . ';', $this->userNameDB, $this->passwordDB);
@@ -183,4 +214,75 @@ class ProductSQL implements ProductRepository
 
         return $stmt->fetch();
     }
+
+    /**
+     * Get products for Home
+     * @return array
+     */
+    public function getAllProducts(){
+        $db = new PDO('mysql:host=' . $this->address . ';dbname=' . $this->dbname . ';', $this->userNameDB, $this->passwordDB);
+
+        $stmt = null;
+        if (isset($_SESSION['profile']['id'])){
+            $sql = "SELECT * FROM Product WHERE 
+                id NOT IN (SELECT product FROM UserProductOwn WHERE owner LIKE ?)
+                AND isActive = true
+            ORDER BY id DESC 
+            LIMIT 5";
+            $stmt = $db->prepare($sql);
+            $stmt->execute([$_SESSION['profile']['id']]);
+
+        } else {
+            $sql = "SELECT * FROM Product WHERE isActive = 1 ORDER BY id DESC LIMIT 5";
+            $stmt = $db->prepare($sql);
+            $stmt->execute();
+        }
+
+        $products  = $stmt->fetchAll();
+        return $products;
+    }
+
+    /**
+     * Check if there is a like given
+     * @param int $idProducte
+     * @param string $idUser
+     * @return array
+     */
+    public function isLike(int $idProducte ,string $idUser){
+        $db = new PDO('mysql:host=' . $this->address . ';dbname=' . $this->dbname . ';', $this->userNameDB, $this->passwordDB);
+        $sql = "SELECT COUNT(*) FROM Favorites WHERE Favorites.product LIKE $idProducte AND Favorites.user LIKE $idUser";
+
+        $stmt = $db->prepare($sql);
+        $stmt->execute();
+        $count  = $stmt->fetchAll();
+        return $count;
+    }
+
+
+    /**
+     * Erase Like from table
+     * @param int $idProducte
+     * @param string $idUser
+     */
+    public function deleteLike(int $idProducte ,string $idUser) {
+        $db = new PDO('mysql:host=' . $this->address . ';dbname=' . $this->dbname . ';', $this->userNameDB, $this->passwordDB);
+        $sql = "DELETE FROM Favorites WHERE Favorites.user='$idUser' AND product = $idProducte";
+
+        $stmt = $db->prepare($sql);
+        $stmt->execute();
+    }
+
+    /**
+     * Store like to a product (idProducte) by a user (idUser)
+     * @param int $idProducte
+     * @param string $idUser
+     */
+    public function addLike(int $idProducte ,string $idUser) {
+        $db = new PDO('mysql:host=' . $this->address . ';dbname=' . $this->dbname . ';', $this->userNameDB, $this->passwordDB);
+        $sql = "INSERT INTO Favorites(user,product)VALUES ('$idUser',$idProducte)";
+        $stmt = $db->prepare($sql);
+        $stmt->execute();
+    }
+
+
 }
