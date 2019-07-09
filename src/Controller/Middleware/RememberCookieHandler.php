@@ -47,11 +47,9 @@ class RememberCookieHandler{
         }
         ;
         if(isset($_POST['remember']) && $response->getStatusCode() == 200 && isset($_SESSION['profile']['id'])){
-            var_dump($response);
             $response = $this->setAdviceCookie($response);
         }
 
-        var_dump($response->getStatusCode());
         return $response;
     }
 
