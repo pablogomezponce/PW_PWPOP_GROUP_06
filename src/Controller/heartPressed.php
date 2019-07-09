@@ -36,16 +36,16 @@ class heartPressed
         //userName serà el que agafem a indexController amb SESSION
 
 
-        $idLike = $this->container->get('profileSQL')->isLike($_POST['idProducte'],$_POST['idUser']);
+        $idLike = $this->container->get('productSQL')->isLike($_POST['idProducte'],$_POST['idUser']);
 
         if ($idLike[0][0] > 0){
             $idLike = true;
             //delete
-            $this->container->get('profileSQL')->deleteLike($_POST['idProducte'],$_POST['idUser']);
+            $this->container->get('productSQL')->deleteLike($_POST['idProducte'],$_POST['idUser']);
         }else{
             $idLike = false;
             //add
-            $this->container->get('profileSQL')->addLike($_POST['idProducte'],$_POST['idUser']);
+            $this->container->get('productSQL')->addLike($_POST['idProducte'],$_POST['idUser']);
         }
         $response->withStatus(200);
         return json_encode(array($idLike,$_POST['idProducte'],'holi'));
