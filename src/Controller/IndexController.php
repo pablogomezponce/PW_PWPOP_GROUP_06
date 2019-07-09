@@ -22,10 +22,10 @@ class IndexController
 
     public function __invoke(Request $request, Response $response, array $args)
     {
-
        $params = [
            'title' => 'PWPop',
            'productes' =>$this->getAllProducts(),
+           'messages' => $this->container->get('flash')->getMessages(),
 
        ];
        if (isset($_SESSION['idUser'])){
