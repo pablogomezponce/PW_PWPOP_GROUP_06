@@ -49,12 +49,6 @@ $app
     ->get('/login','SallePW\Controller\logInController')
     ->add(\SallePW\Controller\Middleware\RememberCookieHandler::class);
 
-
-$app->get('/registeringUser', \SallePW\Controller\RegisterFlashController::class)
-    ->add(\SallePW\Controller\Middleware\RememberCookieHandler::class);
-
-
-
 $app->post('/search',\SallePW\Controller\searchController::class);
 
 
