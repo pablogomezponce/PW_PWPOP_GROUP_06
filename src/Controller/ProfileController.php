@@ -180,6 +180,11 @@ class ProfileController
      * @param string $extension
      * @return bool
      */
+    private function isValidFormat(string $extension): bool
+    {
+        return in_array($extension, self::ALLOWED_EXTENSIONS, true);
+    }
+
 
 }
 
