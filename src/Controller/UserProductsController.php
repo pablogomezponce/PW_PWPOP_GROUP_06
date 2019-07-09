@@ -25,12 +25,18 @@ class UserProductsController
     }
 
 
+    /**
+     * GET /myproducts
+     * @param Request $request
+     * @param Response $response
+     * @param array $args
+     * @return mixed
+     */
     public function __invoke(Request $request, Response $response, array $args)
     {
         $products = $this->container->get('productSQL')->getAllProductsByEmail($_SESSION['idUser']);
 
 
-        //return $request->withHeader('Location', 'search') ->withAttribute("q", $_POST['nameProduct']);
         return $this->container->get('view')->render($response, 'productList.twig', [
             'title' => 'PWPop | My Products',
             'footer' => '',
@@ -39,9 +45,6 @@ class UserProductsController
             'username' => $_SESSION['profile']['username'],
             'sessionStarted' => $_SESSION['sessionStarted'],
             'profile' => $_SESSION['profile'],
-            //'sizeProductesSearch'=>sizeof($this->searchProducts()),
-
-
         ]);
     }
 
