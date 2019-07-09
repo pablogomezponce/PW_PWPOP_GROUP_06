@@ -36,15 +36,12 @@ class FavouritesList
         $products = $this->container->get('productSQL')->getFavourites($_SESSION['profile']['id']);
 
         return $this->container->get('view')->render($response, 'productList.twig', [
-            'title' => 'PWPop | Product',
+            'title' => 'PWPop | My Favourites',
             'footer' => '',
             'products' => $products,
             'username' => $_SESSION['profile']['username'],
             'idUser' => $_SESSION['profile']['id'],
-            //'idUser' => 2,
-
-
-            //'sessionStarted' => null,
+            'sessionStarted' => $_SESSION['profile']['username'],
         ]);
     }
 
