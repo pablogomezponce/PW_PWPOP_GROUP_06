@@ -117,7 +117,6 @@ class ProductController
         }
         else if (empty($err))
         {
-            var_dump($prod);
 
             //Check file status
             foreach ($uploadedFiles as $uploadedFile) {
@@ -169,19 +168,8 @@ class ProductController
         $params['error'] = $err;
         $params['product']=$product;
 
-        var_dump($params);
         return $this->container->get('view')->render($response, 'modifyProduct.twig', $params);
-
-
-
-
-
-
-
-
-
     }
-
 
     /**
      * Get Product based on ID
