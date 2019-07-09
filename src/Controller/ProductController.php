@@ -50,6 +50,7 @@ class ProductController
         {
             $params['idUser'] = $_SESSION['profile']['id'];
             $params['username']= $_SESSION['profile']['username'];
+            $params['sessionStarted'] = $_SESSION['profile']['username'];
         }
 
 
