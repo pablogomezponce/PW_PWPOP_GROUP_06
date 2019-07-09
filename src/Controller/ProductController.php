@@ -186,15 +186,15 @@ class ProductController
      * @return false|string
      */
     public function isLike(){
-        $idLike = $this->container->get('profileSQL')->isLike($_GET['idProducte'],3);
+        $idLike = $this->container->get('profileSQL')->isLike($_GET['idProducte'],$_SESSION['profile']['id']);
         if ($idLike[0][0] > 0){
             $idLike = true;
             //delete
-            $this->container->get('profileSQL')->deleteLike($_GET['idProducte'],3);
+            $this->container->get('profileSQL')->deleteLike($_GET['idProducte'],$_SESSION['profile']['id']);
         }else{
             $idLike = false;
             //add
-            $this->container->get('profileSQL')->addLike($_GET['idProducte'],3);
+            $this->container->get('profileSQL')->addLike($_GET['idProducte'],$_SESSION['profile']['id']);
         }
         return json_encode(array($idLike,$_GET['idProducte'],'holi'));
     }
