@@ -95,6 +95,7 @@ class ProfileController
                 'content' => 'Laura Gendrau i Pablo Gómez',
                 'footer' => '',
                 'sessionStarted' => $exists['username'],
+                'user' => $exists,
                 'username' => $exists['username'],
                 'email' => $exists['email'],
                 'name' => $exists['name'],
@@ -147,6 +148,7 @@ class ProfileController
                 }
                 // We generate a custom name here instead of using the one coming form the form
                 $uploadedFile->moveTo(self::UPLOADS_DIR . "/".$_POST['username'] . "/" . $name);
+                $user->setImageDir($_POST['username']."/".$name);
             } else {
                 $status['file'] = "That's a huge file for us, please make it smaller";
             }
