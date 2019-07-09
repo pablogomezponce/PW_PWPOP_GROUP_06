@@ -7,7 +7,7 @@
 
                 <div class="card-body px-lg-5 pt-0">
                     <br>
-                    <form method="POST" action="/{{ action }}" role="form" enctype="multipart/form-data">
+                    <form method="POST" action="/{{ action }}" role="form" onsubmit="return beforeSubmit();" enctype="multipart/form-data">
                         <div class="form-group row {% if error.title is not empty %} alert alert-danger {% endif %}" id="nameGroup">
                             <!-- TITLE -->
                             <label for="title" class="col-4 col-form-label">Name</label>
@@ -99,9 +99,28 @@
             </div>
 
 <script>
+    function beforeSubmit(){
+        if($(".form-group.alert"))
+        {
+            return true;
+        } else{
+            return false;
+        }
+    }
+
     $("input").change(function(e) {
         switch(this.id) {
             case 'title':
+                if (e.currentTarget.value.length == 0)
+                {
+                    $("#nameGroup").addClass("alert alert-danger");
+                    $("#nameGroup").show(100);
+
+                } else {
+                    $("#nameGroup").hide(100);
+                    $("#nameGroup").removeClass("alert alert-danger");
+
+                }
                 break;
             case 'price':
                 if(isNaN(e.currentTarget.value)){

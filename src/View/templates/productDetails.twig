@@ -14,11 +14,13 @@
 
         <div class="card-body">
             <div class="row h-100">
-                <div class="col-3 h-100">
-                    <img src="{{ base_url() }}/uploads/products/{{ product.product_image_dir }}">
-                    <div id="likeP" align="right" style="margin-right: 10%">
-                        <img id="{{ product.id }}" src="{{ base_url() }}/assets/cor_normal.png" width="10%">
-                    </div>
+                <div class="col-3 h-100 w-100 p-3" >
+                    <img  width="250px" src="{{ base_url() }}/uploads/products/{{ product.product_image_dir }}">
+                    {% if sessionStarted is not empty %}
+                        <div id="likeP" align="right" style="margin-right: 10%">
+                            <img id="{{ product.id }}" src="{{ base_url() }}/assets/cor_normal.png" width="10%">
+                        </div>
+                    {% endif %}
                 </div>
 
                 <div class="col h-100">
@@ -33,11 +35,13 @@
                             <div class="col">
                                 <p>{{ product.price }}€</p>
                             </div>
+                            {% if sessionStarted is not empty %}
                             <div class="form">
                                 <form method="post" action="/buy">
                                     <button type="submit" name="productID" value="{{ product.id }}" class="btn btn-primary">Buy</button>
                                 </form>
                             </div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -46,15 +50,28 @@
     </div>
 
     {% else %}
+        <br>
         <div class="container">
             <div class="row">
                 <div class="col">
-                    <h1>This is veeery old!</h1>
-                    <p>You should check out new products!!!</p>
+                    <div class="card">
+                        <div class="card-header">
+
+                            <h1>This is veeery old!</h1>
+                        </div>
+                        <div class="card-body">
+                            <p>You should check out new products!!!</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+        <div class="text-center">
+        <img src="{{ base_url() }}/assets/logos/roundLogo/1x/roundLogo.png">
+
+        </div>
     {% endif %}
+    
 
 {% endblock %}
 

@@ -2,13 +2,19 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    PWPOP | My products
+    {{ title }}
 {% endblock %}
 {% block content %}
-{% for product in products %}
+<br>
 
-    {% include 'product.twig' with {'product' : product}%}
-
-{% endfor %}
+    <div class="container">
+    {% for product in products %}
+        <div class="row">
+            <div class="col">
+            {% include 'product.twig' with {'product' : product} %}
+            </div>
+        </div>
+    {% endfor %}
+    </div>
 
 {% endblock %}
