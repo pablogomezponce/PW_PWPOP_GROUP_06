@@ -30,6 +30,11 @@ class ProfileController
         $this->container = $container;
     }
 
+    /**
+     * Check if user status is valid
+     * @param User $user
+     * @return array
+     */
     private function checkUser(User $user){
         $attr = ($user->getAttributes());
 
@@ -55,6 +60,13 @@ class ProfileController
     }
 
 
+    /**
+     * GET /profile
+     * @param Request $request
+     * @param Response $response
+     * @param array $args
+     * @return mixed
+     */
     public function __invoke(Request $request, Response $response, array $args)
     {
 
@@ -97,6 +109,13 @@ class ProfileController
         }
     }
 
+    /**
+     * POST /profile
+     * @param Request $request
+     * @param Response $response
+     * @param array $args
+     * @return Response
+     */
     public function updateProfile(Request $request, Response $response, array $args)
     {
         $uploadedFiles = $request->getUploadedFiles();
@@ -154,6 +173,11 @@ class ProfileController
         }
     }
 
+    /**
+     * Checks that the given extension is valid
+     * @param string $extension
+     * @return bool
+     */
 
 }
 
