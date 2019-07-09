@@ -76,9 +76,12 @@ Scripts: Where all your .js files are going to be loaded
 
 {% if messages is not empty %}
 <div class = "container card">
+<div class = "container">
     {% for message in messages %}
+        <div class="row card text-center">
         <div class="alert">
             {{ message[0] }}
+        </div>
         </div>
     {% endfor %}
 </div>
