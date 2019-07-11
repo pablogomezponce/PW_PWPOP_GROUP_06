@@ -232,17 +232,6 @@ class ProfileSQL implements ProfileRepository
     }
 
 
-//TODO: Migrar MODULO
-    public function getProductsSearch(string $nameProduct){
-        $db = new PDO('mysql:host=' . $this->address . ';dbname=' . $this->dbname . ';', $this->userNameDB, $this->passwordDB);
-        $sql = "SELECT * FROM Product WHERE title LIKE '$nameProduct' LIMIT 5";
-
-        $stmt = $db->prepare($sql);
-        $stmt->execute();
-        $productsSearch  = $stmt->fetchAll();
-        return $productsSearch;
-    }
-
 
     /**
      * Set all information related to a User as inactive
