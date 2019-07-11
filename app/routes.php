@@ -48,7 +48,7 @@ $app->post('/upload', \SallePW\Controller\UploadProduct::class . ':post')
 //Block 9 - List PRoducts
 $app->get('/myproducts', \SallePW\Controller\UserProductsController::class);
 
-//Block 10.1 - Product overview for product owners //TODO: CONFLICT
+//Block 10.1 - Product overview for product owners
 //Block 10.2 - Product overview for product buyers
 $app->get('/product',\SallePW\Controller\ProductController::class);
 $app->post('/modifyProduct', \SallePW\Controller\ProductController::class . ':updateProduct');
