@@ -72,6 +72,7 @@ class ProfileController
 
         $messages = $this->container->get('flash')->getMessages();
         if(!isset($_SESSION['profile'])){
+            $response = $response->withStatus(403);
             return $this->container->get('view')->render($response, 'error403.twig', [
                 'title' => 'PWPop | ERROR',
                 'content' => 'Error, you should log in first!',
