@@ -7,7 +7,9 @@
         <div id="likeP" align="right" style="margin-right: 10%">
             {% if product.id is not null %}
                 {% if sessionStarted is not null %}
-            <img id="{{ product.id }}" src="{{ base_url() }}/assets/cor_normal.png" width="10%">
+                    {% if idUser is not null and idUser != product.owner %}
+                        <img id="{{ product.id }}" src="{{ base_url() }}/assets/cor_normal.png" class="likeIMG" width="10%">
+                    {% endif %}
                 {% endif %}
             {% endif %}
         </div>
@@ -31,7 +33,6 @@
 
 </div>
 <script>
-
     {% if product.id is not null %}
         $("#{{ product.id }}").click(function (ev) {
             {% if idUser is null %}
