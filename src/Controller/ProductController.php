@@ -54,6 +54,11 @@ class ProductController
         }
 
 
+        if ($product['isActive'] == 0)
+        {
+            $response = $response->withStatus(404);
+        }
+
         if ($ownStatus)
         {
             return $this->container->get('view')->render($response, 'modifyProduct.twig', $params);
