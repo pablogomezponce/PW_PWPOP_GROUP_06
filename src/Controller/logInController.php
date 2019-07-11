@@ -22,16 +22,19 @@ class logInController
 
     public function __invoke(Request $request, Response $response, array $args)
     {
-        $message = $this->container->get('flash')->getMessage('userRegistered')[0];
+        $message = $this->container->get('flash')->getMessages();
 
-        return $this->container->get('view')->render($response, 'LogIn.twig', [
+        $params = [
             'title' => 'PWPop | Log in',
             'content' => 'Laura Gendrau i Pablo Gómez',
             'footer' => '',
             'sessionStarted' => null,
-            'messages' => $message,
             'action' => 'signup',
-        ]);
+        ];
+
+        if (!empty($message)) $params['messages'] = $message['test'][0];
+
+        return $this->container->get('view')->render($response, 'LogIn.twig', $params);
     }
 
     public function login(Request $request, Response $response, array $args){
