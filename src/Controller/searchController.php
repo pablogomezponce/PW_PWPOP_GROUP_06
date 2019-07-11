@@ -52,7 +52,7 @@ class searchController
      */
     public function searchProducts()
     {
-        $productsSearch = $this->container->get('profileSQL')->getProductsSearch($_POST['nameProduct']);
+        $productsSearch = $this->container->get('productSQL')->getProductsSearch($_POST['nameProduct']);
         return $productsSearch;
     }
 
