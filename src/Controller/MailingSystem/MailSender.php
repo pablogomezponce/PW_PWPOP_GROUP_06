@@ -70,7 +70,7 @@ class MailSender
         $mail->addAddress($toWhom, $toWhomName);
 
         //Set the subject line
-        $mail->Subject = 'IT WORKS';
+        $mail->Subject = 'PWPOP';
 
         //Read an HTML message body from an external file, convert referenced images to embedded,
         //convert HTML into a basic plain-text alternative body
