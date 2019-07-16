@@ -89,6 +89,7 @@ class RememberCookieHandler{
      */
     public function logout(Request $request, Response $response, callable $nextMiddleware): Response
     {
+        $request = $nextMiddleware($request, $response);
         session_unset();
 
         $response = FigResponseCookies::set(
@@ -101,6 +102,9 @@ class RememberCookieHandler{
                 ->withPath('/')
             ->withExpires('2013-06-17T15:39:38Z')
         );
+
+        $response = $response->withAddedHeader('deleted', 1);
+        $response = $response->withStatus(200);
 
         return $response->withHeader('Location', '/');
     }
