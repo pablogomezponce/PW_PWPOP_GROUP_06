@@ -59,11 +59,11 @@ Each part had some inconvenients at it's development, as there were some issues 
 
 ### Revision
 
-Check if every part made in [Coding](###Coding) was correct or not. It took about  hours.
+Check if every part made in [Coding](###Coding) was correct or not. It took about 5 hours.
 
 ### Time Summary
 
-The total ammount of hours was of **37 hours**
+The total ammount of hours was of **39 hours**
 
 ## Organization
 
