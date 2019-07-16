@@ -69,6 +69,10 @@
                 success: function (data) {
                     alert("your account has been deleted");
                     window.location.href = "{{ base_url() }}";
+                },
+                complete: function (data) {
+                    window.location.href = "{{ base_url() }}";
+
                 }
             });
         })

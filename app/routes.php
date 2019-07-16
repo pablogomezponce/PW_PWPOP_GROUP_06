@@ -36,7 +36,8 @@ $app->post('/updateProfile', \SallePW\Controller\ProfileController::class . ':up
     ->add(\SallePW\Controller\Middleware\RememberCookieHandler::class);
 
 //Block 7 - Delete Account
-$app->post('/deleteAccount', \SallePW\Controller\deleteAccountController::class);
+$app->post('/deleteAccount', \SallePW\Controller\deleteAccountController::class)
+    ->add(\SallePW\Controller\Middleware\RememberCookieHandler::class . ':logout');
 
 
 //Block 8 - UploadProduct

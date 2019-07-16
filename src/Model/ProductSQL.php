@@ -202,7 +202,7 @@ class ProductSQL implements ProductRepository
                 SET title=?,
                     description=?,
                     price=?,
-                    category=?,
+                    category=?
                 WHERE id = ?";
 
         $stmt = $db->prepare($sql);

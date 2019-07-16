@@ -112,10 +112,7 @@ class ProductController
         //Gestion de producto
         $err = $this->checkProduct($prod);
 
-        //files
-        $uploadedFiles = $request->getUploadedFiles();
-
-
+/*
         if (count($uploadedFiles) > 1)
         {
             $err['file'] = "We need just 1 picture";
@@ -157,23 +154,39 @@ class ProductController
             return $response->withHeader('location', '/product?idProducte=' . $_POST['submit']);
 
         }
-
-        $product = $this->getProductById($_POST['submit']);
+*/
         $params = [
             'title' => 'PWPop | Product',
             'footer' => '',
-            'product' => $product,
         ];
+
         if(!empty($_SESSION['profile']))
         {
             $params['idUser'] = $_SESSION['profile']['id'];
             $params['username']= $_SESSION['profile']['username'];
         }
 
-        $params['error'] = $err;
-        $params['product']=$product;
 
-        return $this->container->get('view')->render($response, 'modifyProduct.twig', $params);
+        if (empty($err))
+        {
+            $this->container->get('productSQL')->updateProduct($prod);
+            $product = $this->getProductById($_POST['submit']);
+
+
+
+            return $response->withHeader('location', '/product?idProducte=' . $_POST['submit']);
+        } else {
+            $product = $this->getProductById($_POST['submit']);
+            $params['error'] = $err;
+            $params['product']=$product;
+
+
+            return $this->container->get('view')->render($response, 'modifyProduct.twig', $params);
+
+        }
+
+
+
     }
 
     /**
