@@ -27,7 +27,7 @@ $app->get('/login',\SallePW\Controller\logInController::class)
     ->add(\SallePW\Controller\Middleware\RememberCookieHandler::class);
 
 $app->get('/logout', \SallePW\Controller\LogOutController::class)
-    ->add(\SallePW\Controller\Middleware\RememberCookieHandler::class);
+    ->add(\SallePW\Controller\Middleware\RememberCookieHandler::class . ':logout');
 
 //Block 6 - Profile page
 $app->get('/profile',\SallePW\Controller\ProfileController::class)
