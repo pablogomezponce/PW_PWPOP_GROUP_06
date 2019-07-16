@@ -29,8 +29,8 @@ class LogOutController
      * @param array $args
      * @return Response
      */
-    public function __invoke(Request $request, Response $response, array $args)
+    public function __invoke(Request $request, Response $response, array $args) : Request
     {
-        return $response;
+        return $request;
     }
 }
