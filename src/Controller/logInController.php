@@ -38,6 +38,7 @@ class logInController
     }
 
     public function login(Request $request, Response $response, array $args){
+
         $exists = $this->container->get('profileSQL')->login($_POST['password'], $_POST['identifier']);
         $error = "";
 
@@ -49,8 +50,6 @@ class logInController
             if ($exists[0]['isActive'] == 0) $error = "Disabled account";
 
         }
-
-
 
 
         if (sizeof($exists) == 0)  $error = "There is no account for this!";
@@ -73,9 +72,9 @@ class logInController
             $_SESSION['profile'] = $exists[0];
             $_SESSION['idUser'] = $exists[0]['email'];
             $_SESSION['sessionStarted'] = $exists[0]['username'];
-            //return var_dump($_POST);
+
             $response = $response->withStatus(200);
-            return $response->withHeader('Location', '/home');
+            return $response->withAddedHeader('ok', 1);
         }
 
     }
