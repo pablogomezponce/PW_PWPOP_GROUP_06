@@ -61,6 +61,12 @@ class ProductSQL implements ProductRepository
         $stmt = $db->prepare($sql);
         $stmt->execute([$id]);
         $variables  = $stmt->fetchAll();
+
+        foreach ($variables as $variable)
+        {
+            $variable['owner'] = $id;
+        }
+
         return $variables;
     }
 
@@ -89,12 +95,16 @@ class ProductSQL implements ProductRepository
 
         foreach ($owned as $product)
         {
-            $sql = "SELECT * FROM Product WHERE id = ?";
+            $sql = "SELECT * FROM Product WHERE id = ? AND isActive = 1";
             $stmt = $db->prepare($sql);
 
             $stmt->execute([$product['product']]);
-
-            array_push($products, $stmt->fetch());
+            $var = $stmt->fetch();
+            if(!empty($var)){
+            array_push($var, $_SESSION['profile']['email']);
+            $var['owner'] = $_SESSION['profile']['email'];
+            array_push($products, $var);
+            }
         }
 
         return $products;
@@ -113,6 +123,16 @@ class ProductSQL implements ProductRepository
         $stmt = $db->prepare($sql);
         $stmt->execute([$id]);
         $variables  = $stmt->fetchAll();
+        if (!empty($_SESSION['profile'])){
+        foreach ($variables as $variable)
+        {
+            array_push($variable, $_SESSION['profile']['id']);
+            $variable['owner'] = $_SESSION['profile']['id'];
+
+        }
+
+        }
+
         return $variables[0];
 
     }

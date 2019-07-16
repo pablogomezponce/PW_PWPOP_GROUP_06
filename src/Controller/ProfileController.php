@@ -82,12 +82,18 @@ class ProfileController
         } else {
             $exists  = $this->container->get('profileSQL')->getUserDetails($_SESSION['profile']['email'])[0];
             $products = $this->container->get('productSQL')->getAllProductsBy($_SESSION['profile']['id']);
-
             $htmlProd = [];
 
             foreach ($products as $product)
             {
                 array_push($htmlProd, $this->container->get('productSQL')->get($product['product']));
+            }
+
+            $htmlProdReturned = [];
+
+            foreach ($htmlProd as $prod){
+                $prod['owner'] = $_SESSION['profile']['email'];
+                array_push($htmlProdReturned, $prod);
             }
 
 
@@ -103,7 +109,7 @@ class ProfileController
                 'phone'=>$exists['phone'],
                 'birthday' => $exists['birthdate'],
                 'idUser' => $exists['email'],
-                'products' => $htmlProd,
+                'products' => $htmlProdReturned,
                 'action' => 'updateProfile',
                 'messages'=> $messages,
 

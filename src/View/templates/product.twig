@@ -2,6 +2,7 @@
 
 <div id="producte{{ product.id }}" class="card"  style="display:table; min-width: 100%" >
 
+
     <div id="fotoP" style="display: table-cell;vertical-align: middle; width: 300px" >
         <a href="/product?idProducte={{ product.id }}"><img src="{{ base_url() }}/uploads/products/{{ product.product_image_dir }}"  width="300px"></a>
         <div id="likeP" align="right" style="margin-right: 10%">
@@ -22,7 +23,7 @@
         <div style="display:inline-grid; grid-template-rows:inherit; grid-template-columns: auto auto auto">
             <a align="left" href="product?idProducte={{ product.id }}">See more...</a>
             <h2 align="right" >{{ product.price }}€</h2>
-            {% if sessionStarted is not empty %}
+            {% if sessionStarted is not empty and idUser != product.owner%}
             <form align="right" action="/buy" method="post" style="margin-right: 5%">
                 <button type="submit" name="productID" value="{{ product.id }}" class="btn btn-primary"> BUY </button>
             </form>

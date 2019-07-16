@@ -41,7 +41,7 @@ class UserProductsController
             'title' => 'PWPop | My Products',
             'footer' => '',
             'products' => $products,
-            'idUser' => $_SESSION['profile']['id'],
+            'idUser' => $_SESSION['profile']['email'],
             'username' => $_SESSION['profile']['username'],
             'sessionStarted' => $_SESSION['sessionStarted'],
             'profile' => $_SESSION['profile'],
