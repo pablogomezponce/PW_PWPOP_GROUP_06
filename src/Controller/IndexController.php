@@ -22,10 +22,10 @@ class IndexController
 
     public function __invoke(Request $request, Response $response, array $args)
     {
-
        $params = [
            'title' => 'PWPop',
            'productes' =>$this->getAllProducts(),
+           'messages' => $this->container->get('flash')->getMessages(),
 
        ];
        if (isset($_SESSION['idUser'])){
@@ -35,15 +35,13 @@ class IndexController
            $params['profile'] = $_SESSION['profile'];
        }
 
-       var_dump($_SESSION);
-       //var_dump($_POST);
         return $this->container->get('view')->render($response, 'publicHome.twig', $params);
     }
 
 
 
     public function getAllProducts(){
-        $products = $this->container->get('profileSQL')->getAllProducts();
+        $products = $this->container->get('productSQL')->getAllProducts();
 
         return $products;
     }

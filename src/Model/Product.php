@@ -7,11 +7,21 @@ namespace SallePW\Model;
 class Product
 {
     private $title;
+    private $id;
     private $description;
     private $price;
     private $product_image_dir;
     private $category;
     private $isActive;
+
+    /**
+     * @param mixed $product_image_dir
+     */
+    public function setProductImageDir($product_image_dir): void
+    {
+        $this->product_image_dir = $product_image_dir;
+    }
+
 
     /**
      * Product constructor.
@@ -79,6 +89,23 @@ class Product
     {
         return $this->isActive;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    public function setId($id): void
+    {
+        $this->id = $id;
+    }
+
 
 
 

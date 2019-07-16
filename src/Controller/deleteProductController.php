@@ -1,14 +1,13 @@
 <?php
 
-
 namespace SallePW\Controller;
 
-
 use Psr\Container\ContainerInterface;
-use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Http\Message\ResponseInterface as Response;
+use SallePW\Model\Product;
 
-class LogOutController
+class deleteProductController
 {
     /** @var ContainerInterface */
     private $container;
@@ -22,15 +21,20 @@ class LogOutController
         $this->container = $container;
     }
 
+
     /**
-     *
+     * POST /delete
      * @param Request $request
      * @param Response $response
      * @param array $args
      * @return Response
      */
-    public function __invoke(Request $request, Response $response, array $args) : Request
+    public function deleteProduct(Request $request, Response $response, array $args)
     {
-        return $request;
+        $this->container->get('productSQL')->removeProduct($_POST['productID']);
+
+        return $response->withHeader('location', '/myproducts');
     }
+
+
 }

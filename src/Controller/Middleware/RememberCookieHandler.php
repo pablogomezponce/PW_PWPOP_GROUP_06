@@ -3,6 +3,7 @@
 
 namespace SallePW\Controller\Middleware;
 
+use Dflydev\FigCookies\Cookie;
 use Dflydev\FigCookies\FigRequestCookies;
 use Dflydev\FigCookies\FigResponseCookies;
 use Dflydev\FigCookies\SetCookie;
@@ -25,12 +26,19 @@ class RememberCookieHandler{
         $this->container = $container;
     }
 
+    /**
+     * add cookie
+     * @param Request $request
+     * @param Response $response
+     * @param callable $nextMiddleware
+     * @return Response
+     */
     public function __invoke(Request $request, Response $response, callable $nextMiddleware)
     {
+        $var = $_POST;
         $response = $nextMiddleware($request, $response);
 
         $adviceCookie = FigRequestCookies::get($request, self::REMEMBERUSER);
-
         $isWarned = $adviceCookie->getValue();
 
         if(isset($isWarned)){
@@ -39,15 +47,26 @@ class RememberCookieHandler{
             $_SESSION['sessionStarted'] = $_SESSION['profile']['username'];
         }
         ;
+
+
         if(isset($_POST['remember']) && $response->getStatusCode() == 200 && isset($_SESSION['profile']['id'])){
-            var_dump($response);
             $response = $this->setAdviceCookie($response);
         }
 
-        var_dump($response->getStatusCode());
+
+        if (!empty($response->getHeader('ok'))) {
+
+            $response = $response->withHeader('Location', '/home');
+        }
+
         return $response;
     }
 
+    /**
+     * Set cookie
+     * @param Response $response
+     * @return Response
+     */
     private function setAdviceCookie(Response $response): Response
     {
         return FigResponseCookies::set(
@@ -61,13 +80,28 @@ class RememberCookieHandler{
         );
     }
 
+    /**
+     * Delete information about user
+     * @param Request $request
+     * @param Response $response
+     * @param callable $nextMiddleware
+     * @return Response
+     */
     public function logout(Request $request, Response $response, callable $nextMiddleware): Response
     {
-        $request = $nextMiddleware($request,$response);
-
-        FigResponseCookies::remove($response, self::REMEMBERUSER);
         session_unset();
-        $response = $response->withHeader("Location", "/home");
-        return $response;
+
+        $response = FigResponseCookies::set(
+            $response,
+            SetCookie::create(self::REMEMBERUSER)
+                ->withHttpOnly(true)
+                ->withMaxAge(0)
+                ->withValue(0)
+                ->withDomain('pwpop.com')
+                ->withPath('/')
+            ->withExpires('2013-06-17T15:39:38Z')
+        );
+
+        return $response->withHeader('Location', '/');
     }
 }

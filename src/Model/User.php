@@ -19,6 +19,14 @@ class User
     private $image_dir;
 
     /**
+     * @param mixed $image_dir
+     */
+    public function setImageDir($image_dir): void
+    {
+        $this->image_dir = $image_dir;
+    }
+
+    /**
      * User constructor.
      * @param $id
      * @param $username
@@ -97,6 +105,14 @@ class User
     public function getBirthdate()
     {
         return $this->birthdate;
+    }
+
+    /**
+     * @param mixed $birthdate
+     */
+    public function setBirthdate($birthdate): void
+    {
+        $this->birthdate = $birthdate;
     }
 
     /**

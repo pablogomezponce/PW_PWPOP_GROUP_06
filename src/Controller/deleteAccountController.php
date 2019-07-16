@@ -22,13 +22,22 @@ class deleteAccountController
         $this->container = $container;
     }
 
+    /**
+     * POST /deleteAccount
+     * @param Request $request
+     * @param Response $response
+     * @param array $args
+     * @return false|string
+     */
     public function __invoke(Request $request, Response $response, array $args)
     {
         $idUser = $_POST['idUser'];
 
-        $done = $this->container->get('profileSQL')->deleteAccount($idUser);
+        $this->container->get('profileSQL')->deleteAccount($idUser);
 
-        echo json_encode($done);
+        $this->container->get('flash')->addMessage('test', 'Account deleted');
+        return $request;
+
     }
 
 

@@ -25,6 +25,13 @@ class searchController
     }
 
 
+    /**
+     * GET search
+     * @param Request $request
+     * @param Response $response
+     * @param array $args
+     * @return mixed
+     */
     public function __invoke(Request $request, Response $response, array $args)
     {
         //return $request->withHeader('Location', 'search') ->withAttribute("q", $_POST['nameProduct']);
@@ -34,15 +41,18 @@ class searchController
             'footer' => '',
             'searchProduct' => $_POST['nameProduct'],
             'productesSearch' => $this->searchProducts(),
-            //'sizeProductesSearch'=>sizeof($this->searchProducts()),
 
 
         ]);
     }
 
+    /**
+     * TODO: Describe
+     * @return mixed
+     */
     public function searchProducts()
     {
-        $productsSearch = $this->container->get('profileSQL')->getProductsSearch($_POST['nameProduct']);
+        $productsSearch = $this->container->get('productSQL')->getProductsSearch($_POST['nameProduct']);
         return $productsSearch;
     }
 

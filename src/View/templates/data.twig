@@ -1,7 +1,4 @@
-<br>
-<div class="container">
-    <div class="row">
-        <div class="col-xs-12 col-sm-6 col-xl-6">
+        <div class="col">
 
             <div class="card">
 
@@ -11,103 +8,117 @@
 
                 <div class="card-body px-lg-5 pt-0">
                     <br>
-                    <form class="md-form" style="color: #757575;" action="/signup" method="POST" role="form" enctype="multipart/form-data">
+                    <form class="md-form" style="color: #757575;" action="/{{ action }}" method="POST" onsubmit="return beforeSubmit();" role="form" enctype="multipart/form-data">
 
                         <!--NAME-->
-                        <div class="form-group" id="nameGroup">
-                            <input type="text" id="name" name="name" class="form-control" value="{{ name }}" required>
+                        <div class="form-group {% if error.name is not empty %} alert alert-danger {% endif %}" id="nameGroup">
+                            <input type="text" id="name" name="name" class="form-control" value="{{ user.name }}" required>
                             <label for="name">Full name</label>
-                            <p id="nameWarning" style="display: none;">¿Does your name have a number in it? Please warn us!</p>
+                            <p id="nameWarning" class="warning" style="display: none;">¿Does your name have a number in it? Please warn us!</p>
+                            {% if error.name is not empty %}<p id="nameWarning">{{ error.name }}</p>{% endif %}
                         </div>
                         <!--USERNAME-->
-                        <div class="form-group" id="userGroup">
-                            <input type="text" id="username" name="username" class="form-control" required value="{{ username }}" {% if use == "Make changes" %} disabled {% endif %}">
+                        <div class="form-group {% if error.username is not empty %} alert alert-danger {% endif %}" id="userGroup">
+                            <input type="text" id="username" name="username" class="form-control" required value="{{ user.username }}" {% if use == "Make changes" %} readonly="readonly" {% endif %}">
                             <label for="username">Username</label>
-                            <p style="display: none;" id="userWarning">That's an ELONGATED USERNAME      or maybe there are some whitespaces, you should make it shorter ;)</p>
+                            <p class="warning" style="display: none;" id="userWarning">That's an ELONGATED USERNAME      or maybe there are some whitespaces, you should make it shorter ;)</p>
+                            {% if error.username is not empty %} <p id="userWarning">{{ error.username }}</p> {% endif %}
                         </div>
 
                         <!--EMAIL-->
-                        <div class=".form-group {% if error.email is not empty %} alert alert-danger {% endif %}">
+                        <div id="emailGroup" class="form-group {% if error.email is not empty %} alert alert-danger {% endif %}">
                             <p class=".modal">{{ error.email }}</p>
-                            <input type="email" id="email" name="email" class="form-control" required value="{{ email }}" {% if use == "Make changes" %} disabled {% endif %}">
+                            <input type="email" id="email" name="email" class="form-control" required value="{{ user.email }}">
                             <label for="email">E-mail</label>
+                            <p  class="warning" style=" display:none;" id="emailWarning">Check your email!</p>
+                            {% if error.email is not empty %} <p>{{ error.email }}</p>{% endif %}
                         </div>
 
                         <!--BDAY-->
-                        <input class="form-control form-group" type="date" id="bday" name="bday" placeholder="Date of birth" value="{{ birthday }}">
-                        <label for="bday" class="control-label">Date of birth</label>
+                        <div id="bdayGroup" class="form-group {% if error.bday is not empty %} alert alert-danger {% endif %}">
 
-                        <!--PHONE-->
-                        <div id="phoneGroup" class="form-group">
-                            <input type="text" id="phone" class="form-control" name="phone" aria-describedby="materialRegisterFormPhoneHelpBlock" required value="{{ phone }}">
-                            <label for="phone">Phone number</label>
-                            <p style="display: none;" id="phoneError"> ERROR! Invalid number! Remember that must be a spanish phone number!</p>
+                        <input class="form-control form-group" type="date" id="bday" name="bday" placeholder="Date of birth" value="{{ user.birthday }}">
+                        <label for="bday" class="control-label">Date of birth</label>
+                            <p class="warning" style="display:none;" id="bdayWarning">This is way too new!</p>
+                            {% if error.bday is not empty %} <p>{{ error.bday }}</p> {% endif %}
+
                         </div>
 
-                        <div class=".form-group {% if error.password is not empty %} alert alert-danger {% endif %}">
+                        <!--PHONE-->
+                        <div id="phoneGroup" class="form-group {% if error.phone is not empty %} alert alert-danger {% endif %}">
+                            <input type="text" id="phone" class="form-control" name="phone" aria-describedby="materialRegisterFormPhoneHelpBlock" required value="{{ user.phone }}">
+                            <label for="phone">Phone number</label>
+                            <p class="warning" style="{% if error.phone is empty %}display: none; {% endif %}" id="phoneError"> ERROR! Invalid number! Remember that must be a spanish phone number!</p>
+                        </div>
+
+                        <div class="form-group {% if error.password is not empty %} alert alert-danger {% endif %}">
                             <p class=".modal">{{ error.password }}</p>
 
-                            <div class="form-group" id="pass1Group">
+                            <div class="form-group {% if error.pass is not empty %} alert alert-danger {% endif %}" id="pass1Group">
                                 <!--PASSWORD1-->
                                 <input type="password" id="password" class="form-control" name="password" aria-describedby="materialRegisterFormPasswordHelpBlock" required>
                                 <label for="password">Password</label>
-                                <p style="display:none;" id="pass1Warning">That's a VERY short password!</p>
+                                <p class="warning" style="display:none;" id="pass1Warning">That's a VERY short password!</p>
+                                {% if error.pass is not empty %} <p>{{ error.pass }}</p> {% endif %}
+
                             </div>
-                            <div class="form-group" id="pass2Group">
+                            <div class="form-group {% if error.pass2 is not empty %} alert alert-danger {% endif %}" id="pass2Group">
                                 <!--PASSWORD2-->
                                 <input type="password" id="repeatPassword" class="form-control" name="passwordValidation" aria-describedby="materialRegisterFormPasswordHelpBlock" required>
                                 <label for="repeatPassword">Repeat password</label>
-                                <p style="display:none;" id="pass2Warning">We shouldn't say this... but you had ONE PASSWORD!</p>
+                                <p class="warning" style="display:none;" id="pass2Warning">We shouldn't say this... but you had ONE PASSWORD!</p>
+                                {% if error.pass2 is not empty %} <p>{{ error.pass2 }}</p> {% endif %}
+
                             </div>
                         </div>
 
-                        <div class="custom-file form-group">
-                            <input type="file" class="custom-file-input" id="customFile" id="avatar" name="avatar"
-                                   accept="image/png, image/jpeg">
-                            <label class="custom-file-label overflow-auto" for="customFile">Choose file</label><br>
-                            <label for="customFile">Profile Image</label>
+                        <div class="{% if error.file  is not empty %} alert alert-danger {% endif %}">
+                            <div class="custom-file form-group">
+                                <input type="file" class="custom-file-input" id="customFile" id="avatar" name="avatar"
+                                       accept="image/png, image/jpeg">
+                                <label class="custom-file-label overflow-auto" for="customFile">Choose file</label><br>
+                                <label for="customFile">Profile Image</label>
+                                {% if error.file is not empty %} <p>{{ error.file }}</p> {% endif %}
 
-                            <script>
-                                $('#customFile').on('change',function(){
-                                    //get the file name
-                                    var fileName = $(this).val();
-                                    //replace the "Choose a file" label
-                                    $(this).next('.custom-file-label').html(fileName.replace('C:\\fakepath\\', " "));
-                                })
-                            </script>
+                                <script>
+                                    $('#customFile').on('change',function(){
+                                        //get the file name
+                                        var fileName = $(this).val();
+                                        //replace the "Choose a file" label
+                                        $(this).next('.custom-file-label').html(fileName.replace('C:\\fakepath\\', " "));
+                                    })
+                                </script>
+                            </div>
                         </div>
+
 
 
                         <button class="btn btn-outline-info btn-rounded btn-block my-4 waves-effect z-depth-0" type="submit">{{ use }}</button>
-
-                        <div class="text-center">
-
-                            <hr>
-
-                            <p>By clicking
-                                <em>{{ use }}</em> you agree to our
-                                <a href="" target="_blank">terms of service</a> and
-                                <a href="" target="_blank">privacy statements</a>. </p>
-                        </div>
                     </form>
                 </div>
             </div>
         </div>
-        <div class="col d-flex align-items-center justify-content-center">
-            <div id="logoContainer" >
-                <img src="{{ base_url() }}/assets/logos/roundLogo/2x/roundLogo@2x.png" class = "img-fluid" style="width: 100%;;height: 100%">
-            </div>
-        </div>
-    </div>
-</div>
 
 <script>
+    function validateEmail(email) {
+        var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(email);
+    }
+
+    function beforeSubmit(){
+        if ($('.form-group.alert').length !== 0) {
+            return false;
+        }  else {
+            return true;
+        }
+    }
+
     $("input").change(function (ev) {
 
         switch (this.id) {
             case "name":{
                 var str = ev.currentTarget.value;
-                if(/(\d)/.test(str)){
+                if(/\W/.test(str.replace(' ', ''))){
                     $("#nameGroup").addClass("alert alert-danger");
                     $("#nameWarning").show(100);
                 } else {
@@ -117,7 +128,8 @@
                 break;
             }
             case "username":{
-                if(ev.currentTarget.value.length > 20 || /\s/.test(ev.currentTarget.value)){
+                var str = ev.currentTarget.value;
+                if(ev.currentTarget.value.length > 20 || /\W/.test(str)){
                     $("#userGroup").addClass("alert alert-danger");
                     $("#userWarning").show(100);
                 } else {
@@ -128,20 +140,39 @@
 
             }
             case "email":{
-                console.log(this);
+                var str = ev.currentTarget.value;
+                console.log(validateEmail(str));
+                if(!validateEmail(str)){
+                    $("#emailGroup").addClass("alert alert-danger");
+                    $("#emailWarning").show(100);
+                } else {
+                    $("#emailGroup").removeClass("alert alert-danger");
+                    $("#emailWarning").hide(100);
+
+                }
+
+
 
                 break;
             }
             case "bday":{
                 console.log(this);
+                var userDate = new Date(ev.currentTarget.value);
+                if (userDate >= Date.now()){
 
+                    $("#bdayGroup").addClass("alert alert-danger");
+                    $("#bdayWarning").show(100);
+                } else {
+                    $("#bdayGroup").removeClass("alert alert-danger");
+                    $("#bdayWarning").hide(100);
+                }
                 break;
             }
             case "phone":{
                 //console.log(ev);
                 var str = ev.currentTarget.value;
 
-                isValid = str.match("^(/\+/34|0034|34)?[6|7|8|9][0-9]{8}$");
+                isValid = str.replace(" ", "").match("^(/\+/34|0034|34)?[6|7|8|9][0-9]{8}$");
 
                 if(!isValid){
                     $("#phoneGroup").addClass("alert alert-danger");
