@@ -1,3 +1,11 @@
+# Welcome to PWPOP
+
+PWPOP is a kick-off of an e-commerce following requirements at a La Salle Campus Barcelona's subject "Web Development 2" teached by [Jaume Capdevila](https://github.com/jaumecapdevila) on 2019.
+
+This project is based on a Full Stack development through PHP's microframework Slim for the route management and Twig as a library for the client side. To execute the project, it is recommended to setup a Laravel Homestead Vagrant machine. Help can be provided by [Pablo Gómez](mailto:pgomezponce@gmail.com).
+
+The following content is a documentation based on the task submission requirements, explaining Time assignment, Organization and a few comments.
+
 # PWPOP Group 06
 
 This document contains all information related to the solution deployed by group 06 formed by:
